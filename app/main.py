@@ -498,21 +498,10 @@ with st.sidebar:
         with st.expander(item["titulo"]):
             st.caption(f"Gerado em: {item['data']}")
             
-            if st.button("🔄 Restaurar no Form", key=f"rest_{idx}", use_container_width=True):
+            if st.button("🔄 Restaurar", key=f"rest_{idx}", use_container_width=True):
                 restaurar_prompt(item["conteudo"])
 
             custom_copy_button(item["conteudo"])
-
-            '''
-            st.download_button(
-                label="⬇️ Baixar txt",
-                data=item["conteudo"],
-                file_name=f"suno_prompt_{idx}.txt",
-                mime="text/plain",
-                key=f"dl_{idx}",
-                use_container_width=True
-            )
-            '''
 
             st.code(item["conteudo"], language="yaml")
                        
