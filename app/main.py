@@ -1,4 +1,6 @@
 import streamlit as st
+import streamlit.components.v1 as components
+from st_copy_to_clipboard import st_copy_to_clipboard
 import random
 import sys
 import os
@@ -196,18 +198,19 @@ with t_c3:
         st.session_state.show_prompt = True
 
 if st.session_state.show_prompt:
-    st.divider()
-    ac2, ac3 = st.columns(2)
-    
-    with ac2: 
-        st.download_button("⬇️ Baixar", st.session_state.prompt_final, "prompt.txt", use_container_width=True)
-    
-    with ac3: 
-        if st.button("❌ Fechar", use_container_width=True): 
-            st.session_state.show_prompt = False
-            st.rerun()
-            
-    st.code(st.session_state.prompt_final, language="yaml")
+        st.divider()
+        ac1, ac2, ac3 = st.columns(3)
+        with ac1: 
+            # SUBSTITUA O st.button ANTIGO POR ISTO:
+            st_copy_to_clipboard(st.session_state.prompt_final, "📋 Copiar Prompt", "✅ Copiado!")
+            # Nota: Essa lib cria um botão imediatamente, não precisa de "if button:"
+        with ac2: 
+            st.download_button("⬇️ Baixar", st.session_state.prompt_final, "prompt.txt", use_container_width=True)
+        with ac3: 
+            if st.button("❌ Fechar", use_container_width=True): 
+                st.session_state.show_prompt = False
+                st.rerun()
+        st.code(st.session_state.prompt_final, language="yaml")
 
 col_left, col_right = st.columns(2, gap="large")
 
@@ -286,5 +289,4 @@ with col_right:
     hierarchical_field("🎚️ Tipo de Gravação", "tipo_de_gravacao", core.dados["tipo_de_gravacao"])
 
 st.markdown("---")
-
 st.markdown("<div style='text-align: center; color: #666; font-size: 0.8rem;'>Suno Maestro • Powered by Eduardo Palombo</div>", unsafe_allow_html=True)
