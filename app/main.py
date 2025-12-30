@@ -158,9 +158,18 @@ def on_estrutura_sel_change():
 
 def clear_all():
     for k in STATE_DEFAULTS.keys():
+        # --- NOVO: Proteção do Histórico ---
+        if k == "history":
+            continue
+        # ----------------------------------
+        
         st.session_state[k] = [] if k == "vibe_emocional" else ""
+    
     for k in HIER_KEYS: 
-        st.session_state[f"{k}_cat"] = ""; st.session_state[f"{k}_sel"] = ""; st.session_state[k] = ""
+        st.session_state[f"{k}_cat"] = ""
+        st.session_state[f"{k}_sel"] = ""
+        st.session_state[k] = ""
+        
     st.session_state.show_prompt = False
 
 def random_vibe_generator():
