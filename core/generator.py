@@ -28,6 +28,7 @@ class SunoMaestroCore:
                     dados_carregados[key] = json.load(f)
             except Exception:
                 dados_carregados[key] = {}
+                print(f"Erro ao carregar {filename}: {e}")
         return dados_carregados
 
     def gerar_prompt(self, campos):
