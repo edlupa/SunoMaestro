@@ -104,3 +104,12 @@ code {
 label p:contains("*") {
     color: #ff6b6b !important; /* Cor vermelha para o asterisco */
 }
+
+/* Faz com que o bloco de erro do topo fique fixo enquanto faz scroll */
+div[data-testid="stNotification"] {
+    position: sticky;
+    top: 1rem;
+    z-index: 1001;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 1px solid #ff4b4b;
+}

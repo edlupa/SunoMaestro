@@ -14,6 +14,7 @@ sys.path.append(ROOT)
 from core.generator import SunoMaestroCore
 
 st.set_page_config(page_title="Suno Maestro", page_icon="🎛️", layout="wide")
+placeholder_aviso = st.empty()
 
 @st.cache_data
 def load_css():
@@ -371,8 +372,9 @@ with t_c3:
                 erros.append(nome)
 
         if erros:
-            # Exibe um aviso se faltar algo
-            st.error(f"⚠️ Os seguintes campos são obrigatórios: {', '.join(erros)}")
+            with placeholder_aviso:
+                st.error(f"⚠️ Os seguintes campos são obrigatórios: {', '.join(erros)}")
+                st.toast("Verifique os campos obrigatórios!", icon="🚫") # Bónus: um aviso flutuante
         else:
             # Se estiver tudo OK, prossegue com a geração
             with st.spinner("Maestro está compondo seu prompt..."):
