@@ -115,15 +115,19 @@ STATE_DEFAULTS = {
 
 HIER_KEYS = ["publico", "tom", "tipo_de_gravacao", "influencia_estetica", "narrador"]
 
-# Inicialização limpa
-for k, v in STATE_DEFAULTS.items():
-    if k not in st.session_state:
-        st.session_state[k] = v
+# BLOCO DE INICIALIZAÇÃO CORRIGIDO
+if "initialized" not in st.session_state:
+    for k, v in STATE_DEFAULTS.items():
+        if k not in st.session_state:
+            st.session_state[k] = v
 
-for k in HIER_KEYS:
-    if k not in st.session_state: st.session_state[k] = ""
-    if f"{k}_cat" not in st.session_state: st.session_state[f"{k}_cat"] = ""
-    if f"{k}_sel" not in st.session_state: st.session_state[f"{k}_sel"] = ""
+    for k in HIER_KEYS:
+        if k not in st.session_state: st.session_state[k] = ""
+        if f"{k}_cat" not in st.session_state: st.session_state[f"{k}_cat"] = ""
+        if f"{k}_sel" not in st.session_state: st.session_state[f"{k}_sel"] = ""
+    
+    # Marca como inicializado para não repetir este loop desnecessariamente
+    st.session_state.initialized = True
 
 # --- HELPERS DE DADOS ---
 def get_ritmos_list(genero):
@@ -418,9 +422,13 @@ with col_left:
     st.text_input("Vibe Manual", key="vibe_manual", placeholder="Adicionar manualmente...")
     for i, v in enumerate(st.session_state.vibe_emocional):
         rc1, rc2 = st.columns([0.9, 0.08], vertical_alignment="center")
-        with rc1: st.markdown(f"**🔹 {v}**")
+        with rc1: 
+            st.markdown(f"**🔹 {v}**")
         with rc2: 
-            if st.button("❌", key=f"del_v_{i}"): st.session_state.vibe_emocional.pop(i); st.rerun()
+            # Use um callback para evitar o rerun imediato que limpa o buffer de outros inputs
+            if st.button("❌", key=f"del_v_{i}"):
+                st.session_state.vibe_emocional.pop(i)
+                st.rerun()
 
 with col_right:
     hierarchical_field("🎧 Público Alvo", "publico", core.dados["publico"])
