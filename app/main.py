@@ -437,7 +437,7 @@ with col_left:
             key="btn_rnd_est", 
             use_container_width=True,
             on_click=randomize_struct_callback,
-            Width = "content"
+            width = "content"
         )
     with sc4:
         st.button(
@@ -445,12 +445,12 @@ with col_left:
             key="btn_clr_est", 
             use_container_width=True,
             on_click=clear_struct_callback,
-            Width = "content"
+            width = "content"
         )
     st.divider()
 
     st.subheader("✨ Vibe Emocional")
-    vc1, vc2, vc5, vc3, vc4 = st.columns([0.35, 0.35, 0.08, 0.08, 0.08], vertical_alignment="bottom")
+    vc1, vc2, vc5, vc3, vc4 = st.columns([0.35, 0.35, 0.08, 0.08, 0.08], gap="small", vertical_alignment="bottom")
     vd = core.dados["vibe_emocional"]
     with vc1: st.selectbox("Cat. Vibe", [""] + sorted(vd.keys()), key="vibe_cat", label_visibility="collapsed")
     with vc2: st.selectbox("Sug. Vibe", [""] + vd.get(st.session_state.vibe_cat, []), key="vibe_item", label_visibility="collapsed")
