@@ -3,6 +3,7 @@ import streamlit.components.v1 as components
 import random
 import sys
 import os
+from datetime import datetime
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT)
@@ -106,7 +107,8 @@ STATE_DEFAULTS = {
     "mensagem": "", "palavras_chave": "", "referencia": "",
     "vibe_emocional": [], "vibe_cat": "", "vibe_item": "", "vibe_manual": "",
     "prompt_final": "", "show_prompt": False,
-    "estrutura": "", "estrutura_sel": "" 
+    "estrutura": "", "estrutura_sel": "",
+    "history": []
 }
 
 HIER_KEYS = ["publico", "tom", "tipo_de_gravacao", "influencia_estetica", "narrador"]
@@ -275,9 +277,29 @@ with t_c1: st.button("🧹 Limpar Tudo", on_click=clear_all, use_container_width
 with t_c2: st.button("🎲 Aleatório", on_click=random_all, use_container_width=True)
 with t_c3:
     if st.button("🚀 Gerar Prompt", type="primary", use_container_width=True):
+        # Coleta os campos
         campos = {k: st.session_state[k] for k in ["genero","ritmo","estrutura","tipo_de_gravacao","influencia_estetica","vibe_emocional","referencia","idioma","tema","mensagem","palavras_chave","publico","narrador","tom"]}
-        st.session_state.prompt_final = core.gerar_prompt(campos)
+        
+        # Gera o texto
+        generated_text = core.gerar_prompt(campos)
+        
+        # Atualiza a interface principal
+        st.session_state.prompt_final = generated_text
         st.session_state.show_prompt = True
+        
+        # --- LÓGICA DO HISTÓRICO (NOVO) ---
+        timestamp = datetime.now().strftime("%H:%M")
+        # Cria um título curto: "14:30 | Rock - Amor Perdido"
+        genero_safe = campos.get('genero') or "Gênero"
+        tema_safe = campos.get('tema') or "Geral"
+        titulo_hist = f"{timestamp} | {genero_safe} • {tema_safe}"[:40] # Limita tamanho
+        
+        # Insere no topo da lista (índice 0)
+        st.session_state.history.insert(0, {
+            "titulo": titulo_hist,
+            "texto": generated_text,
+            "data": datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        })
 
 if st.session_state.show_prompt:
     st.divider()
@@ -374,3 +396,28 @@ with col_right:
 
 st.markdown("---")
 st.markdown("<div style='text-align: center; color: #666; font-size: 0.8rem;'>Suno Maestro • Powered by Eduardo Palombo</div>", unsafe_allow_html=True)
+
+# --- SIDEBAR: HISTÓRICO DE PROMPTS ---
+with st.sidebar:
+    st.header("📜 Histórico")
+    st.markdown("---")
+    
+    if not st.session_state.history:
+        st.caption("Seus prompts gerados aparecerão aqui.")
+    
+    # Loop para exibir os itens do histórico
+    for i, item in enumerate(st.session_state.history):
+        # Expander com o título do prompt
+        with st.expander(f"{item['titulo']}"):
+            st.caption(f"📅 Criado em: {item['data']}")
+            st.code(item['texto'], language="yaml")
+            
+            # Botão de Download exclusivo para este item
+            st.download_button(
+                label="⬇️ Baixar",
+                data=item['texto'],
+                file_name=f"prompt_suno_{i}.txt",
+                mime="text/plain",
+                key=f"hist_btn_{i}", # Chave única para cada botão
+                use_container_width=True
+            )
