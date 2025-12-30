@@ -11,11 +11,26 @@ from core.generator import SunoMaestroCore
 
 st.set_page_config(page_title="Suno Maestro", page_icon="🎛️", layout="wide")
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-with open(os.path.join(BASE_DIR, "style.css"), encoding="utf-8") as f:
-    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+@st.cache_data
+def load_css():
+    """Carrega o CSS uma única vez e guarda na memória."""
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    css_path = os.path.join(BASE_DIR, "style.css")
+    with open(css_path, encoding="utf-8") as f:
+        return f.read()
 
-core = SunoMaestroCore(base_path=ROOT)
+@st.cache_resource
+def get_core_instance(root_path):
+    """Instancia o motor do projeto uma única vez."""
+    return SunoMaestroCore(base_path=root_path)
+
+# --- APLICAÇÃO ---
+
+# Aplica o CSS (o cache_data garante que não haverá leitura de disco constante)
+st.markdown(f"<style>{load_css()}</style>", unsafe_allow_html=True)
+
+# Instancia o Core com cache_resource (os JSONs serão lidos apenas no primeiro acesso)
+core = get_core_instance(ROOT)
 
 # --- FUNÇÃO DE CÓPIA CUSTOMIZADA ---
 def custom_copy_button(text_to_copy):
