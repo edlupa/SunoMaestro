@@ -156,6 +156,11 @@ def on_ritmo_change():
             st.session_state.estrutura_sel = sugestao
             st.session_state.estrutura = sugestao
 
+def on_hier_sel_change(key, sel_key):
+    """Sincroniza a seleção do dropdown com o campo de texto final."""
+    if st.session_state[sel_key]:
+        st.session_state[key] = st.session_state[sel_key]
+
 def on_estrutura_sel_change():
     if st.session_state.estrutura_sel:
         st.session_state.estrutura = st.session_state.estrutura_sel
@@ -322,20 +327,28 @@ def hierarchical_field(title, key, data):
         opts_sel = [""] + data.get(current_cat, [])
         val_sel = st.session_state.get(sel_key, "")
         idx_sel = opts_sel.index(val_sel) if val_sel in opts_sel else 0
-        st.selectbox(f"S_{key}", opts_sel, index=idx_sel, key=sel_key, label_visibility="collapsed")
+        
+        # --- A CORREÇÃO ESTÁ AQUI EMBAIXO ---
+        st.selectbox(
+            f"S_{key}", 
+            opts_sel, 
+            index=idx_sel, 
+            key=sel_key, 
+            label_visibility="collapsed",
+            on_change=on_hier_sel_change, # Chama a função de sincronização
+            args=(key, sel_key)           # Passa as chaves necessárias
+        )
          
     with c3:
-        # CORREÇÃO: Usando on_click com args
         st.button(
             "🎲", 
             key=f"btn_rnd_{key}", 
             use_container_width=True,
             on_click=randomize_hier_callback,
-            args=(key, data) # Passa os argumentos para a função
+            args=(key, data)
         )
 
     with c4:
-        # CORREÇÃO: Usando on_click com args
         st.button(
             "🧹", 
             key=f"btn_clr_{key}", 
@@ -344,6 +357,7 @@ def hierarchical_field(title, key, data):
             args=(key,)
         )
     
+    # Campo de texto final
     st.text_input(f"In_{key}", key=key, label_visibility="collapsed", placeholder=f"Valor final...")
     st.markdown("<div style='margin-bottom: 10px;'></div>", unsafe_allow_html=True)
 
