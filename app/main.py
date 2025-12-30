@@ -397,27 +397,30 @@ with col_right:
 st.markdown("---")
 st.markdown("<div style='text-align: center; color: #666; font-size: 0.8rem;'>Suno Maestro • Powered by Eduardo Palombo</div>", unsafe_allow_html=True)
 
-# --- SIDEBAR: HISTÓRICO DE PROMPTS ---
+# --- BARRA LATERAL DE HISTÓRICO ---
 with st.sidebar:
     st.header("📜 Histórico")
-    st.markdown("---")
+    st.info("Os prompts gerados nesta sessão ficam salvos abaixo.")
     
     if not st.session_state.history:
-        st.caption("Seus prompts gerados aparecerão aqui.")
+        st.write("Nenhum prompt gerado ainda.")
     
-    # Loop para exibir os itens do histórico
-    for i, item in enumerate(st.session_state.history):
-        # Expander com o título do prompt
-        with st.expander(f"{item['titulo']}"):
-            st.caption(f"📅 Criado em: {item['data']}")
-            st.code(item['texto'], language="yaml")
+    for idx, item in enumerate(st.session_state.history):
+        with st.expander(item["titulo"]):
+            st.caption(f"Gerado em: {item['data']}")
+            st.code(item["conteudo"], language="yaml")
             
-            # Botão de Download exclusivo para este item
+            # Botão de Download Individual
             st.download_button(
-                label="⬇️ Baixar",
-                data=item['texto'],
-                file_name=f"prompt_suno_{i}.txt",
+                label="⬇️ Baixar txt",
+                data=item["conteudo"],
+                file_name=f"suno_prompt_{idx}.txt",
                 mime="text/plain",
-                key=f"hist_btn_{i}", # Chave única para cada botão
+                key=f"dl_{idx}",
                 use_container_width=True
             )
+    
+    if st.session_state.history:
+        if st.button("🗑️ Limpar Histórico", use_container_width=True):
+            st.session_state.history = []
+            st.rerun()
