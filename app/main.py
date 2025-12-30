@@ -6,6 +6,7 @@ import os
 from datetime import datetime
 import io
 import zipfile
+import re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT)
@@ -260,6 +261,47 @@ def criar_zip_historico(historico):
     
     return buffer.getvalue()
 
+def restaurar_prompt(texto_prompt):
+    """
+    Extrai os valores do prompt gerado e atualiza o session_state.
+    """
+    # Mapeamento: Chave no Prompt -> Chave no Session State
+    mapeamento = {
+        "primary_genre": "genero",
+        "specific_style": "ritmo",
+        "recording_aesthetic": "tipo_de_gravacao",
+        "artistic_influence": "influencia_estetica",
+        "emotional_vibe": "vibe_emocional",
+        "external_refs": "referencia",
+        "language": "idioma",
+        "topic": "tema",
+        "core_message": "mensagem",
+        "keywords": "palavras_chave",
+        "target_audience": "publico",
+        "narrador_perspective": "narrador",
+        "structure_format": "estrutura",
+        "lyrical_tone": "tom"
+    }
+
+    for chave_prompt, chave_state in mapeamento.items():
+        # Busca o padrão: chave: "valor"
+        padrao = rf'{chave_prompt}: "(.*?)"'
+        match = re.search(padrao, texto_prompt)
+        
+        if match:
+            valor = match.group(1)
+            
+            # Tratamento especial para a Vibe (que é uma lista no state)
+            if chave_state == "vibe_emocional":
+                # Remove colchetes e aspas se existirem e separa por vírgula
+                limpo = valor.replace("[", "").replace("]", "").replace("'", "").replace('"', "")
+                st.session_state[chave_state] = [v.strip() for v in limpo.split(",") if v.strip()]
+            else:
+                st.session_state[chave_state] = valor
+
+    # Força a atualização da interface
+    st.rerun()
+
 # --- COMPONENTES UI ---
 def hierarchical_field(title, key, data):
     st.markdown(f"**{title}**")
@@ -456,8 +498,12 @@ with st.sidebar:
         with st.expander(item["titulo"]):
             st.caption(f"Gerado em: {item['data']}")
             
+            if st.button("🔄 Restaurar no Form", key=f"rest_{idx}", use_container_width=True):
+                restaurar_prompt(item["conteudo"])
+
             custom_copy_button(item["conteudo"])
 
+            '''
             st.download_button(
                 label="⬇️ Baixar txt",
                 data=item["conteudo"],
@@ -466,6 +512,7 @@ with st.sidebar:
                 key=f"dl_{idx}",
                 use_container_width=True
             )
+            '''
 
             st.code(item["conteudo"], language="yaml")
                        
