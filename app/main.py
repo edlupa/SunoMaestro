@@ -456,6 +456,8 @@ with st.sidebar:
         with st.expander(item["titulo"]):
             st.caption(f"Gerado em: {item['data']}")
                         
+            custom_copy_button(st.code(item["conteudo"]))
+
             st.download_button(
                 label="⬇️ Baixar txt",
                 data=item["conteudo"],
@@ -474,8 +476,6 @@ with st.sidebar:
         # Gerar os dados do ZIP
         zip_data = criar_zip_historico(st.session_state.history)
         
-        custom_copy_button(st.session_state.prompt_final)
-
         st.download_button(
             label="📦 Baixar Tudo (ZIP)",
             data=zip_data,
