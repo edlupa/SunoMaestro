@@ -230,6 +230,10 @@ def clear_struct_callback():
     st.session_state.estrutura_sel = ""
     st.session_state.estrutura = ""
 
+# --- FUNÇÃO DE CALLBACK PARA DELETAR VIBE ---
+def delete_vibe(index):
+    st.session_state.vibe_emocional.pop(index)
+
 def preparar_exportacao_total(historico):
     """Transforma a lista de histórico em uma string formatada para TXT."""
     if not historico:
@@ -423,10 +427,8 @@ with col_left:
         with rc1: 
             st.markdown(f"**🔹 {v}**")
         with rc2: 
-            # Use um callback para evitar o rerun imediato que limpa o buffer de outros inputs
-            if st.button("❌", key=f"del_v_{i}"):
-                st.session_state.vibe_emocional.pop(i)
-                st.rerun()
+            # Usar on_click em vez de if st.button evita o reset de outros campos
+            st.button("❌", key=f"del_v_{i}_{v}", on_click=delete_vibe, args=(i,))
 
 with col_right:
     hierarchical_field("🎧 Público Alvo", "publico", core.dados["publico"])
