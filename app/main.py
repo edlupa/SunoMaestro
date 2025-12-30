@@ -1,5 +1,5 @@
 import streamlit as st
-import streamlit.components.v1 as components
+from st_copy_to_clipboard import copy_to_clipboard
 import random
 import sys
 import os
@@ -16,19 +16,6 @@ with open(os.path.join(BASE_DIR, "style.css"), encoding="utf-8") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 core = SunoMaestroCore(base_path=ROOT)
-
-# Função JavaScript para copiar texto (Solução para Cloud)
-def copy_to_clipboard(text):
-    escaped_text = text.replace("`", "\\`").replace("'", "\\'").replace('"', '\\"')
-    js = f"""
-    <script>
-    navigator.clipboard.writeText(`{escaped_text}`).then(() => {{
-        window.parent.postMessage({{"type": "streamlit:setComponentValue", "value": true}}, "*");
-    }});
-    </script>
-    """
-    components.html(js, height=0, width=0)
-    st.success("Copiado para a área de transferência!")
 
 # --- ESTADO E CONFIGURAÇÃO ---
 STATE_DEFAULTS = {
@@ -212,15 +199,19 @@ with t_c3:
 if st.session_state.show_prompt:
     st.divider()
     ac1, ac2, ac3 = st.columns(3)
-    with ac1: 
-        if st.button("📋 Copiar Prompt", use_container_width=True):
-            copy_to_clipboard(st.session_state.prompt_final)
+    
+    with ac1:
+        # A biblioteca cria um botão próprio que funciona no Cloud
+        copy_to_clipboard(st.session_state.prompt_final, before_copy_label="📋 Copiar Prompt", after_copy_label="✅ Copiado!")
+    
     with ac2: 
         st.download_button("⬇️ Baixar", st.session_state.prompt_final, "prompt.txt", use_container_width=True)
+    
     with ac3: 
         if st.button("❌ Fechar", use_container_width=True): 
             st.session_state.show_prompt = False
             st.rerun()
+            
     st.code(st.session_state.prompt_final, language="yaml")
 
 col_left, col_right = st.columns(2, gap="large")
