@@ -115,19 +115,15 @@ STATE_DEFAULTS = {
 
 HIER_KEYS = ["publico", "tom", "tipo_de_gravacao", "influencia_estetica", "narrador"]
 
-# BLOCO DE INICIALIZAÇÃO CORRIGIDO
-if "initialized" not in st.session_state:
-    for k, v in STATE_DEFAULTS.items():
-        if k not in st.session_state:
-            st.session_state[k] = v
+# Inicialização Robusta: Garante que TODAS as chaves existam sempre
+for k, v in STATE_DEFAULTS.items():
+    if k not in st.session_state:
+        st.session_state[k] = v
 
-    for k in HIER_KEYS:
-        if k not in st.session_state: st.session_state[k] = ""
-        if f"{k}_cat" not in st.session_state: st.session_state[f"{k}_cat"] = ""
-        if f"{k}_sel" not in st.session_state: st.session_state[f"{k}_sel"] = ""
-    
-    # Marca como inicializado para não repetir este loop desnecessariamente
-    st.session_state.initialized = True
+for k in HIER_KEYS:
+    if f"{k}_cat" not in st.session_state: st.session_state[f"{k}_cat"] = ""
+    if f"{k}_sel" not in st.session_state: st.session_state[f"{k}_sel"] = ""
+    if k not in st.session_state: st.session_state[k] = ""
 
 # --- HELPERS DE DADOS ---
 def get_ritmos_list(genero):
@@ -265,23 +261,25 @@ def hierarchical_field(title, key, data):
     st.markdown(f"**{title}**")
     cat_key, sel_key = f"{key}_cat", f"{key}_sel"
     
+    # GARANTIA EXTRA: Se a chave sumir, recria agora
+    if cat_key not in st.session_state: st.session_state[cat_key] = ""
+    if sel_key not in st.session_state: st.session_state[sel_key] = ""
+    
     c1, c2, c3, c4 = st.columns([0.35, 0.35, 0.08, 0.08], gap="small", vertical_alignment="bottom")
     
     with c1:
         opts_cat = [""] + sorted(data.keys())
-        # Proteção para garantir que o valor no state exista nas opções
-        idx_cat = opts_cat.index(st.session_state[cat_key]) if st.session_state[cat_key] in opts_cat else 0
+        val_cat = st.session_state.get(cat_key, "")
+        idx_cat = opts_cat.index(val_cat) if val_cat in opts_cat else 0
         st.selectbox(f"C_{key}", opts_cat, index=idx_cat, key=cat_key, label_visibility="collapsed")
     
     with c2:
-        opts_sel = [""] + data.get(st.session_state[cat_key], [])
-        idx_sel = opts_sel.index(st.session_state[sel_key]) if st.session_state[sel_key] in opts_sel else 0
+        current_cat = st.session_state.get(cat_key, "")
+        opts_sel = [""] + data.get(current_cat, [])
+        val_sel = st.session_state.get(sel_key, "")
+        idx_sel = opts_sel.index(val_sel) if val_sel in opts_sel else 0
         st.selectbox(f"S_{key}", opts_sel, index=idx_sel, key=sel_key, label_visibility="collapsed")
-    
-    # Atualiza o valor final se houver seleção
-    if st.session_state[sel_key]: 
-        st.session_state[key] = st.session_state[sel_key]
-        
+         
     with c3:
         # CORREÇÃO: Usando on_click com args
         st.button(
