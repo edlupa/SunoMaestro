@@ -4,6 +4,8 @@ import random
 import sys
 import os
 from datetime import datetime
+import io
+import zipfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT)
@@ -243,6 +245,17 @@ def preparar_exportacao_total(historico):
     
     return conteudo_final
 
+def criar_zip_historico(historico):
+    """Gera um ficheiro ZIP na memória contendo cada prompt em um TXT separado."""
+    buffer = io.BytesIO()
+    with zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
+        for i, item in enumerate(historico):
+            # Nome do ficheiro: "01_Rock_Amor.txt"
+            nome_arquivo = f"{len(historico)-i:02d}_{item['titulo'].replace(' ', '_').replace('|', '')}.txt"
+            zip_file.writestr(nome_arquivo, item['conteudo'])
+    
+    return buffer.getvalue()
+
 # --- COMPONENTES UI ---
 def hierarchical_field(title, key, data):
     st.markdown(f"**{title}**")
@@ -446,17 +459,20 @@ with st.sidebar:
                 use_container_width=True
             )
     
+    st.markdown("---") # Linha divisória
+
     if st.session_state.history:
-        dados_txt = preparar_exportacao_total(st.session_state.history)
+        # Gerar os dados do ZIP
+        zip_data = criar_zip_historico(st.session_state.history)
+        
         st.download_button(
-            label="📦 Baixar Tudo (.txt)",
-            data=dados_txt,
-            file_name=f"historico_suno_maestro_{datetime.now().strftime('%Y%m%d')}.txt",
-            mime="text/plain",
+            label="📦 Baixar Tudo (ZIP)",
+            data=zip_data,
+            file_name=f"prompts_suno_{datetime.now().strftime('%Y%m%d_%H%M')}.zip",
+            mime="application/zip",
             use_container_width=True,
-            help="Exporta todos os prompts da sessão atual em um único arquivo."
+            help="Descarrega todos os prompts do histórico em ficheiros individuais dentro de um ZIP."
         )
-        st.markdown("---") # Linha divisória
 
     if st.session_state.history:
         if st.button("🗑️ Limpar Histórico", use_container_width=True):
