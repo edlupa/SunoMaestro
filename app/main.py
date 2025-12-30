@@ -1,5 +1,4 @@
 import streamlit as st
-from st_copy_to_clipboard import copy_to_clipboard
 import random
 import sys
 import os
@@ -198,11 +197,7 @@ with t_c3:
 
 if st.session_state.show_prompt:
     st.divider()
-    ac1, ac2, ac3 = st.columns(3)
-    
-    with ac1:
-        # A biblioteca cria um botão próprio que funciona no Cloud
-        copy_to_clipboard(st.session_state.prompt_final, before_copy_label="📋 Copiar Prompt", after_copy_label="✅ Copiado!")
+    ac2, ac3 = st.columns(2)
     
     with ac2: 
         st.download_button("⬇️ Baixar", st.session_state.prompt_final, "prompt.txt", use_container_width=True)
@@ -291,4 +286,5 @@ with col_right:
     hierarchical_field("🎚️ Tipo de Gravação", "tipo_de_gravacao", core.dados["tipo_de_gravacao"])
 
 st.markdown("---")
+
 st.markdown("<div style='text-align: center; color: #666; font-size: 0.8rem;'>Suno Maestro • Powered by Eduardo Palombo</div>", unsafe_allow_html=True)
