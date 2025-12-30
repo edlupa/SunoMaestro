@@ -1,6 +1,5 @@
 import streamlit as st
 import streamlit.components.v1 as components
-from st_copy_to_clipboard import st_copy_to_clipboard
 import random
 import sys
 import os
@@ -17,6 +16,80 @@ with open(os.path.join(BASE_DIR, "style.css"), encoding="utf-8") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 core = SunoMaestroCore(base_path=ROOT)
+
+# --- FUNÇÃO DE CÓPIA CUSTOMIZADA ---
+def custom_copy_button(text_to_copy):
+    # CSS injetado especificamente para este botão isolado
+    button_style = """
+    <style>
+        .custom-btn {
+            border: 1px solid #3a3f4b;
+            background-color: #F0F2F6;
+            color: #3a3f4b;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            padding: 0.5rem;
+            font-family: "Source Sans Pro", sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 0px; 
+        }
+        .custom-btn:hover {
+            border-color: #8b949e;
+            background-color: #3a3f4b;
+            color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .custom-btn:active {
+            transform: translateY(1px);
+        }
+    </style>
+    """
+    
+    # JavaScript robusto para copiar (fallback para textarea se clipboard API falhar)
+    copy_script = f"""
+    <script>
+        function copyToClipboard() {{
+            const text = `{text_to_copy.replace('`', '\\`').replace('$', '\\$')}`;
+            
+            // Método Fallback (mais compatível com iframes)
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {{
+                document.execCommand('copy');
+                const btn = document.getElementById("copyBtn");
+                btn.innerText = "✅ Copiado!";
+                btn.style.borderColor = "#46c45e";
+                btn.style.color = "#46c45e";
+                setTimeout(() => {{ 
+                    btn.innerText = "📋 Copiar Prompt"; 
+                    btn.style.borderColor = "#3a3f4b";
+                    btn.style.color = "#3a3f4b";
+                }}, 2000);
+            }} catch (err) {{
+                console.error('Falha ao copiar', err);
+            }}
+            document.body.removeChild(textArea);
+        }}
+    </script>
+    """
+    
+    html_content = f"""
+    {button_style}
+    {copy_script}
+    <button id="copyBtn" class="custom-btn" onclick="copyToClipboard()">
+        📋 Copiar Prompt
+    </button>
+    """
+    # Renderiza o HTML com altura fixa para alinhar com os botões do Streamlit
+    components.html(html_content, height=50)
 
 # --- ESTADO E CONFIGURAÇÃO ---
 STATE_DEFAULTS = {
@@ -201,9 +274,7 @@ if st.session_state.show_prompt:
         st.divider()
         ac1, ac2, ac3 = st.columns(3)
         with ac1: 
-            # SUBSTITUA O st.button ANTIGO POR ISTO:
-            st_copy_to_clipboard(st.session_state.prompt_final, "📋 Copiar Prompt", "✅ Copiado!")
-            # Nota: Essa lib cria um botão imediatamente, não precisa de "if button:"
+            custom_copy_button(st.session_state.prompt_final)
         with ac2: 
             st.download_button("⬇️ Baixar", st.session_state.prompt_final, "prompt.txt", use_container_width=True)
         with ac3: 
