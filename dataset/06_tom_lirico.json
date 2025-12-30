@@ -1,0 +1,64 @@
+{
+    "Poético": [
+        "Poético e Sonhador",
+        "Metafórico e Abstrato",
+        "Romântico Incurável",
+        "Elegíaco (Lamento)",
+        "Simbolista e Sensorial",
+        "Surrealista e Onírico",
+        "Haicai (Curto e Imagético)",
+        "Lírico e Suave"
+    ],
+    "Realista": [
+        "Brutalista e Direto",
+        "Jornalístico Realista",
+        "Documental e Cru",
+        "Coloquial e Informal",
+        "Realismo Sujo (Dirty Realism)",
+        "Confessional Íntimo",
+        "Gíria das Ruas/Periférico"
+    ],
+    "Intenso": [
+        "Épico e Lendário",
+        "Melodramático e Teatral",
+        "Tragédia Grega",
+        "Profético e Apocalíptico",
+        "Gritado e Desesperado",
+        "Vingativo e Furioso",
+        "Heróico e Triunfante"
+    ],
+    "Humor/Sátira": [
+        "Sarcástico e Irônico",
+        "Satírico Ácido",
+        "Sarcástico de Internet (Meme)",
+        "Humorístico e Pateta",
+        "Cínico e Desiludido",
+        "Provocador e Ousado",
+        "Ironia Trágica"
+    ],
+    "Filosófico": [
+        "Filosófico Existencial",
+        "Analítico e Frio",
+        "Científico e Técnico",
+        "Nihilista e Vazio",
+        "Estoico e Resignado",
+        "Psicanalítico e Denso",
+        "Místico e Oculto"
+    ],
+    "Político": [
+        "Subversivo e Rebelde",
+        "Político e Panfletário",
+        "Nacionalista e Ufanista",
+        "Manifesto Urgente",
+        "Agressivo e Hostil",
+        "Provocador Político"
+    ],
+    "Tradicional": [
+        "Poesia de Cordel",
+        "Caipira e Regionalista",
+        "Bíblico e Arcaico",
+        "Xamânico e Ancestral",
+        "Literário Clássico",
+        "Contemplativo e Lento"
+    ]
+}

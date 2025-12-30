@@ -1,0 +1,67 @@
+{
+    "Simples": [
+        "Primeira Pessoa",
+        "Terceira Pessoa",
+        "Observador"
+    ],
+    "Dramático": [
+        "Marinheiro Cansado",
+        "Detetive Cínico",
+        "Soldado na Trincheira",
+        "Cowboy no Fim do Oeste",
+        "Artista de Rua Rebelde",
+        "Barman que Ouve Tudo",
+        "Atleta no Último Round",
+        "Idoso Solitário",
+        "Prisioneiro Contando os Dias",
+        "Poeta Maldito do Século XIX"
+    ],
+    "Sobrenatural": [
+        "Fantasma Observador",
+        "Vampiro Imortal",
+        "Sereia Sedutora",
+        "Lobo na Lua Cheia",
+        "Anjo Caído",
+        "Morte Gentil",
+        "Entidade Mitológica",
+        "Oráculo em Transe",
+        "Rei Exilado",
+        "Alquimista Moderno"
+    ],
+    "Sci-Fi": [
+        "IA Descobrindo Emoções",
+        "Satélite Solitário",
+        "Andarilho do Futuro",
+        "Astronauta Sem Oxigênio",
+        "Hacker Infiltrado",
+        "Ciborgue com Falha de Memória",
+        "Robô Doméstico",
+        "Viajante do Tempo",
+        "Alienígena Observando a Terra",
+        "Avatar de Videogame"
+    ],
+    "Objetos/Natureza": [
+        "Natureza Selvagem",
+        "Vento entre Prédios",
+        "Árvore Milenar",
+        "Oceano Profundo",
+        "Estrela Morrendo",
+        "Rádio Antigo no Sótão",
+        "Estátua em Praça Lotada",
+        "Espelho que Reflete Verdades",
+        "Casa Assombrada",
+        "Tempo (Personificado)"
+    ],
+    "Íntimo": [
+        "Escritor de Diário",
+        "Amante Obcecado",
+        "Crítico Interno Feroz",
+        "Criança Curiosa",
+        "Sonhador Acordado",
+        "Insonte na Madrugada",
+        "Sobrevivente de Apocalipse",
+        "Colecionador de Segredos",
+        "Passageiro em Trem Noturno",
+        "Última Pessoa na Terra"
+    ]
+}

@@ -1,0 +1,54 @@
+{
+    "Estados de Espírito": [
+        "Corações Partidos (Recuperação)",
+        "Apaixonados em Êxtase",
+        "Luto e Superação",
+        "Reflexão Solitária Madrugada",
+        "Busca por Sentido Vital",
+        "Euforia de Festa/Celebração",
+        "Foco e Concentração (Deep Work)",
+        "Relaxamento e Meditação",
+        "Ira e Catarse Rebelde"
+    ],
+    "Perfis e Tribos": [
+        "Geração Z (Digital Native)",
+        "Almas Antigas (Nostálgicos)",
+        "Rebeldes e Ativistas",
+        "Nômades Digitais/Viajantes",
+        "Gamers e Geeks",
+        "Headbangers/Alternativos",
+        "Sambistas/Sertanejos Raiz",
+        "Artistas e Criativos",
+        "Esportistas/Viciados em Adrenalina"
+    ],
+    "Rotinas e Ocupações": [
+        "Trabalhadores Noturnos",
+        "Motoristas/Caminhoneiros",
+        "Estudantes Exaustos",
+        "Executivos em Burnout",
+        "Mães/Pais (Cuidado e Colo)",
+        "Profissionais de Saúde (Plantão)",
+        "Programadores e Hackers",
+        "Atletas em Treino",
+        "Pessoas em Terapia"
+    ],
+    "Ambientes": [
+        "Exploradores Urbanos Noturnos",
+        "Clubbers de Raves Industriais",
+        "Frequentadores de Academia",
+        "Pessoas no Transporte Público",
+        "Viajantes de Longa Distância",
+        "Mergulhadores/Surfistas",
+        "Frequentadores de Cafés/Livrarias",
+        "Moradores de Grandes Metrópoles",
+        "Pessoas do Campo/Interior"
+    ],
+    "Existenciais": [
+        "Céticos em busca de Fé",
+        "Minimalistas e Estoicos",
+        "Idealistas Desiludidos",
+        "Sonhadores Acordados",
+        "Insones e Pensadores",
+        "Almas em Busca de Paz"
+    ]
+}

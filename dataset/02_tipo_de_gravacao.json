@@ -1,0 +1,46 @@
+{
+    "Estúdio": [
+        "Profissional (Masterizado)",
+        "Acústico Isolado",
+        "Pop Polido",
+        "Rádio ao Vivo",
+        "Gravação de Ensaio",
+        "Produção de Quarto (Bedroom Pop)",
+        "Dublagem",
+        "Gravação Analógica em Fita",
+        "Mixagem de Cinema (Trilha)"
+    ],
+    "Ao Vivo": [
+        "Show em Estádio",
+        "Arena Lotada",
+        "Show em Teatro",
+        "Club Noturno",
+        "Barzinho Intimista",
+        "Acústico MTV",
+        "Festival Aberto",
+        "Igreja/Catedral",
+        "Roda de Samba"
+    ],
+    "Formatos Específicos": [
+        "Voz e Violão",
+        "Piano e Voz",
+        "Gravação de Rua (Busking)",
+        "Gravação Lo-fi (Cassete)",
+        "Vinil Antigo",
+        "Ripagem de VHS",
+        "Transmissão de Rádio AM/FM",
+        "Podcast/Entrevista",
+        "Áudio de Cinema UHD"
+    ],
+    "Ambientes Reais": [
+        "Gravação em Garagem",
+        "Gravação em Galpão/Depósito",
+        "Som de Estacionamento Vazio",
+        "Ambiente de Café/Restaurante",
+        "Gravação em Sala de Estar",
+        "Som de Auditório",
+        "Ambiente de Festa/Balada",
+        "Som de Estúdio de TV",
+        "Gravação de Campo (Outdoor)"
+    ]
+}
