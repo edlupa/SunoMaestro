@@ -263,13 +263,9 @@ def criar_zip_historico(historico):
 
 def restaurar_prompt(texto_prompt):
     """
-    Extrai valores do prompt e limpa dados automáticos ou vazios.
+    Extrai valores do prompt e restaura no session_state de forma segura.
     """
-    # 1. Limpeza prévia de campos auxiliares
-    for k in HIER_KEYS:
-        st.session_state[f"{k}_cat"] = ""
-        st.session_state[f"{k}_sel"] = ""
-
+    # 1. Mapeamento de chaves (Prompt -> State)
     mapeamento = {
         "primary_genre": "genero",
         "specific_style": "ritmo",
@@ -287,11 +283,11 @@ def restaurar_prompt(texto_prompt):
         "lyrical_tone": "tom"
     }
 
-    # 2. Extração focada apenas na seção USER_INPUTS
-    # Cortamos o texto para ler apenas até onde começa o AUTOMATIC_INPUTS
+    # 2. Corta o texto para ler apenas a parte do usuário
     partes = texto_prompt.split("AUTOMATIC_INPUTS:")
     texto_usuario = partes[0] if len(partes) > 0 else texto_prompt
 
+    # 3. Extração e Atualização
     for chave_prompt, chave_state in mapeamento.items():
         padrao = rf'{chave_prompt}: "(.*?)"'
         match = re.search(padrao, texto_usuario)
@@ -299,23 +295,31 @@ def restaurar_prompt(texto_prompt):
         if match:
             valor = match.group(1).strip()
             
-            # FILTRO: Se o valor for uma referência ao AUTOMATIC_INPUT ou estiver vazio
-            if "AUTOMATIC_INPUT" in valor or valor == "None" or valor == "":
-                # Define como vazio no estado
-                st.session_state[chave_state] = [] if chave_state == "vibe_emocional" else ""
-                continue
-
-            if chave_state == "vibe_emocional":
+            # Filtro de campos vazios ou automáticos
+            if "AUTOMATIC_INPUT" in valor or valor.lower() == "none" or valor == "":
+                novo_valor = [] if chave_state == "vibe_emocional" else ""
+            elif chave_state == "vibe_emocional":
                 limpo = valor.replace("[", "").replace("]", "").replace("'", "").replace('"', "")
-                st.session_state[chave_state] = [v.strip() for v in limpo.split(",") if v.strip()]
+                novo_valor = [v.strip() for v in limpo.split(",") if v.strip()]
             else:
-                st.session_state[chave_state] = valor
-        else:
-            # Se nem encontrar a chave, garante que o campo fique vazio
-            st.session_state[chave_state] = [] if chave_state == "vibe_emocional" else ""
+                novo_valor = valor
+            
+            # ATUALIZAÇÃO SEGURA: Só altera se for diferente para evitar loops
+            st.session_state[chave_state] = novo_valor
+
+    # 4. Limpar Categorias e Seleções (Hierarquia)
+    # Em vez de setar direto no state (que gera erro), limpamos os auxiliares
+    for k in HIER_KEYS:
+        # Usamos .get para evitar erros caso a chave tenha sido limpa pelo Streamlit
+        if f"{k}_cat" in st.session_state:
+            st.session_state[f"{k}_cat"] = ""
+        if f"{k}_sel" in st.session_state:
+            st.session_state[f"{k}_sel"] = ""
 
     st.session_state.show_prompt = False
     st.toast("✅ Configurações restauradas!", icon="🔄")
+    
+    # O rerun é essencial aqui para sincronizar os widgets com os novos valores do state
     st.rerun()
 
 # --- COMPONENTES UI ---
