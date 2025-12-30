@@ -19,9 +19,14 @@ core = SunoMaestroCore(base_path=ROOT)
 
 # --- FUNÇÃO DE CÓPIA CUSTOMIZADA ---
 def custom_copy_button(text_to_copy):
-    # CSS injetado especificamente para este botão isolado
+    # CSS para garantir que o botão ocupe TODO o espaço do iframe sem sobras
     button_style = """
     <style>
+        body { 
+            margin: 0 !important; 
+            padding: 0 !important; 
+            overflow: hidden; 
+        }
         .custom-btn {
             border: 1px solid #3a3f4b;
             background-color: #F0F2F6;
@@ -29,23 +34,20 @@ def custom_copy_button(text_to_copy):
             border-radius: 6px;
             cursor: pointer;
             width: 100%;
-            padding: 0.5rem;
+            height: 38px; /* Altura idêntica ao botão do Streamlit */
             font-family: "Source Sans Pro", sans-serif;
             font-weight: 500;
             font-size: 1rem;
-            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-sizing: border-box;
+            transition: 0.2s;
         }
         .custom-btn:hover {
-            border-color: #8b949e;
-            background-color: #3a3f4b;
-            color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        .custom-btn:active {
-            transform: translateY(1px);
+            border-color: #46c45e;
+            color: #46c45e;
+            background-color: #ffffff;
         }
     </style>
     """
@@ -80,15 +82,8 @@ def custom_copy_button(text_to_copy):
     </script>
     """
     
-    html_content = f"""
-    {button_style}
-    {copy_script}
-    <button id="copyBtn" class="custom-btn" onclick="copyToClipboard()">
-        📋 Copiar Prompt
-    </button>
-    """
-    # Renderiza o HTML com altura fixa para alinhar com os botões do Streamlit
-    components.html(html_content, height=50)
+    html_content = f"{button_style}{copy_script}<button id='copyBtn' class='custom-btn' onclick='copyToClipboard()'>📋 Copiar Prompt</button>"
+    components.html(html_content, height=40)
 
 # --- ESTADO E CONFIGURAÇÃO ---
 STATE_DEFAULTS = {
@@ -270,17 +265,21 @@ with t_c3:
         st.session_state.show_prompt = True
 
 if st.session_state.show_prompt:
-        st.divider()
-        ac1, ac2, ac3 = st.columns(3)
-        with ac1: 
-            custom_copy_button(st.session_state.prompt_final)
-        with ac2: 
-            st.download_button("⬇️ Baixar", st.session_state.prompt_final, "prompt.txt", use_container_width=True)
-        with ac3: 
-            if st.button("❌ Fechar", use_container_width=True): 
-                st.session_state.show_prompt = False
-                st.rerun()
-        st.code(st.session_state.prompt_final, language="yaml")
+    st.divider()
+    ac1, ac2, ac3 = st.columns([1, 1, 1], vertical_alignment="bottom")
+    
+    with ac1: 
+        custom_copy_button(st.session_state.prompt_final)
+        
+    with ac2: 
+        st.download_button("⬇️ Baixar", st.session_state.prompt_final, "prompt.txt", use_container_width=True)
+        
+    with ac3: 
+        if st.button("❌ Fechar", use_container_width=True): 
+            st.session_state.show_prompt = False
+            st.rerun()
+
+    st.code(st.session_state.prompt_final, language="yaml")
 
 col_left, col_right = st.columns(2, gap="large")
 
