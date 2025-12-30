@@ -456,7 +456,7 @@ with st.sidebar:
         with st.expander(item["titulo"]):
             st.caption(f"Gerado em: {item['data']}")
                         
-            custom_copy_button(st.code(item["conteudo"]))
+            custom_copy_button(item["conteudo"])
 
             st.download_button(
                 label="⬇️ Baixar txt",
