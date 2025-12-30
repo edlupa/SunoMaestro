@@ -261,41 +261,26 @@ def criar_zip_historico(historico):
     
     return buffer.getvalue()
 
-def restaurar_prompt(texto_prompt):
-    """
-    Extrai valores do prompt e restaura no session_state de forma segura.
-    """
-    # 1. Mapeamento de chaves (Prompt -> State)
+def callback_restaurar(texto_prompt):
+    # 1. Extração (mesma lógica de antes)
+    partes = texto_prompt.split("AUTOMATIC_INPUTS:")
+    texto_usuario = partes[0] if len(partes) > 0 else texto_prompt
+    
     mapeamento = {
-        "primary_genre": "genero",
-        "specific_style": "ritmo",
-        "recording_aesthetic": "tipo_de_gravacao",
-        "artistic_influence": "influencia_estetica",
-        "emotional_vibe": "vibe_emocional",
-        "external_refs": "referencia",
-        "language": "idioma",
-        "topic": "tema",
-        "core_message": "mensagem",
-        "keywords": "palavras_chave",
-        "target_audience": "publico",
-        "narrador_perspective": "narrador",
-        "structure_format": "estrutura",
+        "primary_genre": "genero", "specific_style": "ritmo",
+        "recording_aesthetic": "tipo_de_gravacao", "artistic_influence": "influencia_estetica",
+        "emotional_vibe": "vibe_emocional", "external_refs": "referencia",
+        "language": "idioma", "topic": "tema", "core_message": "mensagem",
+        "keywords": "palavras_chave", "target_audience": "publico",
+        "narrador_perspective": "narrador", "structure_format": "estrutura",
         "lyrical_tone": "tom"
     }
 
-    # 2. Corta o texto para ler apenas a parte do usuário
-    partes = texto_prompt.split("AUTOMATIC_INPUTS:")
-    texto_usuario = partes[0] if len(partes) > 0 else texto_prompt
-
-    # 3. Extração e Atualização
     for chave_prompt, chave_state in mapeamento.items():
         padrao = rf'{chave_prompt}: "(.*?)"'
         match = re.search(padrao, texto_usuario)
-        
         if match:
             valor = match.group(1).strip()
-            
-            # Filtro de campos vazios ou automáticos
             if "AUTOMATIC_INPUT" in valor or valor.lower() == "none" or valor == "":
                 novo_valor = [] if chave_state == "vibe_emocional" else ""
             elif chave_state == "vibe_emocional":
@@ -304,23 +289,15 @@ def restaurar_prompt(texto_prompt):
             else:
                 novo_valor = valor
             
-            # ATUALIZAÇÃO SEGURA: Só altera se for diferente para evitar loops
+            # AGORA É PERMITIDO: Alterar o estado dentro de um callback
             st.session_state[chave_state] = novo_valor
 
-    # 4. Limpar Categorias e Seleções (Hierarquia)
-    # Em vez de setar direto no state (que gera erro), limpamos os auxiliares
-    for k in HIER_KEYS:
-        # Usamos .get para evitar erros caso a chave tenha sido limpa pelo Streamlit
-        if f"{k}_cat" in st.session_state:
-            st.session_state[f"{k}_cat"] = ""
-        if f"{k}_sel" in st.session_state:
-            st.session_state[f"{k}_sel"] = ""
-
-    st.session_state.show_prompt = False
-    st.toast("✅ Configurações restauradas!", icon="🔄")
+    # Limpar as categorias para resetar os selectboxes
+    for k in ["publico", "tom", "tipo_de_gravacao", "influencia_estetica", "narrador"]:
+        st.session_state[f"{k}_cat"] = ""
+        st.session_state[f"{k}_sel"] = ""
     
-    # O rerun é essencial aqui para sincronizar os widgets com os novos valores do state
-    st.rerun()
+    st.session_state.show_prompt = False
 
 # --- COMPONENTES UI ---
 def hierarchical_field(title, key, data):
@@ -518,8 +495,13 @@ with st.sidebar:
         with st.expander(item["titulo"]):
             st.caption(f"Gerado em: {item['data']}")
             
-            if st.button("🔄 Restaurar", key=f"rest_{idx}", use_container_width=True):
-                restaurar_prompt(item["conteudo"])
+            st.button(
+                "🔄 Restaurar Prompt", 
+                key=f"rest_{idx}", 
+                use_container_width=True,
+                on_click=callback_restaurar,
+                args=(item["conteudo"],)  # Passa o conteúdo como argumento para o callback
+            )
 
             custom_copy_button(item["conteudo"])
 
