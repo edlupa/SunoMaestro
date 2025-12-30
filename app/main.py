@@ -462,7 +462,7 @@ with col_left:
             if val and val not in st.session_state.vibe_emocional: st.session_state.vibe_emocional.append(val)
     st.text_input("Vibe Manual", key="vibe_manual", placeholder="Adicionar manualmente...")
     for i, v in enumerate(st.session_state.vibe_emocional):
-        rc1, rc2 = st.columns([0.9, 0.08], vertical_alignment="center")
+        rc1, rc2 = st.columns([0.7, 0.08], vertical_alignment="center")
         with rc1: 
             st.markdown(f"**🔹 {v}**")
         with rc2: 
