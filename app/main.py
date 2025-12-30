@@ -3,7 +3,6 @@ import streamlit.components.v1 as components
 import random
 import sys
 import os
-import pyperclip
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT)
