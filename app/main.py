@@ -263,9 +263,13 @@ def criar_zip_historico(historico):
 
 def restaurar_prompt(texto_prompt):
     """
-    Extrai os valores do prompt gerado e atualiza o session_state.
+    Extrai valores do prompt e limpa dados automáticos ou vazios.
     """
-    # Mapeamento: Chave no Prompt -> Chave no Session State
+    # 1. Limpeza prévia de campos auxiliares
+    for k in HIER_KEYS:
+        st.session_state[f"{k}_cat"] = ""
+        st.session_state[f"{k}_sel"] = ""
+
     mapeamento = {
         "primary_genre": "genero",
         "specific_style": "ritmo",
@@ -283,23 +287,35 @@ def restaurar_prompt(texto_prompt):
         "lyrical_tone": "tom"
     }
 
+    # 2. Extração focada apenas na seção USER_INPUTS
+    # Cortamos o texto para ler apenas até onde começa o AUTOMATIC_INPUTS
+    partes = texto_prompt.split("AUTOMATIC_INPUTS:")
+    texto_usuario = partes[0] if len(partes) > 0 else texto_prompt
+
     for chave_prompt, chave_state in mapeamento.items():
-        # Busca o padrão: chave: "valor"
         padrao = rf'{chave_prompt}: "(.*?)"'
-        match = re.search(padrao, texto_prompt)
+        match = re.search(padrao, texto_usuario)
         
         if match:
-            valor = match.group(1)
+            valor = match.group(1).strip()
             
-            # Tratamento especial para a Vibe (que é uma lista no state)
+            # FILTRO: Se o valor for uma referência ao AUTOMATIC_INPUT ou estiver vazio
+            if "AUTOMATIC_INPUT" in valor or valor == "None" or valor == "":
+                # Define como vazio no estado
+                st.session_state[chave_state] = [] if chave_state == "vibe_emocional" else ""
+                continue
+
             if chave_state == "vibe_emocional":
-                # Remove colchetes e aspas se existirem e separa por vírgula
                 limpo = valor.replace("[", "").replace("]", "").replace("'", "").replace('"', "")
                 st.session_state[chave_state] = [v.strip() for v in limpo.split(",") if v.strip()]
             else:
                 st.session_state[chave_state] = valor
+        else:
+            # Se nem encontrar a chave, garante que o campo fique vazio
+            st.session_state[chave_state] = [] if chave_state == "vibe_emocional" else ""
 
-    # Força a atualização da interface
+    st.session_state.show_prompt = False
+    st.toast("✅ Configurações restauradas!", icon="🔄")
     st.rerun()
 
 # --- COMPONENTES UI ---
