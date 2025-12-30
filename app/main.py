@@ -113,11 +113,15 @@ STATE_DEFAULTS = {
 
 HIER_KEYS = ["publico", "tom", "tipo_de_gravacao", "influencia_estetica", "narrador"]
 
+# Inicialização limpa
 for k, v in STATE_DEFAULTS.items():
     if k not in st.session_state:
-        st.session_state[k] = [] if isinstance(v, list) else v
+        st.session_state[k] = v
+
 for k in HIER_KEYS:
-    st.session_state.setdefault(k, ""); st.session_state.setdefault(f"{k}_cat", ""); st.session_state.setdefault(f"{k}_sel", "")
+    if k not in st.session_state: st.session_state[k] = ""
+    if f"{k}_cat" not in st.session_state: st.session_state[f"{k}_cat"] = ""
+    if f"{k}_sel" not in st.session_state: st.session_state[f"{k}_sel"] = ""
 
 # --- HELPERS DE DADOS ---
 def get_ritmos_list(genero):
@@ -277,29 +281,31 @@ with t_c1: st.button("🧹 Limpar Tudo", on_click=clear_all, use_container_width
 with t_c2: st.button("🎲 Aleatório", on_click=random_all, use_container_width=True)
 with t_c3:
     if st.button("🚀 Gerar Prompt", type="primary", use_container_width=True):
-        # Coleta os campos
-        campos = {k: st.session_state[k] for k in ["genero","ritmo","estrutura","tipo_de_gravacao","influencia_estetica","vibe_emocional","referencia","idioma","tema","mensagem","palavras_chave","publico","narrador","tom"]}
+        # ... (sua lógica de campos e geração) ...
+        texto_gerado = core.gerar_prompt(campos)
         
-        # Gera o texto
-        generated_text = core.gerar_prompt(campos)
-        
-        # Atualiza a interface principal
-        st.session_state.prompt_final = generated_text
+        st.session_state.prompt_final = texto_gerado
         st.session_state.show_prompt = True
         
-        # --- LÓGICA DO HISTÓRICO (NOVO) ---
-        timestamp = datetime.now().strftime("%H:%M")
-        # Cria um título curto: "14:30 | Rock - Amor Perdido"
-        genero_safe = campos.get('genero') or "Gênero"
-        tema_safe = campos.get('tema') or "Geral"
-        titulo_hist = f"{timestamp} | {genero_safe} • {tema_safe}"[:40] # Limita tamanho
+        # --- SALVAMENTO ROBUSTO ---
+        # 1. Garante que 'history' existe e é uma lista
+        if "history" not in st.session_state or not isinstance(st.session_state.history, list):
+            st.session_state.history = []
+            
+        # 2. Prepara os dados
+        agora = datetime.now()
+        hora = agora.strftime("%H:%M")
+        gen = st.session_state.genero or "Estilo"
+        tem = st.session_state.tema or "Geral"
+        titulo = f"{hora} | {gen} - {tem}"
         
-        # Insere no topo da lista (índice 0)
-        st.session_state.history.insert(0, {
-            "titulo": titulo_hist,
-            "texto": generated_text,
-            "data": datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        })
+        # 3. Insere
+        novo_item = {
+            "titulo": titulo[:40], 
+            "conteudo": texto_gerado,
+            "data": agora.strftime("%d/%m/%Y %H:%M")
+        }
+        st.session_state.history.insert(0, novo_item)
 
 if st.session_state.show_prompt:
     st.divider()
