@@ -101,7 +101,7 @@ def custom_copy_button(text_to_copy):
     </script>
     """
     
-    html_content = f"{button_style}{copy_script}<button id='copyBtn' class='custom-btn' onclick='copyToClipboard()'>📋 Copiar Prompt</button>"
+    html_content = f"{button_style}{copy_script}<button id='copyBtn' class='custom-btn' onclick='copyToClipboard()'>📋 Copiar</button>"
     components.html(html_content, height=40)
 
 # --- ESTADO E CONFIGURAÇÃO ---
