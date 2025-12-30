@@ -1,5 +1,6 @@
 import json
 import os
+import streamlit as st
 
 class SunoMaestroCore:
     def __init__(self, base_path):
@@ -14,17 +15,20 @@ class SunoMaestroCore:
             "tom": "06_tom_lirico.json",
             "narrador": "07_narrador.json"
         }
-        self.dados = {}
-        self.load_jsons()
+        # Agora chamamos a função que tem o cache
+        self.dados = self.load_all_data()
 
-    def load_jsons(self):
-        for key, filename in self.arquivos.items():
-            filepath = os.path.join(self.dataset_dir, filename)
+    @st.cache_data
+    def load_all_data(_self): # O _ no _self diz ao Streamlit para não tentar "cahear" a classe inteira, apenas o retorno
+        dados_carregados = {}
+        for key, filename in _self.arquivos.items():
+            filepath = os.path.join(_self.dataset_dir, filename)
             try:
                 with open(filepath, "r", encoding="utf-8") as f: 
-                    self.dados[key] = json.load(f)
+                    dados_carregados[key] = json.load(f)
             except Exception:
-                self.dados[key] = {}
+                dados_carregados[key] = {}
+        return dados_carregados
 
     def gerar_prompt(self, campos):
         # Lógica: Se vazio ou None -> "AUTOMATIC_INPUT"
