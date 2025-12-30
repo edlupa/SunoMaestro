@@ -25,6 +25,10 @@ def get_core_instance(root_path):
     """Instancia o motor do projeto uma única vez."""
     return SunoMaestroCore(base_path=root_path)
 
+@st.cache_data
+def gerar_prompt_cacheado(_core_instance, campos):
+    return _core_instance.gerar_prompt(campos)
+
 # --- APLICAÇÃO ---
 
 # Aplica o CSS (o cache_data garante que não haverá leitura de disco constante)
@@ -291,7 +295,7 @@ with t_c2: st.button("🎲 Aleatório", on_click=random_all, use_container_width
 with t_c3:
     if st.button("🚀 Gerar Prompt", type="primary", use_container_width=True):
         # ... (sua lógica de campos e geração) ...
-        texto_gerado = core.gerar_prompt.__wrapped__(core, campos)
+        texto_gerado = gerar_prompt_cacheado(core, campos)
         
         st.session_state.prompt_final = texto_gerado
         st.session_state.show_prompt = True
