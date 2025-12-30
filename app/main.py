@@ -228,6 +228,21 @@ def clear_struct_callback():
     st.session_state.estrutura_sel = ""
     st.session_state.estrutura = ""
 
+def preparar_exportacao_total(historico):
+    """Transforma a lista de histórico em uma string formatada para TXT."""
+    if not historico:
+        return ""
+    
+    conteudo_final = "=== EXPORTAÇÃO COMPLETA - SUNO MAESTRO ===\n\n"
+    for item in historico:
+        conteudo_final += f"📅 DATA: {item['data']}\n"
+        conteudo_final += f"🎵 TÍTULO: {item['titulo']}\n"
+        conteudo_final += f"{'-'*40}\n"
+        conteudo_final += f"{item['conteudo']}\n"
+        conteudo_final += f"\n{'='*60}\n\n"
+    
+    return conteudo_final
+
 # --- COMPONENTES UI ---
 def hierarchical_field(title, key, data):
     st.markdown(f"**{title}**")
@@ -431,6 +446,18 @@ with st.sidebar:
                 use_container_width=True
             )
     
+    if st.session_state.history:
+        dados_txt = preparar_exportacao_total(st.session_state.history)
+        st.download_button(
+            label="📦 Baixar Tudo (.txt)",
+            data=dados_txt,
+            file_name=f"historico_suno_maestro_{datetime.now().strftime('%Y%m%d')}.txt",
+            mime="text/plain",
+            use_container_width=True,
+            help="Exporta todos os prompts da sessão atual em um único arquivo."
+        )
+        st.markdown("---") # Linha divisória
+
     if st.session_state.history:
         if st.button("🗑️ Limpar Histórico", use_container_width=True):
             st.session_state.history = []
