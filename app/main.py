@@ -373,8 +373,7 @@ with t_c3:
 
         if erros:
             with placeholder_aviso:
-                st.error(f"⚠️ Os seguintes campos são obrigatórios: {', '.join(erros)}")
-                st.toast("Verifique os campos obrigatórios!", icon="🚫") # Bónus: um aviso flutuante
+                st.toast(f"Os seguintes campos são obrigatórios: {', '.join(erros)}", icon="🚫") # Bónus: um aviso flutuante
         else:
             # Se estiver tudo OK, prossegue com a geração
             with st.spinner("Maestro está compondo seu prompt..."):
