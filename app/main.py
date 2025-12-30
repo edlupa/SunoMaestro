@@ -272,7 +272,7 @@ def callback_restaurar(texto_prompt):
         "emotional_vibe": "vibe_emocional", "external_refs": "referencia",
         "language": "idioma", "topic": "tema", "core_message": "mensagem",
         "keywords": "palavras_chave", "target_audience": "publico",
-        "narrador_perspective": "narrador", "structure_format": "estrutura",
+        "narrator_perspective": "narrador", "structure_format": "estrutura",
         "lyrical_tone": "tom"
     }
 
