@@ -89,7 +89,7 @@ def custom_copy_button(text_to_copy):
                 btn.style.borderColor = "#46c45e";
                 btn.style.color = "#46c45e";
                 setTimeout(() => {{ 
-                    btn.innerText = "📋 Copiar Prompt"; 
+                    btn.innerText = "📋 Copiar"; 
                     btn.style.borderColor = "#3a3f4b";
                     btn.style.color = "#3a3f4b";
                 }}, 2000);
@@ -495,18 +495,11 @@ with st.sidebar:
         with st.expander(item["titulo"]):
             st.caption(f"Gerado em: {item['data']}")
             
-            st.button(
-                "🔄 Restaurar Prompt", 
-                key=f"rest_{idx}", 
-                use_container_width=True,
-                on_click=callback_restaurar,
-                args=(item["conteudo"],)  # Passa o conteúdo como argumento para o callback
-            )
-
-            custom_copy_button(item["conteudo"])
+            sb1, sb2 = st.columns([0.2, 0.2], gap="small", vertical_alignment="bottom")
+            with sb1: st.button("🔄 Restaurar", key=f"rest_{idx}", use_container_width=True, on_click=callback_restaurar, args=(item["conteudo"]))
+            with sb2: custom_copy_button(item["conteudo"])
 
             st.code(item["conteudo"], language="yaml")
-                       
     
     st.markdown("---") # Linha divisória
 
