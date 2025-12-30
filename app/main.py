@@ -383,6 +383,18 @@ with t_c3:
                 
                 st.session_state.prompt_final = texto_gerado
                 st.session_state.show_prompt = True
+
+                with placeholder_aviso:
+                    st.balloons() # Efeito visual de celebração
+                    st.toast("Pronto para uso!", icon="🎵")
+                    
+                    # Exibe um alerta estilizado
+                    st.markdown("""
+                    <div style="background-color: #d4edda; color: #155724; padding: 20px; border-radius: 10px; border-left: 5px solid #28a745; margin-bottom: 20px;">
+                        <h3 style="margin-top: 0;">🎉 Tudo pronto!</h3>
+                        <p>💡 Agora, basta enviá-lo para uma IA (como o ChatGPT) para obter a composição completa da sua música.</p>
+                    </div>
+                    """, unsafe_allow_html=True)
             
                 # --- SALVAMENTO ROBUSTO ---
                 # 1. Garante que 'history' existe e é uma lista
