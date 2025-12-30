@@ -496,7 +496,7 @@ with st.sidebar:
             st.caption(f"Gerado em: {item['data']}")
             
             sb1, sb2 = st.columns([0.2, 0.2], gap="small", vertical_alignment="bottom")
-            with sb1: st.button("🔄 Restaurar", key=f"rest_{idx}", use_container_width=True, on_click=callback_restaurar, args=(item["conteudo"]))
+            with sb1: st.button("🔄 Restaurar", key=f"rest_{idx}", use_container_width=True, on_click=callback_restaurar, args=(item["conteudo"],))
             with sb2: custom_copy_button(item["conteudo"])
 
             st.code(item["conteudo"], language="yaml")
