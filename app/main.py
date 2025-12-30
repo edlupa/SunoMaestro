@@ -436,16 +436,14 @@ with col_left:
             "🎲", 
             key="btn_rnd_est", 
             use_container_width=True,
-            on_click=randomize_struct_callback,
-            width = "content"
+            on_click=randomize_struct_callback
         )
     with sc4:
         st.button(
             "🧹", 
             key="btn_clr_est", 
             use_container_width=True,
-            on_click=clear_struct_callback,
-            width = "content"
+            on_click=clear_struct_callback
         )
     st.divider()
 
