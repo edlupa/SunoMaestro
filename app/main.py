@@ -291,7 +291,7 @@ with t_c2: st.button("🎲 Aleatório", on_click=random_all, use_container_width
 with t_c3:
     if st.button("🚀 Gerar Prompt", type="primary", use_container_width=True):
         # ... (sua lógica de campos e geração) ...
-        texto_gerado = core.gerar_prompt(campos)
+        texto_gerado = core.gerar_prompt.__wrapped__(core, campos)
         
         st.session_state.prompt_final = texto_gerado
         st.session_state.show_prompt = True
