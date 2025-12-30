@@ -25,10 +25,6 @@ def get_core_instance(root_path):
     """Instancia o motor do projeto uma única vez."""
     return SunoMaestroCore(base_path=root_path)
 
-@st.cache_data
-def gerar_prompt_cacheado(_core_instance, campos):
-    return _core_instance.gerar_prompt(campos)
-
 # --- APLICAÇÃO ---
 
 # Aplica o CSS (o cache_data garante que não haverá leitura de disco constante)
@@ -162,18 +158,11 @@ def on_estrutura_sel_change():
 
 def clear_all():
     for k in STATE_DEFAULTS.keys():
-        # --- NOVO: Proteção do Histórico ---
         if k == "history":
-            continue
-        # ----------------------------------
-        
+                    continue
         st.session_state[k] = [] if k == "vibe_emocional" else ""
-    
     for k in HIER_KEYS: 
-        st.session_state[f"{k}_cat"] = ""
-        st.session_state[f"{k}_sel"] = ""
-        st.session_state[k] = ""
-        
+        st.session_state[f"{k}_cat"] = ""; st.session_state[f"{k}_sel"] = ""; st.session_state[k] = ""
     st.session_state.show_prompt = False
 
 def random_vibe_generator():
@@ -294,8 +283,11 @@ with t_c1: st.button("🧹 Limpar Tudo", on_click=clear_all, use_container_width
 with t_c2: st.button("🎲 Aleatório", on_click=random_all, use_container_width=True)
 with t_c3:
     if st.button("🚀 Gerar Prompt", type="primary", use_container_width=True):
-        # ... (sua lógica de campos e geração) ...
-        texto_gerado = gerar_prompt_cacheado(core, campos)
+        
+        # Coleta os campos
+        campos = {k: st.session_state[k] for k in ["genero","ritmo","estrutura","tipo_de_gravacao","influencia_estetica","vibe_emocional","referencia","idioma","tema","mensagem","palavras_chave","publico","narrador","tom"]}
+        
+        texto_gerado = core.gerar_prompt(campos)
         
         st.session_state.prompt_final = texto_gerado
         st.session_state.show_prompt = True
