@@ -356,34 +356,52 @@ with t_c1: st.button("🧹 Limpar Tudo", on_click=clear_all, use_container_width
 with t_c2: st.button("🎲 Aleatório", on_click=random_all, use_container_width=True)
 with t_c3:
     if st.button("🚀 Gerar Prompt", type="primary", use_container_width=True):
-        
-        # Coleta os campos
-        campos = {k: st.session_state[k] for k in ["genero","ritmo","estrutura","tipo_de_gravacao","influencia_estetica","vibe_emocional","referencia","idioma","tema","mensagem","palavras_chave","publico","narrador","tom"]}
-        
-        texto_gerado = core.gerar_prompt(campos)
-        
-        st.session_state.prompt_final = texto_gerado
-        st.session_state.show_prompt = True
-        
-        # --- SALVAMENTO ROBUSTO ---
-        # 1. Garante que 'history' existe e é uma lista
-        if "history" not in st.session_state or not isinstance(st.session_state.history, list):
-            st.session_state.history = []
+
+        obrigatorios = {
+                "genero": "Gênero Musical",
+                "idioma": "Idioma",
+                "tema": "Tema da Música"
+            }
+
+        erros = []
+        for campo, nome in obrigatorios.items():
+            valor = st.session_state.get(campo)
+            # Verifica se está vazio ou se é o valor padrão (ex: "Selecione...")
+            if not valor or valor == "" or valor == "Selecione...":
+                erros.append(nome)
+
+        if erros:
+            # Exibe um aviso se faltar algo
+            st.error(f"⚠️ Os seguintes campos são obrigatórios: {', '.join(erros)}")
+        else:
+            # Se estiver tudo OK, prossegue com a geração
+            with st.spinner("Maestro está compondo seu prompt..."):
+                campos = {k: st.session_state[k] for k in ["genero","ritmo","estrutura","tipo_de_gravacao","influencia_estetica","vibe_emocional","referencia","idioma","tema","mensagem","palavras_chave","publico","narrador","tom"]}
             
-        # 2. Prepara os dados
-        agora = datetime.now()
-        hora = agora.strftime("%H:%M")
-        gen = st.session_state.genero or "Estilo"
-        tem = st.session_state.tema or "Geral"
-        titulo = f"{hora} | {gen} - {tem}"
-        
-        # 3. Insere
-        novo_item = {
-            "titulo": titulo[:40], 
-            "conteudo": texto_gerado,
-            "data": agora.strftime("%d/%m/%Y %H:%M")
-        }
-        st.session_state.history.insert(0, novo_item)
+                texto_gerado = core.gerar_prompt(campos)
+                
+                st.session_state.prompt_final = texto_gerado
+                st.session_state.show_prompt = True
+            
+                # --- SALVAMENTO ROBUSTO ---
+                # 1. Garante que 'history' existe e é uma lista
+                if "history" not in st.session_state or not isinstance(st.session_state.history, list):
+                    st.session_state.history = []
+                    
+                # 2. Prepara os dados
+                agora = datetime.now()
+                hora = agora.strftime("%H:%M")
+                gen = st.session_state.genero or "Estilo"
+                tem = st.session_state.tema or "Geral"
+                titulo = f"{hora} | {gen} - {tem}"
+                
+                # 3. Insere
+                novo_item = {
+                    "titulo": titulo[:40], 
+                    "conteudo": texto_gerado,
+                    "data": agora.strftime("%d/%m/%Y %H:%M")
+                }
+                st.session_state.history.insert(0, novo_item)
 
 if st.session_state.show_prompt:
     st.divider()
@@ -407,8 +425,8 @@ col_left, col_right = st.columns(2, gap="large")
 with col_left:
     st.subheader("📝 Composição")
     lc1, lc2 = st.columns(2)
-    with lc1: st.text_input("🌐 Idioma", key="idioma", placeholder="Português (Brasil), Inglês (EUA), Espanhol"); st.text_input("📩 Mensagem", key="mensagem")
-    with lc2: st.text_input("💡 Tema", key="tema"); st.text_input("🔑 Tags", key="palavras_chave")
+    with lc1: st.text_input("🌐 Idioma*", key="idioma", placeholder="Português (Brasil), Inglês (EUA), Espanhol"); st.text_input("📩 Mensagem", key="mensagem")
+    with lc2: st.text_input("💡 Tema*", key="tema"); st.text_input("🔑 Tags", key="palavras_chave")
     st.text_input("🎼 Referências Artísticas", key="referencia", placeholder="Aquarela - Toquinho, Garota de Ipanema - Tom Jobim")
     st.divider()
 
@@ -417,7 +435,7 @@ with col_left:
     with mc1: 
         opts_gen = [""] + list(core.dados["hierarquia"].keys())
         idx_gen = opts_gen.index(st.session_state.genero) if st.session_state.genero in opts_gen else 0
-        st.selectbox("Gênero", opts_gen, index=idx_gen, key="genero", on_change=on_genero_change)
+        st.selectbox("Gênero*", opts_gen, index=idx_gen, key="genero", on_change=on_genero_change)
     with mc2: 
         opts_rit = [""] + get_ritmos_list(st.session_state.genero)
         idx_rit = opts_rit.index(st.session_state.ritmo) if st.session_state.ritmo in opts_rit else 0

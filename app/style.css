@@ -100,3 +100,7 @@ code {
     font-size: 0.9rem;
     background-color: #161b22; /* Fundo do código um pouco mais escuro para contraste */
 }
+
+label p:contains("*") {
+    color: #ff6b6b !important; /* Cor vermelha para o asterisco */
+}
