@@ -455,9 +455,7 @@ with st.sidebar:
     for idx, item in enumerate(st.session_state.history):
         with st.expander(item["titulo"]):
             st.caption(f"Gerado em: {item['data']}")
-            st.code(item["conteudo"], language="yaml")
-            
-            # Botão de Download Individual
+                        
             st.download_button(
                 label="⬇️ Baixar txt",
                 data=item["conteudo"],
@@ -466,6 +464,9 @@ with st.sidebar:
                 key=f"dl_{idx}",
                 use_container_width=True
             )
+
+            st.code(item["conteudo"], language="yaml")
+                       
     
     st.markdown("---") # Linha divisória
 
@@ -473,6 +474,8 @@ with st.sidebar:
         # Gerar os dados do ZIP
         zip_data = criar_zip_historico(st.session_state.history)
         
+        custom_copy_button(st.session_state.prompt_final)
+
         st.download_button(
             label="📦 Baixar Tudo (ZIP)",
             data=zip_data,
