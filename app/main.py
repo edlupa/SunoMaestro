@@ -452,8 +452,8 @@ col_left, col_right = st.columns(2, gap="large")
 with col_left:
     st.subheader("📝 Composição")
     lc1, lc2 = st.columns(2)
-    with lc1: st.text_input("🌐 Idioma*", key="idioma", placeholder="Português (Brasil), Inglês (EUA), Espanhol"); st.text_input("📩 Mensagem", key="mensagem")
-    with lc2: st.text_input("💡 Tema*", key="tema"); st.text_input("🔑 Tags", key="palavras_chave")
+    with lc1: st.text_input("💡 Tema*", key="tema"); st.text_input("📩 Mensagem", key="mensagem")
+    with lc2: st.text_input("🔑 Tags", key="palavras_chave"); st.text_input("🌐 Idioma*", key="idioma", placeholder="Português (Brasil), Inglês (EUA), Espanhol")
     st.divider()
 
     st.subheader("🎵 Identidade Musical")
@@ -566,3 +566,4 @@ with st.sidebar:
             st.session_state.history = []
 
             st.rerun()
+
