@@ -454,7 +454,6 @@ with col_left:
     lc1, lc2 = st.columns(2)
     with lc1: st.text_input("🌐 Idioma*", key="idioma", placeholder="Português (Brasil), Inglês (EUA), Espanhol"); st.text_input("📩 Mensagem", key="mensagem")
     with lc2: st.text_input("💡 Tema*", key="tema"); st.text_input("🔑 Tags", key="palavras_chave")
-    st.text_input("🎼 Referências Artísticas", key="referencia", placeholder="Aquarela - Toquinho, Garota de Ipanema - Tom Jobim")
     st.divider()
 
     st.subheader("🎵 Identidade Musical")
@@ -467,15 +466,15 @@ with col_left:
         opts_rit = [""] + get_ritmos_list(st.session_state.genero)
         idx_rit = opts_rit.index(st.session_state.ritmo) if st.session_state.ritmo in opts_rit else 0
         st.selectbox("Ritmo", opts_rit, index=idx_rit, key="ritmo", on_change=on_ritmo_change)
+    st.text_input("🎼 Referências Artísticas", key="referencia", placeholder="Aquarela - Toquinho, Garota de Ipanema - Tom Jobim")
     st.divider()
 
     st.markdown("**🎶 Estrutura**")
-    sc1, sc2, sc3, sc4 = st.columns([0.35, 0.35, 0.08, 0.08], gap="small", vertical_alignment="bottom")
+    sc1, sc3, sc4 = st.columns([0.70, 0.08, 0.08], gap="small", vertical_alignment="bottom")
     with sc1: 
         opts_est = [""] + get_all_unique_structures()
         idx_est = opts_est.index(st.session_state.estrutura_sel) if st.session_state.estrutura_sel in opts_est else 0
         st.selectbox("Sug. Est.", opts_est, index=idx_est, key="estrutura_sel", on_change=on_estrutura_sel_change, label_visibility="collapsed")
-    with sc2: st.text_input("Editável", key="estrutura", label_visibility="collapsed")
     with sc3:
         st.button(
             "🎲", 
@@ -490,6 +489,7 @@ with col_left:
             use_container_width=True,
             on_click=clear_struct_callback
         )
+    st.text_input("Editável", key="estrutura", label_visibility="collapsed", placeholder=f"Valor final...")
     st.divider()
 
     st.subheader("✨ Vibe Emocional")
@@ -564,4 +564,5 @@ with st.sidebar:
     if st.session_state.history:
         if st.button("🗑️ Limpar Histórico", use_container_width=True):
             st.session_state.history = []
+
             st.rerun()
