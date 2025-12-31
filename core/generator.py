@@ -109,7 +109,7 @@ class SunoMaestroCore:
       requirements:
         - "Language: EN-US."
         - "AVOID mentioning song and artist names."
-        - "900 to a MAXIMUM of 950 characters"
+        - "WARNING! MAXIMUM of 1000 characters"
         - "Cinematic, detailed, and functional description"
         - "Mention tempo (~BPM), time signature and key if inferable"
         - "Optional harmonic progressions when characteristic of the style"
@@ -143,4 +143,5 @@ class SunoMaestroCore:
     - "# Lyrics"
     ─────────────────────────────────────────────
     - "# Prompt for Suno"
+
 """
