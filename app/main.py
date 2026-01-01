@@ -361,7 +361,7 @@ def render_vibe_section(core):
                         st.button(v_nome, key=f"tag_v_list_{idx}", on_click=add_vibe_click, args=(v_nome,), use_container_width=True)
             st.caption("💡 Clique para adicionar à lista de vibes.")
 
-    cv1, cv2, cv3 = st.columns([0.80, 0.10, 0.10], gap="small", vertical_alignment="bottom")
+    cv1, cv2, cv3 = st.columns([0.70, 0.10, 0.10], gap="small", vertical_alignment="bottom")
     with cv1:
         st.text_input("Adicionar manualmente", key="new_vibe_input", placeholder="Ex: Melancólico, Eufórico...", 
                       on_change=submit_manual_vibe, label_visibility="collapsed")
@@ -372,7 +372,7 @@ def render_vibe_section(core):
     
     if st.session_state.vibe_emocional:
         for i, v in enumerate(st.session_state.vibe_emocional):
-            c1, c2 = st.columns([0.8, 0.20], gap="small")
+            c1, c2 = st.columns([0.7, 0.30], gap="small")
             with c1: st.markdown(f"**{v}**") 
             with c2:
                 if st.button("❌", key=f"del_vibe_{i}"):
@@ -529,4 +529,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
