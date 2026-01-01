@@ -1,12 +1,14 @@
 import json
 import os
 import streamlit as st
+from pathlib import Path
+from typing import Dict, Any, List
 
 class SunoMaestroCore:
-    def __init__(self, base_path):
-        self.base_path = base_path
-        self.dataset_dir = os.path.join(self.base_path, "dataset")
-        self.arquivos = {
+    def __init__(self, base_path: str):
+        self.base_path = Path(base_path)
+        self.dataset_dir = self.base_path / "dataset"
+        self.arquivos_map = {
             "hierarquia": "01_genero_ritmo.json", 
             "tipo_de_gravacao": "02_tipo_de_gravacao.json",
             "influencia_estetica": "03_influencia_estetica.json", 
@@ -16,32 +18,39 @@ class SunoMaestroCore:
             "narrador": "07_narrador.json",
             "metatags": "08_metatags_musicais.json"
         }
-        # Agora chamamos a função que tem o cache
+        # Carrega dados
         self.dados = self.load_all_data()
 
     @st.cache_data
-    def load_all_data(_self): # O _ no _self diz ao Streamlit para não tentar "cahear" a classe inteira, apenas o retorno
+    def load_all_data(_self) -> Dict[str, Any]:
+        """Carrega todos os JSONs de configuração com cache do Streamlit."""
         dados_carregados = {}
-        for key, filename in _self.arquivos.items():
-            filepath = os.path.join(_self.dataset_dir, filename)
+        for key, filename in _self.arquivos_map.items():
+            filepath = _self.dataset_dir / filename
             try:
-                with open(filepath, "r", encoding="utf-8") as f: 
-                    dados_carregados[key] = json.load(f)
-            except Exception:
+                if filepath.exists():
+                    with open(filepath, "r", encoding="utf-8") as f: 
+                        dados_carregados[key] = json.load(f)
+                else:
+                    dados_carregados[key] = {}
+            except Exception as e:
                 dados_carregados[key] = {}
                 print(f"Erro ao carregar {filename}: {e}")
         return dados_carregados
 
-    def gerar_prompt(self, campos):
-        # Lógica: Se vazio ou None -> "AUTOMATIC_INPUT"
-        d = {}
-        for k, v in campos.items():
-            if isinstance(v, list):
-                val = ", ".join(filter(None, v))
-                d[k] = val if val.strip() else "AUTOMATIC_INPUT"
-            else:
-                val = str(v).strip() if v else ""
-                d[k] = val if val else "AUTOMATIC_INPUT"
+    def _sanitize_field(self, value: Any) -> str:
+        """Trata valores nulos ou vazios para o padrão AUTOMATIC_INPUT."""
+        if isinstance(value, list):
+            val = ", ".join(filter(None, value))
+            return val if val.strip() else "AUTOMATIC_INPUT"
+        
+        val_str = str(value).strip() if value else ""
+        return val_str if val_str else "AUTOMATIC_INPUT"
+
+    def gerar_prompt(self, campos: Dict[str, Any]) -> str:
+        """Gera o prompt final formatado em YAML/Texto."""
+        # Sanitização prévia de todos os campos
+        d = {k: self._sanitize_field(v) for k, v in campos.items()}
 
         return f"""suno_music_generator_prompt:
   ROLE: "Composer, arranger, lyricist, music producer, and prompt engineer specialized in Suno 5.0"
@@ -110,7 +119,7 @@ class SunoMaestroCore:
       requirements:
         - "Language: EN-US."
         - "AVOID mentioning song and artist names."
-        - "WARNING! MAXIMUM of 1000 characters"
+        - "900 to a MAXIMUM of 950 characters"
         - "Cinematic, detailed, and functional description"
         - "Mention tempo (~BPM), time signature and key if inferable"
         - "Optional harmonic progressions when characteristic of the style"
@@ -144,6 +153,4 @@ class SunoMaestroCore:
     - "# Lyrics"
     ─────────────────────────────────────────────
     - "# Prompt for Suno"
-
 """
-
