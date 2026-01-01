@@ -83,17 +83,46 @@ def render_vibe_section(core_data):
                 if st.button("❌", key=f"del_{i}"): cb.delete_vibe(i); st.rerun()
 
 def render_history_sidebar():
+    """Renderiza a barra lateral com o histórico completo e funcional."""
     with st.sidebar:
         st.header("📜 Histórico")
-        if not st.session_state.history: st.write("Vazio.")
+        st.info("Prompts gerados nesta sessão.")
+        
+        if not st.session_state.history:
+            st.write("Nenhum prompt gerado ainda.")
+        
         for idx, item in enumerate(st.session_state.history):
-            with st.expander(item["titulo"]):
-                st.caption(item.get("data", ""))
-                st.button("🔄 Restaurar", key=f"rest_{idx}", on_click=cb.callback_restaurar, args=(item["conteudo"],))
-                custom_copy_button(item["conteudo"])
+            # O título agora inclui o índice para facilitar a identificação
+            with st.expander(f"{item['titulo']}"):
+                st.caption(f"🕒 {item.get('data', 'N/A')}")
+                
+                # Botões de Ação
+                h_col1, h_col2 = st.columns(2)
+                with h_col1:
+                    # O botão de restaurar usa o callback que reverte o session_state
+                    st.button("🔄 Restaurar", key=f"hist_rest_{idx}", 
+                              on_click=cb.callback_restaurar, args=(item["conteudo"],),
+                              use_container_width=True)
+                with h_col2:
+                    # O botão de cópia via JS/HTML
+                    custom_copy_button(item["conteudo"])
+                
                 st.code(item["conteudo"], language="yaml")
         
+        st.markdown("---")
+        
         if st.session_state.history:
-            st.download_button("📦 Baixar ZIP", criar_zip_historico(st.session_state.history), 
-                               file_name="prompts.zip", mime="application/zip")
-            if st.button("🗑️ Limpar"): st.session_state.history = []; st.rerun()
+            # Opção de baixar tudo em ZIP
+            zip_data = criar_zip_historico(st.session_state.history)
+            st.download_button(
+                label="📦 Baixar Tudo (ZIP)",
+                data=zip_data,
+                file_name=f"prompts_suno_{datetime.now().strftime('%Y%m%d_%H%M')}.zip",
+                mime="application/zip",
+                use_container_width=True
+            )
+            
+            # Botão para limpar a lista do estado
+            if st.button("🗑️ Limpar Histórico", use_container_width=True):
+                st.session_state.history = []
+                st.rerun()
