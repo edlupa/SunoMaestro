@@ -595,7 +595,7 @@ with col_left:
         if st.session_state.vibe_emocional:
             # Exibe as vibes como "tags" removíveis
             for i, v in enumerate(st.session_state.vibe_emocional):
-                c1, c2 = st.columns([1.2, 0.1], gap="small",)
+                c1, c2 = st.columns([1.2, 0.1], gap="small")
                 with c1:
                     st.markdown(f"**{v}**") 
                 with c2:
@@ -657,6 +657,7 @@ with st.sidebar:
             st.session_state.history = []
 
             st.rerun()
+
 
 
 
