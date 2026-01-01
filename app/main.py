@@ -567,7 +567,7 @@ with col_left:
 
     # Input manual (opcional, caso queira digitar algo que não está na lista)
     def submit_manual_vibe():
-    """Callback para input manual."""
+        """Callback para input manual."""
         val = st.session_state.new_vibe_input
         if "vibe_emocional" not in st.session_state:
             st.session_state.vibe_emocional = []
@@ -701,6 +701,7 @@ with st.sidebar:
             st.session_state.history = []
 
             st.rerun()
+
 
 
 
