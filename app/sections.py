@@ -1,4 +1,3 @@
-# app/sections.py
 import streamlit as st
 from datetime import datetime
 from core.logic import get_all_unique_structures
@@ -21,7 +20,7 @@ def render_structure_section(core_data):
     
     st.text_input("Editável", key="estrutura", label_visibility="collapsed", placeholder="Selecione ou monte sua estrutura...")
 
-    # Tags e Metatags (Mantendo layout igual)
+    # Tags e Metatags
     metatags = core_data.get("metatags", {})
     if metatags:
         with st.expander("🏷️ Adicionar Seções e Tags", expanded=False):
@@ -36,15 +35,41 @@ def render_structure_section(core_data):
 
 def render_vibe_section(core_data):
     st.subheader("✨ Vibe Emocional")
-    dados_vibes = core_data.get("vibe_emocional", {})
-    # ... (Código de renderização das vibes similar ao anterior) ...
-    # Para brevidade, use o mesmo código de render_vibe_section da resposta anterior, 
-    # apenas certifique-se de que os botões chamem 'cb.add_vibe_click'
-    # ...
     
+    # --- ÁREA DO CATÁLOGO DE VIBES (Corrigida) ---
+    dados_vibes = core_data.get("vibe_emocional", {})
+    if dados_vibes:
+        with st.expander("🎭 Catálogo de Emoções e Vibes", expanded=False):
+            if isinstance(dados_vibes, dict):
+                categorias_ordenadas = sorted(dados_vibes.keys())
+                abas_v = st.tabs(categorias_ordenadas)
+                for i, categoria in enumerate(categorias_ordenadas):
+                    with abas_v[i]:
+                        # Ordena itens
+                        itens_ordenados = sorted(dados_vibes[categoria], key=lambda x: x[0] if isinstance(x, list) else x)
+                        cols_v = st.columns(4)
+                        for idx, item in enumerate(itens_ordenados):
+                            v_nome = item[0] if isinstance(item, list) else item
+                            v_desc = item[1] if isinstance(item, list) and len(item) > 1 else ""
+                            with cols_v[idx % 4]:
+                                # Chama o callback add_vibe_click
+                                st.button(v_nome, key=f"tag_v_cat_{categoria}_{idx}", help=v_desc, 
+                                          on_click=cb.add_vibe_click, args=(v_nome,), use_container_width=True)
+            else:
+                # Fallback para lista simples
+                itens_ordenados = sorted(dados_vibes, key=lambda x: x[0] if isinstance(x, list) else x)
+                cols_v = st.columns(4)
+                for idx, item in enumerate(itens_ordenados):
+                    v_nome = item[0] if isinstance(item, list) else item
+                    with cols_v[idx % 4]:
+                        st.button(v_nome, key=f"tag_v_list_{idx}", 
+                                  on_click=cb.add_vibe_click, args=(v_nome,), use_container_width=True)
+            st.caption("💡 Clique para adicionar à lista de vibes.")
+    # -----------------------------------------------
+
     cv1, cv2, cv3 = st.columns([0.70, 0.10, 0.10], gap="small", vertical_alignment="bottom")
     with cv1:
-        st.text_input("Adicionar manualmente", key="new_vibe_input", on_change=cb.submit_manual_vibe, label_visibility="collapsed")
+        st.text_input("Adicionar manualmente", key="new_vibe_input", on_change=cb.submit_manual_vibe, label_visibility="collapsed", placeholder="Ex: Melancólico...")
     with cv2:
         st.button("🎲", key="btn_rnd_vibe", use_container_width=True, on_click=cb.random_vibe_generator, args=(core_data,))
     with cv3:
@@ -63,6 +88,7 @@ def render_history_sidebar():
         if not st.session_state.history: st.write("Vazio.")
         for idx, item in enumerate(st.session_state.history):
             with st.expander(item["titulo"]):
+                st.caption(item.get("data", ""))
                 st.button("🔄 Restaurar", key=f"rest_{idx}", on_click=cb.callback_restaurar, args=(item["conteudo"],))
                 custom_copy_button(item["conteudo"])
                 st.code(item["conteudo"], language="yaml")
