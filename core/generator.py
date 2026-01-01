@@ -13,7 +13,8 @@ class SunoMaestroCore:
             "vibe_emocional": "04_vibe_emocional.json",
             "publico": "05_publico_alvo.json", 
             "tom": "06_tom_lirico.json",
-            "narrador": "07_narrador.json"
+            "narrador": "07_narrador.json",
+            "metatags": "08_metatags_musicais.json"
         }
         # Agora chamamos a função que tem o cache
         self.dados = self.load_all_data()
@@ -145,3 +146,4 @@ class SunoMaestroCore:
     - "# Prompt for Suno"
 
 """
+
