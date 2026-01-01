@@ -334,7 +334,7 @@ def hierarchical_field(title, key, data):
     if cat_key not in st.session_state: st.session_state[cat_key] = ""
     if sel_key not in st.session_state: st.session_state[sel_key] = ""
     
-    c1, c2, c3, c4 = st.columns([0.35, 0.35, 0.08, 0.08], gap="small", vertical_alignment="bottom")
+    c1, c2, c3, c4 = st.columns([0.30, 0.30, 0.10, 0.10], gap="small", vertical_alignment="bottom")
     
     with c1:
         opts_cat = [""] + sorted(data.keys())
@@ -595,7 +595,7 @@ with col_left:
         if st.session_state.vibe_emocional:
             # Exibe as vibes como "tags" removíveis
             for i, v in enumerate(st.session_state.vibe_emocional):
-                c1, c2 = st.columns([0.9, 0.1])
+                c1, c2 = st.columns([1.0, 0.1], gap="small",)
                 with c1:
                     st.markdown(f"**{v}**") 
                 with c2:
@@ -657,6 +657,7 @@ with st.sidebar:
             st.session_state.history = []
 
             st.rerun()
+
 
 
 
