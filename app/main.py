@@ -237,6 +237,15 @@ def clear_struct_callback():
     st.session_state.estrutura_sel = ""
     st.session_state.estrutura = ""
 
+def add_tag_to_structure(tag):
+    """Callback para inserir a tag no campo de estrutura."""
+    current_text = st.session_state.estrutura
+    # Verifica se já tem texto para adicionar um espaço antes
+    if current_text:
+        st.session_state.estrutura = f"{current_text} {tag}"
+    else:
+        st.session_state.estrutura = tag
+
 # --- FUNÇÃO DE CALLBACK PARA DELETAR VIBE ---
 def delete_vibe(index):
     st.session_state.vibe_emocional.pop(index)
@@ -470,26 +479,57 @@ with col_left:
     st.divider()
 
     st.markdown("**🎶 Estrutura**")
+    
+    # --- BLOCO ORIGINAL MANTIDO (Selectbox + Botões + Input) ---
     sc1, sc3, sc4 = st.columns([0.70, 0.08, 0.08], gap="small", vertical_alignment="bottom")
     with sc1: 
         opts_est = [""] + get_all_unique_structures()
         idx_est = opts_est.index(st.session_state.estrutura_sel) if st.session_state.estrutura_sel in opts_est else 0
         st.selectbox("Sug. Est.", opts_est, index=idx_est, key="estrutura_sel", on_change=on_estrutura_sel_change, label_visibility="collapsed")
     with sc3:
-        st.button(
-            "🎲", 
-            key="btn_rnd_est", 
-            use_container_width=True,
-            on_click=randomize_struct_callback
-        )
+        st.button("🎲", key="btn_rnd_est", use_container_width=True, on_click=randomize_struct_callback)
     with sc4:
-        st.button(
-            "🧹", 
-            key="btn_clr_est", 
-            use_container_width=True,
-            on_click=clear_struct_callback
-        )
-    st.text_input("Editável", key="estrutura", label_visibility="collapsed", placeholder=f"Valor final...")
+        st.button("🧹", key="btn_clr_est", use_container_width=True, on_click=clear_struct_callback)
+    
+    # Input editável (Alvo das tags)
+    st.text_input("Editável", key="estrutura", label_visibility="collapsed", placeholder="Selecione ou monte sua estrutura...")
+
+    # --- NOVA FUNCIONALIDADE: SISTEMA DE TAGS ---
+    # Carrega os dados de metatags
+    metatags = core.dados.get("metatags", {})
+    
+    if metatags:
+        with st.expander("🏷️ Adicionar Seções e Tags (Construtor)", expanded=False):
+            # Mapeamento para nomes mais amigáveis nas abas
+            mapa_nomes = {
+                "Estrutura_Principal": "Principal",
+                "Secoes_Instrumentais_e_Dinamicas": "Instrumental/Dinâmica",
+                "Finalizacao_e_Transicao_Sonora": "Transições/Final"
+            }
+            
+            # Cria abas para organizar as categorias
+            abas = st.tabs([mapa_nomes.get(k, k) for k in metatags.keys()])
+            
+            for i, (categoria, itens) in enumerate(metatags.items()):
+                with abas[i]:
+                    # Cria um grid de colunas para os botões ficarem compactos
+                    cols = st.columns(4) 
+                    for idx, item in enumerate(itens):
+                        tag_nome = item[0]
+                        tag_desc = item[1]
+                        
+                        # Distribui os botões nas colunas ciclicamente
+                        with cols[idx % 4]:
+                            st.button(
+                                tag_nome, 
+                                key=f"tag_{categoria}_{idx}", 
+                                help=tag_desc, # Mostra a descrição ao passar o mouse
+                                on_click=add_tag_to_structure, # Chama o callback
+                                args=(tag_nome,),
+                                use_container_width=True
+                            )
+            st.caption("💡 Clique nas tags para adicionar ao final da estrutura.")
+
     st.divider()
 
     st.subheader("✨ Vibe Emocional")
@@ -566,4 +606,5 @@ with st.sidebar:
             st.session_state.history = []
 
             st.rerun()
+
 
