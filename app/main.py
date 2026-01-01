@@ -269,12 +269,12 @@ def add_tag_to_structure(tag):
 
 def add_vibe_click(vibe_nome):
     """Callback para adicionar vibe via botão."""
-    if "vibes" not in st.session_state:
-        st.session_state.vibes = []
+    if "vibe_emocional" not in st.session_state:
+        st.session_state.vibe_emocional = []
     
-    # Evita duplicatas
-    if vibe_nome not in st.session_state.vibes:
-        st.session_state.vibes.append(vibe_nome)
+    # Evita duplicatas (Padronizado para vibe_emocional)
+    if vibe_nome not in st.session_state.vibe_emocional:
+        st.session_state.vibe_emocional.append(vibe_nome)
     else:
         st.toast(f"A vibe '{vibe_nome}' já foi adicionada!", icon="⚠️")
 
@@ -567,10 +567,18 @@ with col_left:
 
     # Input manual (opcional, caso queira digitar algo que não está na lista)
     def submit_manual_vibe():
+    """Callback para input manual."""
         val = st.session_state.new_vibe_input
-        if val and val not in st.session_state.vibes:
-            st.session_state.vibes.append(val)
+        if "vibe_emocional" not in st.session_state:
+            st.session_state.vibe_emocional = []
+            
+        if val and val not in st.session_state.vibe_emocional:
+            st.session_state.vibe_emocional.append(val)
             st.session_state.new_vibe_input = "" # Limpa o input
+
+    def clear_vibes_only():
+        """Limpa apenas as vibes emocionais."""
+        st.session_state.vibe_emocional = []
 
     # --- NOVA FUNCIONALIDADE: CONSTRUTOR DE VIBES (TAGS) ---
     dados_vibes = core.dados.get("vibe_emocional", {})
@@ -604,23 +612,39 @@ with col_left:
             
             st.caption("💡 Clique para adicionar à lista de vibes.")
 
-        st.text_input("Adicionar manualmente", key="new_vibe_input", placeholder="Ex: Melancólico, Eufórico...", on_change=submit_manual_vibe)
+        # Cria colunas para Input | Botão Aleatório | Botão Limpar
+        cv1, cv2, cv3 = st.columns([0.80, 0.10, 0.10], gap="small", vertical_alignment="bottom")
+        
+        with cv1:
+            st.text_input("Adicionar manualmente", key="new_vibe_input", 
+                          placeholder="Ex: Melancólico, Eufórico...", 
+                          on_change=submit_manual_vibe,
+                          label_visibility="collapsed")
+        with cv2:
+            # Botão Aleatório específico para Vibes (usa a função generator existente)
+            st.button("🎲", key="btn_rnd_vibe_local", use_container_width=True, 
+                      on_click=random_vibe_generator, help="Gerar vibes aleatórias")
+        with cv3:
+            # Botão Limpar específico para Vibes
+            st.button("🧹", key="btn_clr_vibe_local", use_container_width=True, 
+                      on_click=clear_vibes_only, help="Limpar vibes")
 
-        # --- ÁREA DE VIBES SELECIONADAS (MANTIDA) ---
-        # Mostra as vibes que o usuário já escolheu como "tags" removíveis
-        if "vibes" not in st.session_state:
-            st.session_state.vibes = []
+        # --- ÁREA DE VIBES SELECIONADAS (CORRIGIDA) ---
+        # Agora lê de 'vibe_emocional' em vez de 'vibes'
+        if "vibe_emocional" not in st.session_state:
+            st.session_state.vibe_emocional = []
     
-        if st.session_state.vibes:
+        if st.session_state.vibe_emocional:
             # Exibe cada vibe em um container horizontal
-            for i, v in enumerate(st.session_state.vibes):
-                c1, c2 = st.columns([0.9, 0.3])
+            for i, v in enumerate(st.session_state.vibe_emocional):
+                c1, c2 = st.columns([0.9, 0.1]) # Ajustei a largura do X para ficar mais justo
                 with c1:
-                    st.markdown(f"**{v}**") # Apenas texto visual
+                    # Usamos um markdown estilizado para parecer uma tag
+                    st.markdown(f"<div style='background-color: #f0f2f6; padding: 5px 10px; border-radius: 5px; border: 1px solid #ddd;'>{v}</div>", unsafe_allow_html=True)
                 with c2:
                     # Botão para remover a vibe
                     if st.button("❌", key=f"del_vibe_{i}"):
-                        st.session_state.vibes.pop(i)
+                        delete_vibe(i) # Usa a função delete_vibe que já existia no seu código
                         st.rerun()
         else:
             st.caption("Nenhuma vibe selecionada.")
@@ -677,6 +701,7 @@ with st.sidebar:
             st.session_state.history = []
 
             st.rerun()
+
 
 
 
