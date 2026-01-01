@@ -298,7 +298,7 @@ def criar_zip_historico(historico):
 # --- FUNÇÕES DE RENDERIZAÇÃO DE SEÇÃO ---
 def render_structure_section(core):
     st.markdown("**🎶 Estrutura**")
-    sc1, sc3, sc4 = st.columns([0.70, 0.10, .010], gap="small", vertical_alignment="bottom")
+    sc1, sc3, sc4 = st.columns([0.70, 0.10, .10], gap="small", vertical_alignment="bottom")
     with sc1: 
         opts_est = [""] + get_all_unique_structures(core)
         curr = st.session_state.estrutura_sel
@@ -372,7 +372,7 @@ def render_vibe_section(core):
     
     if st.session_state.vibe_emocional:
         for i, v in enumerate(st.session_state.vibe_emocional):
-            c1, c2 = st.columns([1.3, 0.10], gap="small")
+            c1, c2 = st.columns([0.8, 0.20], gap="small")
             with c1: st.markdown(f"**{v}**") 
             with c2:
                 if st.button("❌", key=f"del_vibe_{i}"):
@@ -529,3 +529,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
