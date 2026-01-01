@@ -614,7 +614,7 @@ with col_left:
         if st.session_state.vibes:
             # Exibe cada vibe em um container horizontal
             for i, v in enumerate(st.session_state.vibes):
-                c1, c2 = st.columns([1.05, 0.35])
+                c1, c2 = st.columns([0.9, 0.3])
                 with c1:
                     st.markdown(f"**{v}**") # Apenas texto visual
                 with c2:
@@ -677,6 +677,7 @@ with st.sidebar:
             st.session_state.history = []
 
             st.rerun()
+
 
 
 
