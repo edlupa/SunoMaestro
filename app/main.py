@@ -372,10 +372,10 @@ def render_vibe_section(core):
     
     if st.session_state.vibe_emocional:
         for i, v in enumerate(st.session_state.vibe_emocional):
-            c1, c2 = st.columns([0.7, 0.30], gap="small")
+            c1, c2 = st.columns([0.8, 0.10], gap="small")
             with c1: st.markdown(f"**{v}**") 
             with c2:
-                if st.button("❌", key=f"del_vibe_{i}"):
+                if st.button("❌", use_container_width=True, key=f"del_vibe_{i}"):
                     delete_vibe(i)
                     st.rerun()
     else:
@@ -529,5 +529,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
