@@ -1,0 +1,132 @@
+/* =========================================================
+   SUNO MAESTRO — UX PREMIUM (V2 - Fundo Suave)
+   Design limpo, compacto e focado na usabilidade.
+   ========================================================= */
+
+/* --- GERAL --- */
+.stApp {
+    /* Fundo alterado de #0e1117 (preto profundo) para um cinza escuro suave */
+    background-color: #ffffff;
+}
+
+/* Reduz o padding excessivo do topo e laterais */
+.block-container {
+    padding-top: 2rem !important;
+    padding-bottom: 3rem !important;
+    max-width: 95% !important;
+}
+
+/* Reduz o espaço entre elementos verticais */
+div[data-testid="stVerticalBlock"] {
+    gap: 0.5rem !important;
+}
+
+/* --- INPUTS E SELECTS --- */
+div[data-testid="stSelectbox"] label,
+div[data-testid="stTextInput"] label {
+    font-size: 0.85rem !important;
+    color: #3a3f4b; /* Cor do label ligeiramente mais clara */
+    margin-bottom: 0.2rem;
+    font-weight: 500;
+}
+
+/* --- BOTÕES --- */
+/* Remove margens antigas e foca no design do botão */
+div[data-testid="stButton"] button,
+div[data-testid="stDownloadButton"] button {
+    border: 1px solid #3a3f4b;
+    background-color: #F0F2F6;
+    color: #3a3f4b;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    width: 100%; /* Preenche a coluna */
+    justify-content: center;
+    font-weight: 500;
+}
+
+div[data-testid="stButton"] button:hover,
+div[data-testid="stDownloadButton"] button:hover {
+    border-color: #8b949e;
+    background-color: #3a3f4b;
+    color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+div[data-testid="stButton"] button:active {
+    transform: translateY(1px);
+}
+
+/* Botões de Ação Principal (Cores de destaque) */
+div[data-testid="stButton"] button p:contains("🚀") { color: #46c45e; font-weight: bold; }
+div[data-testid="stButton"] button p:contains("🧹") { color: #ff6b6b; }
+div[data-testid="stButton"] button p:contains("🎲") { color: #f1c40f; }
+div[data-testid="stButton"] button p:contains("❌") { color: #ff6b6b; }
+div[data-testid="stButton"] button p:contains("📋") { color: #58a6ff; }
+div[data-testid="stButton"] button p:contains("⬇️") { color: #58a6ff; }
+
+/* --- LISTA DE VIBES (CUSTOMIZAÇÃO) --- */
+/* Estiliza a linha da vibe para parecer um 'card' ou 'tag' */
+div[data-testid="stHorizontalBlock"]:has(div p:contains("❌")) {
+    background-color: #2d333b;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #3a3f4b;
+    margin-bottom: 6px;
+}
+
+/* Botão X específico na lista - Torna-o sutil */
+button:has(p:contains("❌")) {
+    background-color: transparent !important;
+    border: none !important;
+    color: #8b949e !important;
+    width: auto !important; /* Não preencher a coluna na lista */
+}
+
+button:has(p:contains("❌")):hover {
+    color: #ff6b6b !important;
+    background-color: rgba(255, 107, 107, 0.1) !important;
+}
+
+/*Divisor mais sutil*/
+hr {
+    margin: 1.5em 0;
+    border-color: #3a3f4b;
+    opacity: 0.5;
+}
+
+/* --- CAIXA DE CÓDIGO --- */
+code {
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 0.9rem;
+    background-color: #161b22; /* Fundo do código um pouco mais escuro para contraste */
+}
+
+label p:contains("*") {
+    color: #ff6b6b !important; /* Cor vermelha para o asterisco */
+}
+
+/* Faz com que o bloco de erro do topo fique fixo enquanto faz scroll */
+div[data-testid="stNotification"] {
+    position: sticky;
+    top: 1rem;
+    z-index: 1001;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 1px solid #ff4b4b;
+
+}
+
+/* Estilo específico para botões dentro de Expander/Tabs (Tags) */
+div[data-testid="stExpander"] button {
+    font-size: 0.8rem !important;
+    padding: 0.2rem 0.5rem !important;
+    min-height: 2rem !important;
+    height: auto !important;
+    border-radius: 4px !important;
+    border-color: #e0e0e0 !important;
+}
+
+div[data-testid="stExpander"] button:hover {
+    border-color: #58a6ff !important;
+    color: #58a6ff !important;
+    background-color: #f0f8ff !important;
+}
