@@ -542,31 +542,6 @@ with col_left:
             st.caption("💡 Clique nas tags para adicionar ao final da estrutura.")
 
     st.divider()
-
-    '''
-    st.subheader("✨ Vibe Emocional")
-    vc1, vc2, vc5, vc3, vc4 = st.columns([0.35, 0.35, 0.08, 0.08, 0.08], gap="small", vertical_alignment="bottom")
-    vd = core.dados["vibe_emocional"]
-    with vc1: st.selectbox("Cat. Vibe", [""] + sorted(vd.keys()), key="vibe_cat", label_visibility="collapsed")
-    with vc2: st.selectbox("Sug. Vibe", [""] + vd.get(st.session_state.vibe_cat, []), key="vibe_item", label_visibility="collapsed")
-    with vc3: 
-        if st.button("🎲", key="btn_v_rnd", use_container_width=True): random_vibe_generator(); st.rerun()
-    with vc4:
-        if st.button("🧹", key="btn_v_clr", use_container_width=True): st.session_state.vibe_emocional = []; st.rerun()
-    with vc5:
-        if st.button("✔️", key="btn_v_add", use_container_width=True):
-            val = st.session_state.vibe_item or st.session_state.vibe_manual
-            if val and val not in st.session_state.vibe_emocional: st.session_state.vibe_emocional.append(val)
-    st.text_input("Vibe Manual", key="vibe_manual", placeholder="Adicionar manualmente...")
-    for i, v in enumerate(st.session_state.vibe_emocional):
-        rc1, rc2 = st.columns([0.7, 0.08], vertical_alignment="center")
-        with rc1: 
-            st.markdown(f"**🔹 {v}**")
-        with rc2: 
-            # Usar on_click em vez de if st.button evita o reset de outros campos
-            st.button("❌", key=f"del_v_{i}_{v}", on_click=delete_vibe, args=(i,))
-    '''
-
     st.markdown("**🌊 Vibe Emocional**")
 
     # --- ÁREA DE VIBES SELECIONADAS (MANTIDA) ---
@@ -697,6 +672,7 @@ with st.sidebar:
             st.session_state.history = []
 
             st.rerun()
+
 
 
 
