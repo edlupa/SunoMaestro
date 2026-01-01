@@ -569,6 +569,13 @@ with col_left:
     st.divider()
     st.subheader("✨ Vibe Emocional")
 
+    # Input manual (opcional, caso queira digitar algo que não está na lista)
+    def submit_manual_vibe():
+        val = st.session_state.new_vibe_input
+        if val and val not in st.session_state.vibes:
+            st.session_state.vibes.append(val)
+            st.session_state.new_vibe_input = "" # Limpa o input
+
     # --- NOVA FUNCIONALIDADE: CONSTRUTOR DE VIBES (TAGS) ---
     dados_vibes = core.dados.get("vibe_emocional", {})
         if dados_vibes:
@@ -690,6 +697,7 @@ with st.sidebar:
             st.session_state.history = []
 
             st.rerun()
+
 
 
 
