@@ -567,83 +567,83 @@ with col_left:
             st.button("❌", key=f"del_v_{i}_{v}", on_click=delete_vibe, args=(i,))
     '''
 
-    st.markdown("**✨ Vibe Emocional**")
-    
-        # --- ÁREA DE VIBES SELECIONADAS (MANTIDA) ---
-        # Mostra as vibes que o usuário já escolheu como "tags" removíveis
-        if "vibes" not in st.session_state:
-            st.session_state.vibes = []
-    
-        if st.session_state.vibes:
-            # Exibe cada vibe em um container horizontal
-            for i, v in enumerate(st.session_state.vibes):
-                c1, c2 = st.columns([0.85, 0.15])
-                with c1:
-                    st.markdown(f"**{v}**") # Apenas texto visual
-                with c2:
-                    # Botão para remover a vibe
-                    if st.button("❌", key=f"del_vibe_{i}"):
-                        st.session_state.vibes.pop(i)
-                        st.rerun()
-        else:
-            st.caption("Nenhuma vibe selecionada.")
-    
-        # Input manual (opcional, caso queira digitar algo que não está na lista)
-        def submit_manual_vibe():
-            val = st.session_state.new_vibe_input
-            if val and val not in st.session_state.vibes:
-                st.session_state.vibes.append(val)
-                st.session_state.new_vibe_input = "" # Limpa o input
-    
-        st.text_input("Adicionar manualmente", key="new_vibe_input", placeholder="Ex: Melancólico, Eufórico...", on_change=submit_manual_vibe)
-    
-        # --- NOVA FUNCIONALIDADE: CONSTRUTOR DE VIBES (TAGS) ---
-        dados_vibes = core.dados.get("vibe_emocional", {})
-    
-        if dados_vibes:
-            with st.expander("🎭 Catálogo de Emoções e Vibes", expanded=False):
+    st.markdown("**🌊 Vibe Emocional**")
+
+    # --- ÁREA DE VIBES SELECIONADAS (MANTIDA) ---
+    # Mostra as vibes que o usuário já escolheu como "tags" removíveis
+    if "vibes" not in st.session_state:
+        st.session_state.vibes = []
+
+    if st.session_state.vibes:
+        # Exibe cada vibe em um container horizontal
+        for i, v in enumerate(st.session_state.vibes):
+            c1, c2 = st.columns([0.85, 0.15])
+            with c1:
+                st.markdown(f"**{v}**") # Apenas texto visual
+            with c2:
+                # Botão para remover a vibe
+                if st.button("❌", key=f"del_vibe_{i}"):
+                    st.session_state.vibes.pop(i)
+                    st.rerun()
+    else:
+        st.caption("Nenhuma vibe selecionada.")
+
+    # Input manual (opcional, caso queira digitar algo que não está na lista)
+    def submit_manual_vibe():
+        val = st.session_state.new_vibe_input
+        if val and val not in st.session_state.vibes:
+            st.session_state.vibes.append(val)
+            st.session_state.new_vibe_input = "" # Limpa o input
+
+    st.text_input("Adicionar manualmente", key="new_vibe_input", placeholder="Ex: Melancólico, Eufórico...", on_change=submit_manual_vibe)
+
+    # --- NOVA FUNCIONALIDADE: CONSTRUTOR DE VIBES (TAGS) ---
+    dados_vibes = core.dados.get("vibe_emocional", {})
+
+    if dados_vibes:
+        with st.expander("🎭 Catálogo de Emoções e Vibes", expanded=False):
+            
+            # Verifica se o JSON é um Dicionário (Categorias) ou Lista Simples
+            if isinstance(dados_vibes, dict):
+                # Cria abas para cada categoria (ex: Positivas, Negativas, Energia)
+                abas_vibes = st.tabs(list(dados_vibes.keys()))
                 
-                # Verifica se o JSON é um Dicionário (Categorias) ou Lista Simples
-                if isinstance(dados_vibes, dict):
-                    # Cria abas para cada categoria (ex: Positivas, Negativas, Energia)
-                    abas_vibes = st.tabs(list(dados_vibes.keys()))
+                for i, (categoria, lista_itens) in enumerate(dados_vibes.items()):
+                    with abas_vibes[i]:
+                        cols = st.columns(4)
+                        for idx, item in enumerate(lista_itens):
+                            # Assume formato [Nome, Descrição] ou apenas "Nome"
+                            v_nome = item[0] if isinstance(item, list) else item
+                            v_desc = item[1] if isinstance(item, list) and len(item) > 1 else None
+                            
+                            with cols[idx % 4]:
+                                st.button(
+                                    v_nome,
+                                    key=f"btn_vibe_{categoria}_{idx}",
+                                    help=v_desc,
+                                    on_click=add_vibe_click,
+                                    args=(v_nome,),
+                                    use_container_width=True
+                                )
+            
+            elif isinstance(dados_vibes, list):
+                # Se for apenas uma lista simples sem categorias
+                cols = st.columns(4)
+                for idx, item in enumerate(dados_vibes):
+                    v_nome = item[0] if isinstance(item, list) else item
+                    v_desc = item[1] if isinstance(item, list) and len(item) > 1 else None
                     
-                    for i, (categoria, lista_itens) in enumerate(dados_vibes.items()):
-                        with abas_vibes[i]:
-                            cols = st.columns(4)
-                            for idx, item in enumerate(lista_itens):
-                                # Assume formato [Nome, Descrição] ou apenas "Nome"
-                                v_nome = item[0] if isinstance(item, list) else item
-                                v_desc = item[1] if isinstance(item, list) and len(item) > 1 else None
-                                
-                                with cols[idx % 4]:
-                                    st.button(
-                                        v_nome,
-                                        key=f"btn_vibe_{categoria}_{idx}",
-                                        help=v_desc,
-                                        on_click=add_vibe_click,
-                                        args=(v_nome,),
-                                        use_container_width=True
-                                    )
-                
-                elif isinstance(dados_vibes, list):
-                    # Se for apenas uma lista simples sem categorias
-                    cols = st.columns(4)
-                    for idx, item in enumerate(dados_vibes):
-                        v_nome = item[0] if isinstance(item, list) else item
-                        v_desc = item[1] if isinstance(item, list) and len(item) > 1 else None
-                        
-                        with cols[idx % 4]:
-                            st.button(
-                                v_nome,
-                                key=f"btn_vibe_list_{idx}",
-                                help=v_desc,
-                                on_click=add_vibe_click,
-                                args=(v_nome,),
-                                use_container_width=True
-                            )
-                
-                st.caption("💡 Clique para adicionar à lista de vibes.")
+                    with cols[idx % 4]:
+                        st.button(
+                            v_nome,
+                            key=f"btn_vibe_list_{idx}",
+                            help=v_desc,
+                            on_click=add_vibe_click,
+                            args=(v_nome,),
+                            use_container_width=True
+                        )
+            
+            st.caption("💡 Clique para adicionar à lista de vibes.")
 
 with col_right:
     hierarchical_field("🎧 Público Alvo", "publico", core.dados["publico"])
@@ -697,6 +697,7 @@ with st.sidebar:
             st.session_state.history = []
 
             st.rerun()
+
 
 
 
