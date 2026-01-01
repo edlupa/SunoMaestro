@@ -577,7 +577,7 @@ with col_left:
             st.session_state.new_vibe_input = "" # Limpa o input
 
     # --- NOVA FUNCIONALIDADE: CONSTRUTOR DE VIBES (TAGS) ---
-    dados_vibes = core.dados.get("vibe_emocional", {})
+dados_vibes = core.dados.get("vibe_emocional", {})
 	if dados_vibes:
 		with st.expander("🎭 Catálogo de Emoções e Vibes", expanded=False):
 			if isinstance(dados_vibes, dict):
@@ -697,6 +697,7 @@ with st.sidebar:
             st.session_state.history = []
 
             st.rerun()
+
 
 
 
