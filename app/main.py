@@ -569,19 +569,8 @@ with col_left:
     st.divider()
     st.subheader("✨ Vibe Emocional")
 
-    # Input manual (opcional, caso queira digitar algo que não está na lista)
-    def submit_manual_vibe():
-        """Callback para input manual."""
-        val = st.session_state.new_vibe_input
-        if "vibe_emocional" not in st.session_state:
-            st.session_state.vibe_emocional = []
-            
-        if val and val not in st.session_state.vibe_emocional:
-            st.session_state.vibe_emocional.append(val)
-            st.session_state.new_vibe_input = "" # Limpa o input
-    
-        # --- NOVA FUNCIONALIDADE: CONSTRUTOR DE VIBES (TAGS) ---
-        dados_vibes = core.dados.get("vibe_emocional", {})
+    # --- NOVA FUNCIONALIDADE: CONSTRUTOR DE VIBES (TAGS) ---
+    dados_vibes = core.dados.get("vibe_emocional", {})
         if dados_vibes:
             with st.expander("🎭 Catálogo de Emoções e Vibes", expanded=False):
                 if isinstance(dados_vibes, dict):
@@ -701,6 +690,7 @@ with st.sidebar:
             st.session_state.history = []
 
             st.rerun()
+
 
 
 
