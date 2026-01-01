@@ -112,21 +112,4 @@ div[data-testid="stNotification"] {
     z-index: 1001;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     border: 1px solid #ff4b4b;
-
-}
-
-/* Estilo específico para botões dentro de Expander/Tabs (Tags) */
-div[data-testid="stExpander"] button {
-    font-size: 0.8rem !important;
-    padding: 0.2rem 0.5rem !important;
-    min-height: 2rem !important;
-    height: auto !important;
-    border-radius: 4px !important;
-    border-color: #e0e0e0 !important;
-}
-
-div[data-testid="stExpander"] button:hover {
-    border-color: #58a6ff !important;
-    color: #58a6ff !important;
-    background-color: #f0f8ff !important;
 }
