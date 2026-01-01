@@ -1,0 +1,72 @@
+{
+  "Estrutura_Principal": [
+    [
+      "[Intro]",
+      "Introdução, ambientação e entrada gradual da faixa."
+    ],
+    [
+      "[Verse]",
+      "Seção narrativa para desenvolvimento lírico e da história."
+    ],
+    [
+      "[Pre-Chorus]",
+      "Transição que constrói tensão e energia antes do refrão."
+    ],
+    [
+      "[Chorus]",
+      "Refrão principal, gancho melódico (hook) e núcleo emocional da música."
+    ],
+    [
+      "[Post-Chorus]",
+      "Seção curta após o refrão para manter a energia ou adicionar ad-libs."
+    ],
+    [
+      "[Bridge]",
+      "Ponte de contraste melódico ou rítmico que quebra a repetição."
+    ],
+    [
+      "[Outro]",
+      "Seção de encerramento que prepara a música para o fim."
+    ],
+    [
+      "[End]",
+      "Indica uma finalização clara, definida e com corte limpo."
+    ]
+  ],
+  "Secoes_Instrumentais_e_Dinamicas": [
+    [
+      "[Drop]",
+      "Foco instrumental rítmico de alto impacto, comum em EDM e Trap."
+    ],
+    [
+      "[Break]",
+      "Intervalo instrumental ou rítmico para oferecer um 'respiro'."
+    ],
+    [
+      "[Interlude]",
+      "Seção atmosférica ou instrumental entre versos ou refrões."
+    ],
+    [
+      "[Solo]",
+      "Destaque para um instrumento solo específico (ex: guitarra, saxofone)."
+    ],
+    [
+      "[Hook]",
+      "Destaque para uma linha ou melodia curta extremamente viciante."
+    ]
+  ],
+  "Finalizacao_e_Transicao_Sonora": [
+    [
+      "[Fade In]",
+      "Inicia a música com um período programado de silêncio crescente (entrada gradual)."
+    ],
+    [
+      "[Fade Out]",
+      "Diminuição gradual e suave do volume até o silêncio final."
+    ],
+    [
+      "[Pause Xs]",
+      "Insere um silêncio exato de 'X' segundos no meio da música."
+    ]
+  ]
+}
