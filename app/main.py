@@ -499,7 +499,7 @@ with col_left:
     metatags = core.dados.get("metatags", {})
     
     if metatags:
-        with st.expander("🏷️ Adicionar Seções e Tags (Construtor)", expanded=False):
+        with st.expander("🏷️ Adicionar Seções e Tags", expanded=False):
             # Mapeamento para nomes mais amigáveis nas abas
             mapa_nomes = {
                 "Estrutura_Principal": "Principal",
@@ -606,5 +606,6 @@ with st.sidebar:
             st.session_state.history = []
 
             st.rerun()
+
 
 
