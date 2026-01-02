@@ -122,8 +122,13 @@ def criar_zip_historico(historico):
             zip_file.writestr(nome_arquivo, item['conteudo'])
     return buffer.getvalue()
 
-def render_history_sidebar():
+def render_history_sidebar(core):
     with st.sidebar:
+        st.header("Suno Maestro")
+        
+        render_help_sidebar(core)
+        
+        st.markdown("---")
         st.header("📜 Histórico")
         st.info("Os prompts gerados nesta sessão ficam salvos abaixo.")
         
@@ -151,6 +156,28 @@ def render_history_sidebar():
             if st.button("🗑️ Limpar Histórico", use_container_width=True):
                 st.session_state.history = []
                 st.rerun()
+
+def render_help_sidebar(core):
+    """Renderiza a seção de ajuda na barra lateral lendo do JSON."""
+    help_data = core.dados.get("help", {})
+    geral = help_data.get("geral", {})
+    campos = help_data.get("campos", {})
+
+    with st.sidebar.expander("❓ Guia e Dúvidas", expanded=False):
+        if geral:
+            st.markdown(f"**{geral.get('titulo', 'Ajuda')}**")
+            st.caption(geral.get('descricao', ''))
+            
+            st.markdown("---")
+            st.markdown("🔴 **Campos em Branco**")
+            st.info(geral.get('campos_em_branco', ''))
+
+        if campos:
+            st.markdown("---")
+            st.markdown("📚 **Dicionário de Campos**")
+            for campo, desc in campos.items():
+                # Formatação bonita: Nome do campo em negrito, descrição normal
+                st.markdown(f"**{campo.replace('_', ' ').title()}:** {desc}")
 
 # --- MAIN APP ---
 def main():
@@ -230,7 +257,7 @@ def main():
     with col_left:
         st.subheader("📝 Composição")
         lc1, lc2 = st.columns(2)
-        with lc1: st.text_input("💡 Tema*", key="tema"); st.text_input("📩 Mensagem", key="mensagem")
+        with lc1: st.text_input("💡 Tema*", key="tema", help=help_text.get("tema")); st.text_input("📩 Mensagem", key="mensagem", help=help_text.get("mensagem"))
         with lc2: st.text_input("🔑 Tags", key="palavras_chave"); st.text_input("🌐 Idioma*", key="idioma", placeholder="Português (Brasil), Inglês (EUA), Espanhol")
         st.divider()
 
@@ -269,6 +296,4 @@ def main():
     render_history_sidebar()
 
 if __name__ == "__main__":
-
     main()
-
