@@ -158,26 +158,30 @@ def render_history_sidebar(core):
                 st.rerun()
 
 def render_help_sidebar(core):
-    """Renderiza a seção de ajuda na barra lateral lendo do JSON."""
+    """Renderiza a seção de ajuda na barra lateral lendo do JSON de listas."""
     help_data = core.dados.get("help", {})
-    geral = help_data.get("geral", {})
-    campos = help_data.get("campos", {})
+    
+    # Converte para dict apenas para facilitar o acesso às chaves do 'geral'
+    geral_dict = dict(help_data.get("geral", []))
+    campos_lista = help_data.get("campos", [])
 
     with st.sidebar.expander("❓ Guia e Dúvidas", expanded=False):
-        if geral:
-            st.markdown(f"**{geral.get('titulo', 'Ajuda')}**")
-            st.caption(geral.get('descricao', ''))
+        if geral_dict:
+            st.markdown(f"**{geral_dict.get('titulo', 'Ajuda')}**")
+            st.caption(geral_dict.get('descricao', ''))
             
             st.markdown("---")
             st.markdown("🔴 **Campos em Branco**")
-            st.info(geral.get('campos_em_branco', ''))
+            st.info(geral_dict.get('campos_em_branco', ''))
 
-        if campos:
+        if campos_lista:
             st.markdown("---")
             st.markdown("📚 **Dicionário de Campos**")
-            for campo, desc in campos.items():
-                # Formatação bonita: Nome do campo em negrito, descrição normal
-                st.markdown(f"**{campo.replace('_', ' ').title()}:** {desc}")
+            for item in campos_lista:
+                # Como é uma lista de listas: item[0] é a chave, item[1] é a descrição
+                nome_campo = item[0].replace('_', ' ').title()
+                descricao = item[1]
+                st.markdown(f"**{nome_campo}:** {descricao}")
 
 # --- MAIN APP ---
 def main():
@@ -187,8 +191,9 @@ def main():
     core = get_core_instance(ROOT)
     placeholder_aviso = st.empty()
 
-    dados_ajuda = core.dados.get("help", {}) 
-    help_text = dados_ajuda.get("campos", {})
+    raw_help = core.dados.get("help", {})
+    help_geral = dict(raw_help.get("geral", []))
+    help_text = dict(raw_help.get("campos", []))
 
     # Cabeçalho
     st.title("🎛️ Suno Maestro")
