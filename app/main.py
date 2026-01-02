@@ -4,6 +4,7 @@ import os
 import io
 import zipfile
 from datetime import datetime
+from state import clear_all
 
 # Configuração de Paths para Importação
 # Adiciona o diretório pai (raiz) ao path para importar core
@@ -307,6 +308,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
