@@ -59,12 +59,27 @@ def on_estrutura_sel_change():
         st.session_state.estrutura = st.session_state.estrutura_sel
 
 def clear_all():
+    # 1. Limpa os campos definidos no STATE_DEFAULTS
     for k in STATE_DEFAULTS.keys():
-        if k == "history": continue
-        st.session_state[k] = [] if k == "vibe_emocional" else ""
+        if k == "history": 
+            continue
+        if k == "vibe_emocional":
+            st.session_state[k] = []  # Garante lista vazia
+        else:
+            st.session_state[k] = ""  # Garante string vazia
+
+    # 2. Limpa especificamente os campos hierárquicos (Público, Narrador, etc.)
     for k in HIER_KEYS: 
-        st.session_state[f"{k}_cat"] = ""; st.session_state[f"{k}_sel"] = ""; st.session_state[k] = ""
+        st.session_state[f"{k}_cat"] = ""
+        st.session_state[f"{k}_sel"] = ""
+        st.session_state[k] = ""
+    
+    # 3. Reseta o controle de exibição
     st.session_state.show_prompt = False
+    
+    # 4. Limpa campos auxiliares de input de vibe se existirem
+    if "new_vibe_input" in st.session_state:
+        st.session_state.new_vibe_input = ""
 
 def randomize_hier_callback(key, data):
     cats = [c for c in data.keys() if data[c]]
@@ -174,4 +189,5 @@ def submit_manual_vibe():
     if val:
         if val not in st.session_state.vibe_emocional:
             st.session_state.vibe_emocional.append(val)
+
         st.session_state.new_vibe_input = ""
