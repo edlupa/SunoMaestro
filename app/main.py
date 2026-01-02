@@ -235,11 +235,7 @@ def main():
                         "conteudo": texto_gerado,
                         "data": agora.strftime("%d/%m/%Y %H:%M")
                     }
-                    st.session_state.history.insert(0, novo_item)
-
-                    state.clear_all()
-                    st.session_state.show_prompt = True 
-                    st.rerun()
+                    st.session_state.history.insert(0, novo_item)                    
                     
                     # Feedback Visual
                     with placeholder_aviso:
@@ -259,7 +255,8 @@ def main():
         with ac1: ui.custom_copy_button(st.session_state.prompt_final)
         with ac2: st.download_button("⬇️ Baixar", st.session_state.prompt_final, "prompt.txt", use_container_width=True)
         with ac3: 
-            if st.button("❌ Fechar", use_container_width=True): 
+            if st.button("❌ Fechar", use_container_width=True):
+                state.clear_all()
                 st.session_state.show_prompt = False
                 st.rerun()
         st.code(st.session_state.prompt_final, language="yaml")
@@ -311,6 +308,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
