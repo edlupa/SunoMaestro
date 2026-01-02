@@ -4,6 +4,7 @@ import os
 import io
 import zipfile
 from datetime import datetime
+from app.state import clear_all
 
 # Configuração de Paths para Importação
 # Adiciona o diretório pai (raiz) ao path para importar core
@@ -236,7 +237,7 @@ def main():
                     }
                     st.session_state.history.insert(0, novo_item)
 
-                    clear_all()
+                    state.clear_all()
                     st.session_state.show_prompt = True 
                     st.rerun()
                     
@@ -310,6 +311,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
