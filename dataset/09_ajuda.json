@@ -1,0 +1,22 @@
+{
+    "geral": [
+        ["titulo","Como funciona o Suno Maestro?"],
+        ["descricao","Este aplicativo organiza suas ideias musicais e as transforma em um prompt otimizado para a IA Suno v5."],
+        ["campos_em_branco","Não se preocupe em preencher tudo! Qualquer campo deixado em branco será tratado como 'AUTOMATIC_INPUT'. Isso significa que a IA decidirá criativamente aquele detalhe baseando-se na coerência do Gênero e da Vibe Emocional que você definiu."]
+    ],
+    "campos": [
+        ["genero","Define a base musical principal (ex: Rock, Samba, Eletrônica). É o guia mestre para a IA."],
+        ["ritmo","O subgênero ou estilo específico de bateria/andamento (ex: Bossa Nova, Trap Beat, Up-tempo)."],
+        ["tema","Sobre o que é a música? (ex: Amor perdido, Viagem espacial, Cyberpunk)."],
+        ["mensagem","A ideia central ou 'moral da história' que a letra deve passar."],
+        ["idioma","A língua em que a letra será escrita."],
+        ["referencia","Citar artistas ou músicas existentes ajuda a IA a entender a sonoridade (ex: 'Estilo Tim Maia', 'Vibe Linkin Park')."],
+        ["vibe_emocional","Tags que definem o sentimento da música (ex: Melancólico, Eufórico, Sombrio)."],
+        ["estrutura","A ordem das seções (Intro, Verso, Refrão). Se deixar vazio, a IA cria uma estrutura padrão de rádio."],
+        ["publico","Para quem é essa música? (ex: Jovens, Fãs de Jazz, Público de Academia). Ajuda a definir o vocabulário."],
+        ["narrador","Quem está cantando? (ex: Um velho sábio, Um robô, Uma criança). Define o timbre vocal."],
+        ["tom","A atitude lírica (ex: Sarcástico, Poético, Agressivo, Romântico)."],
+        ["influencia_estetica","Elementos artísticos abstratos (ex: Lo-fi, Futurista, Vintage 80s)."],
+        ["tipo_de_gravacao","Como a música soa em termos de produção (ex: Acústico, Ao Vivo, Estúdio Processado)."]
+    ]
+}
