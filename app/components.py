@@ -56,7 +56,7 @@ def hierarchical_field(title: str, key: str, data: Dict[str, List[str]], help_ms
         opts_cat = [""] + sorted(data.keys())
         curr_cat = st.session_state.get(cat_key, "")
         idx_cat = opts_cat.index(curr_cat) if curr_cat in opts_cat else 0
-        st.selectbox(f"C_{key}", opts_cat, index=idx_cat, key=cat_key, label_visibility="collapsed", help=help_msg))
+        st.selectbox(f"C_{key}", opts_cat, index=idx_cat, key=cat_key, label_visibility="collapsed", help=help_msg)
     
     with c2:
         current_cat_val = st.session_state.get(cat_key, "")
@@ -79,3 +79,4 @@ def hierarchical_field(title: str, key: str, data: Dict[str, List[str]], help_ms
     st.text_input(f"In_{key}", key=key, label_visibility="collapsed", placeholder=f"Valor final...")
 
     st.markdown("<div style='margin-bottom: 10px;'></div>", unsafe_allow_html=True)
+
