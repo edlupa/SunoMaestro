@@ -253,7 +253,7 @@ def main():
         render_vibe_section(core)
 
     with col_right:
-        ui.hierarchical_field("🎧 Público Alvo", "publico", core.dados["publico"], help="Teste")
+        ui.hierarchical_field("🎧 Público Alvo", "publico", core.dados["publico"])
         st.divider()
         ui.hierarchical_field("🎤 Narrador", "narrador", core.dados["narrador"])
         st.divider()
@@ -271,3 +271,4 @@ def main():
 if __name__ == "__main__":
 
     main()
+
