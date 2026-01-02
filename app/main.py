@@ -15,7 +15,15 @@ from core.generator import SunoMaestroCore
 from app import state, components as ui
 
 # Configuração da Página
-st.set_page_config(page_title="Suno Maestro", page_icon="🎛️", layout="wide")
+st.set_page_config(
+    page_title="Suno Maestro", 
+    page_icon="🎛️", 
+    layout="wide",
+    initial_sidebar_state="expanded",
+    menu_items={
+        'About': "# Suno Maestro\nTransforme suas ideias em prompts musicais profissionais para o Suno v5."
+    }
+)
 
 # --- SINGLETONS E CACHE ---
 @st.cache_data
@@ -308,6 +316,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
