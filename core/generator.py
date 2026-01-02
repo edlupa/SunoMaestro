@@ -113,6 +113,11 @@ class SunoMaestroCore:
         - Similar syllable count between corresponding lines (variation ideally ≤ 20%)
         - Progressive narrative coherence across verses
 
+      tips:
+        - When the inferred musical style and vocal tradition support it, use subtle, language-appropriate phonetic spelling to enhance authenticity.
+        - Prefer light contractions and natural colloquial forms for roots-based or regional styles.
+        - Avoid phonetic spelling in formal, pop, or liturgical contexts where clear standardized diction is expected.
+
     prompt_for_suno_5:
       requirements:
         - Language: EN-US.
