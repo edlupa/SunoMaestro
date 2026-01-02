@@ -37,7 +37,7 @@ def render_structure_section(core):
         opts_est = [""] + state.get_all_unique_structures(core)
         curr = st.session_state.estrutura_sel
         idx_est = opts_est.index(curr) if curr in opts_est else 0
-        st.selectbox("Sug. Est.", opts_est, index=idx_est, key="estrutura_sel", help=help_text.get("estrutura_sel"), 
+        st.selectbox("Sug. Est.", opts_est, index=idx_est, key="estrutura_sel",
                      on_change=state.on_estrutura_sel_change, label_visibility="collapsed")
     with sc3:
         st.button("🎲", key="btn_rnd_est", use_container_width=True, on_click=state.randomize_struct_callback, args=(core,))
@@ -306,4 +306,5 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
