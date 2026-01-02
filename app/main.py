@@ -301,7 +301,8 @@ def main():
     st.markdown("---")
     st.markdown("<div style='text-align: center; color: #666; font-size: 0.8rem;'>Suno Maestro • Powered by Eduardo Palombo</div>", unsafe_allow_html=True)
 
-    render_history_sidebar()
+    render_history_sidebar(core)
 
 if __name__ == "__main__":
+
     main()
