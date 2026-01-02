@@ -44,7 +44,7 @@ def custom_copy_button(text_to_copy: str):
     html_content = f"{button_style}{copy_script}<button id='copyBtn' class='custom-btn' onclick='copyToClipboard()'>📋 Copiar</button>"
     components.html(html_content, height=40)
 
-def hierarchical_field(title: str, key: str, data: Dict[str, List[str]]):
+def hierarchical_field(title: str, key: str, data: Dict[str, List[str]], help_msg: str = None):
     """Componente reutilizável para campos hierárquicos (Categoria -> Seleção)."""
     st.markdown(f"**{title}**")
     cat_key, sel_key = f"{key}_cat", f"{key}_sel"
@@ -56,7 +56,7 @@ def hierarchical_field(title: str, key: str, data: Dict[str, List[str]]):
         opts_cat = [""] + sorted(data.keys())
         curr_cat = st.session_state.get(cat_key, "")
         idx_cat = opts_cat.index(curr_cat) if curr_cat in opts_cat else 0
-        st.selectbox(f"C_{key}", opts_cat, index=idx_cat, key=cat_key, label_visibility="collapsed")
+        st.selectbox(f"C_{key}", opts_cat, index=idx_cat, key=cat_key, label_visibility="collapsed", help=help_msg))
     
     with c2:
         current_cat_val = st.session_state.get(cat_key, "")
@@ -77,4 +77,5 @@ def hierarchical_field(title: str, key: str, data: Dict[str, List[str]]):
                   on_click=state.clear_hier_callback, args=(key,))
     
     st.text_input(f"In_{key}", key=key, label_visibility="collapsed", placeholder=f"Valor final...")
+
     st.markdown("<div style='margin-bottom: 10px;'></div>", unsafe_allow_html=True)
