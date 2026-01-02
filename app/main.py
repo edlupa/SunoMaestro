@@ -187,6 +187,9 @@ def main():
     core = get_core_instance(ROOT)
     placeholder_aviso = st.empty()
 
+    dados_ajuda = core.dados.get("help", {}) 
+    help_text = dados_ajuda.get("campos", {})
+
     # Cabeçalho
     st.title("🎛️ Suno Maestro")
     st.markdown("Generate professional prompts for Suno AI v5.")
