@@ -46,7 +46,12 @@ def custom_copy_button(text_to_copy: str):
 
 def hierarchical_field(title: str, key: str, data: Dict[str, List[str]], help_msg: str = None):
     """Componente reutilizável para campos hierárquicos (Categoria -> Seleção)."""
-    st.markdown(f"**{title}**")
+    
+    if help_msg:
+        st.markdown(f"**{title}**", help=help_msg)
+    else:
+        st.markdown(f"**{title}**")
+    
     cat_key, sel_key = f"{key}_cat", f"{key}_sel"
     
     # Colunas: Categoria | Seleção | Aleatório | Limpar
@@ -56,7 +61,7 @@ def hierarchical_field(title: str, key: str, data: Dict[str, List[str]], help_ms
         opts_cat = [""] + sorted(data.keys())
         curr_cat = st.session_state.get(cat_key, "")
         idx_cat = opts_cat.index(curr_cat) if curr_cat in opts_cat else 0
-        st.selectbox(f"C_{key}", opts_cat, index=idx_cat, key=cat_key, label_visibility="collapsed", help=help_msg)
+        st.selectbox(f"C_{key}", opts_cat, index=idx_cat, key=cat_key, label_visibility="collapsed")
     
     with c2:
         current_cat_val = st.session_state.get(cat_key, "")
@@ -79,4 +84,5 @@ def hierarchical_field(title: str, key: str, data: Dict[str, List[str]], help_ms
     st.text_input(f"In_{key}", key=key, label_visibility="collapsed", placeholder=f"Valor final...")
 
     st.markdown("<div style='margin-bottom: 10px;'></div>", unsafe_allow_html=True)
+
 
