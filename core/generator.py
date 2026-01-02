@@ -6,7 +6,7 @@ class SunoMaestroCore:
     def __init__(self, base_path):
         self.base_path = base_path
         self.dataset_dir = os.path.join(self.base_path, "dataset")
-        # Metadados dos arquivos
+        # Adicionei a linha do "help" abaixo
         self.arquivos_map = {
             "hierarquia": "01_genero_ritmo.json", 
             "tipo_de_gravacao": "02_tipo_de_gravacao.json",
@@ -15,7 +15,8 @@ class SunoMaestroCore:
             "publico": "05_publico_alvo.json", 
             "tom": "06_tom_lirico.json",
             "narrador": "07_narrador.json",
-            "metatags": "08_metatags_musicais.json"
+            "metatags": "08_metatags_musicais.json",
+            "help": "09_ajuda.json"
         }
         self.dados = self._load_data()
 
