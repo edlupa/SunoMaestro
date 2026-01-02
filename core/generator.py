@@ -6,7 +6,8 @@ class SunoMaestroCore:
     def __init__(self, base_path):
         self.base_path = base_path
         self.dataset_dir = os.path.join(self.base_path, "dataset")
-        self.arquivos = {
+        # Metadados dos arquivos
+        self.arquivos_map = {
             "hierarquia": "01_genero_ritmo.json", 
             "tipo_de_gravacao": "02_tipo_de_gravacao.json",
             "influencia_estetica": "03_influencia_estetica.json", 
@@ -16,24 +17,14 @@ class SunoMaestroCore:
             "narrador": "07_narrador.json",
             "metatags": "08_metatags_musicais.json"
         }
-        # Agora chamamos a função que tem o cache
-        self.dados = self.load_all_data()
+        self.dados = self._load_data()
 
-    @st.cache_data
-    def load_all_data(_self): # O _ no _self diz ao Streamlit para não tentar "cahear" a classe inteira, apenas o retorno
-        dados_carregados = {}
-        for key, filename in _self.arquivos.items():
-            filepath = os.path.join(_self.dataset_dir, filename)
-            try:
-                with open(filepath, "r", encoding="utf-8") as f: 
-                    dados_carregados[key] = json.load(f)
-            except Exception:
-                dados_carregados[key] = {}
-                print(f"Erro ao carregar {filename}: {e}")
-        return dados_carregados
+    def _load_data(self):
+        """Carrega os dados usando o cache do Streamlit."""
+        return load_dataset_cached(self.dataset_dir, self.arquivos_map)
 
     def gerar_prompt(self, campos):
-        # Lógica: Se vazio ou None -> "AUTOMATIC_INPUT"
+        # Normalização dos campos para evitar None
         d = {}
         for k, v in campos.items():
             if isinstance(v, list):
@@ -43,6 +34,7 @@ class SunoMaestroCore:
                 val = str(v).strip() if v else ""
                 d[k] = val if val else "AUTOMATIC_INPUT"
 
+        # Template do Prompt
         return f"""ROLE: Composer, arranger, lyricist, and music producer who creates commercially viable songs with realistic instrumentation and writes Suno 5.0–compatible prompts; prioritizes musical identity and functional audio description over poetic abstraction, infers missing details consistently, and structures outputs for real-world mixability and singability.
 
   USER_INPUTS:
@@ -165,3 +157,19 @@ class SunoMaestroCore:
       - "# Prompt for Suno"
 """
 
+@st.cache_data
+def load_dataset_cached(dataset_dir, arquivos_map):
+    """Função isolada para permitir cache correto do Streamlit."""
+    dados = {}
+    for key, filename in arquivos_map.items():
+        filepath = os.path.join(dataset_dir, filename)
+        try:
+            with open(filepath, "r", encoding="utf-8") as f:
+                dados[key] = json.load(f)
+        except FileNotFoundError:
+            dados[key] = {}
+            # Opcional: st.warning(f"Arquivo não encontrado: {filename}")
+        except json.JSONDecodeError:
+            dados[key] = {}
+            # Opcional: st.error(f"Erro ao ler JSON: {filename}")
+    return dados
