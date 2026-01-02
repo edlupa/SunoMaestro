@@ -4,7 +4,6 @@ import os
 import io
 import zipfile
 from datetime import datetime
-from state import clear_all
 
 # Configuração de Paths para Importação
 # Adiciona o diretório pai (raiz) ao path para importar core
@@ -256,9 +255,9 @@ def main():
         with ac2: st.download_button("⬇️ Baixar", st.session_state.prompt_final, "prompt.txt", use_container_width=True)
         with ac3: 
             if st.button("❌ Fechar", use_container_width=True):
-                state.clear_all()
+                # state.clear_all()
                 st.session_state.show_prompt = False
-                st.rerun()
+                # st.rerun()
         st.code(st.session_state.prompt_final, language="yaml")
 
     # Layout Principal (Formulários)
@@ -308,6 +307,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
