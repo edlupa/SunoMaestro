@@ -235,6 +235,10 @@ def main():
                         "data": agora.strftime("%d/%m/%Y %H:%M")
                     }
                     st.session_state.history.insert(0, novo_item)
+
+                    clear_all()
+                    st.session_state.show_prompt = True 
+                    st.rerun()
                     
                     # Feedback Visual
                     with placeholder_aviso:
@@ -306,6 +310,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
