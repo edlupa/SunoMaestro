@@ -1,7 +1,7 @@
 {
     "geral": [
         ["titulo","Como funciona o Suno Maestro?"],
-        ["descricao","Este aplicativo organiza suas ideias e as transforma em um prompt otimizado para criação das suas músicas."],
+        ["descricao","Este aplicativo organiza suas ideias e as transforma em um prompt otimizado para o ChatGPT (ou outro) para criação das suas músicas no Suno.ai."],
         ["campos_em_branco","Não se preocupe em preencher tudo! Qualquer campo deixado em branco será preenchido como 'AUTOMATIC_INPUT'. Isso significa que a IA decidirá criativamente aquele detalhe baseando-se na coerência dos demais campos que você definiu."]
     ],
     "campos": [
