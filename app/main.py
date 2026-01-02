@@ -37,7 +37,7 @@ def render_structure_section(core):
         opts_est = [""] + state.get_all_unique_structures(core)
         curr = st.session_state.estrutura_sel
         idx_est = opts_est.index(curr) if curr in opts_est else 0
-        st.selectbox("Sug. Est.", opts_est, index=idx_est, key="estrutura_sel", 
+        st.selectbox("Sug. Est.", opts_est, index=idx_est, key="estrutura_sel", help=help_text.get("estrutura_sel"), 
                      on_change=state.on_estrutura_sel_change, label_visibility="collapsed")
     with sc3:
         st.button("🎲", key="btn_rnd_est", use_container_width=True, on_click=state.randomize_struct_callback, args=(core,))
@@ -266,7 +266,7 @@ def main():
         st.subheader("📝 Composição")
         lc1, lc2 = st.columns(2)
         with lc1: st.text_input("💡 Tema*", key="tema", help=help_text.get("tema")); st.text_input("📩 Mensagem", key="mensagem", help=help_text.get("mensagem"))
-        with lc2: st.text_input("🔑 Tags", key="palavras_chave"); st.text_input("🌐 Idioma*", key="idioma", placeholder="Português (Brasil), Inglês (EUA), Espanhol")
+        with lc2: st.text_input("🔑 Tags", key="palavras_chave", help=help_text.get("palavras_chave")); st.text_input("🌐 Idioma*", key="idioma", help=help_text.get("idioma"), placeholder="Português (Brasil), Inglês (EUA), Espanhol")
         st.divider()
 
         st.subheader("🎵 Identidade Musical")
@@ -274,13 +274,13 @@ def main():
         with mc1: 
             opts_gen = [""] + list(core.dados["hierarquia"].keys())
             idx_gen = opts_gen.index(st.session_state.genero) if st.session_state.genero in opts_gen else 0
-            st.selectbox("Gênero*", opts_gen, index=idx_gen, key="genero", on_change=state.on_genero_change)
+            st.selectbox("Gênero*", opts_gen, index=idx_gen, key="genero", help=help_text.get("genero"), on_change=state.on_genero_change)
         with mc2: 
             opts_rit = [""] + state.get_ritmos_list(st.session_state.genero, core)
             curr_rit = st.session_state.ritmo
             idx_rit = opts_rit.index(curr_rit) if curr_rit in opts_rit else 0
-            st.selectbox("Ritmo", opts_rit, index=idx_rit, key="ritmo", on_change=state.on_ritmo_change, args=(core,))
-        st.text_input("🎼 Referências Artísticas", key="referencia", placeholder="Aquarela - Toquinho, Garota de Ipanema - Tom Jobim")
+            st.selectbox("Ritmo", opts_rit, index=idx_rit, key="ritmo", help=help_text.get("ritmo"), on_change=state.on_ritmo_change, args=(core,))
+        st.text_input("🎼 Referências Artísticas", key="referencia", help=help_text.get("referencia"), placeholder="Aquarela - Toquinho, Garota de Ipanema - Tom Jobim")
         st.divider()
 
         render_structure_section(core)
@@ -306,3 +306,4 @@ def main():
 if __name__ == "__main__":
 
     main()
+
