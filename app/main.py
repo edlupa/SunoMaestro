@@ -30,14 +30,14 @@ def get_core_instance(root_path: str) -> SunoMaestroCore:
     return SunoMaestroCore(base_path=root_path)
 
 # --- FUNÇÕES UI ESPECÍFICAS DE SEÇÃO ---
-def render_structure_section(core):
+def render_structure_section(core, help_text):
     st.markdown("**🎶 Estrutura**")
     sc1, sc3, sc4 = st.columns([0.70, 0.10, .10], gap="small", vertical_alignment="bottom")
     with sc1: 
         opts_est = [""] + state.get_all_unique_structures(core)
         curr = st.session_state.estrutura_sel
         idx_est = opts_est.index(curr) if curr in opts_est else 0
-        st.selectbox("Sug. Est.", opts_est, index=idx_est, key="estrutura_sel",
+        st.selectbox("Sug. Est.", opts_est, index=idx_est, key="estrutura_sel", help=help_text.get("estrutura"),
                      on_change=state.on_estrutura_sel_change, label_visibility="collapsed")
     with sc3:
         st.button("🎲", key="btn_rnd_est", use_container_width=True, on_click=state.randomize_struct_callback, args=(core,))
@@ -66,7 +66,7 @@ def render_structure_section(core):
                                       on_click=state.add_tag_to_structure, args=(tag_nome,), use_container_width=True)
             st.caption("💡 Clique nas tags para adicionar ao final da estrutura.")
 
-def render_vibe_section(core):
+def render_vibe_section(core, help_text):
     st.subheader("✨ Vibe Emocional")
     dados_vibes = core.dados.get("vibe_emocional", {})
     
@@ -97,7 +97,7 @@ def render_vibe_section(core):
     cv1, cv2, cv3 = st.columns([0.70, 0.10, 0.10], gap="small", vertical_alignment="bottom")
     with cv1:
         st.text_input("Adicionar manualmente", key="new_vibe_input", placeholder="Ex: Melancólico, Eufórico...", 
-                      on_change=state.submit_manual_vibe, label_visibility="collapsed")
+                      on_change=state.submit_manual_vibe, label_visibility="collapsed", help=help_text.get("vibe_emocional"))
     with cv2:
         st.button("🎲", key="btn_rnd_vibe_local", use_container_width=True, on_click=state.random_vibe_generator, args=(core,))
     with cv3:
@@ -283,20 +283,20 @@ def main():
         st.text_input("🎼 Referências Artísticas", key="referencia", help=help_text.get("referencia"), placeholder="Aquarela - Toquinho, Garota de Ipanema - Tom Jobim")
         st.divider()
 
-        render_structure_section(core)
+        render_structure_section(core, help_text)
         st.divider()
-        render_vibe_section(core)
+        render_vibe_section(core, help_text)
 
     with col_right:
-        ui.hierarchical_field("🎧 Público Alvo", "publico", core.dados["publico"])
+        ui.hierarchical_field("🎧 Público Alvo", "publico", core.dados["publico"], help_msg=help_text.get("publico"))
         st.divider()
-        ui.hierarchical_field("🎤 Narrador", "narrador", core.dados["narrador"])
+        ui.hierarchical_field("🎤 Narrador", "narrador", core.dados["narrador"], help_msg=help_text.get("narrador"))
         st.divider()
-        ui.hierarchical_field("📜 Tom Lírico", "tom", core.dados["tom"])
+        ui.hierarchical_field("📜 Tom Lírico", "tom", core.dados["tom"], help_msg=help_text.get("tom"))
         st.divider()
-        ui.hierarchical_field("🎨 Influência Estética", "influencia_estetica", core.dados["influencia_estetica"])
+        ui.hierarchical_field("🎨 Influência Estética", "influencia_estetica", core.dados["influencia_estetica"], help_msg=help_text.get("influencia_estetica"))
         st.divider()
-        ui.hierarchical_field("🎚️ Tipo de Gravação", "tipo_de_gravacao", core.dados["tipo_de_gravacao"])
+        ui.hierarchical_field("🎚️ Tipo de Gravação", "tipo_de_gravacao", core.dados["tipo_de_gravacao"], help_msg=help_text.get("tipo_de_gravacao"))
 
     st.markdown("---")
     st.markdown("<div style='text-align: center; color: #666; font-size: 0.8rem;'>Suno Maestro • Powered by Eduardo Palombo</div>", unsafe_allow_html=True)
@@ -306,5 +306,6 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
