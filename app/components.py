@@ -209,19 +209,29 @@ def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None)
                 # Lógica: Se o usuário clicar, adicionamos ao Masculino OU Feminino?
                 # Para ser prático, vamos criar um seletor de destino ou aplicar ao que estiver vazio
                 def add_vocal_logic(nome=v_nome, cat=cat_sel):
-                    # Aplicamos a mesma lógica de substituição por categoria para ambos os campos
-                    for k in ["vocal_masculino", "vocal_feminino"]:
-                        atual = st.session_state.get(k, "")
-                        tags = [t.strip() for t in atual.split(",") if t.strip()]
-                        itens_cat = [i[0] for i in data[cat]]
-                        # Filtra e substitui
-                        nova_lista = [t for t in tags if t not in itens_cat]
-                        nova_lista.append(nome)
-                        st.session_state[k] = ", ".join(nova_lista)
-
-                with cols[idx % 3]:
-                    st.button(v_nome, key=f"btn_vocal_{idx}", help=v_desc, 
-                              on_click=add_vocal_logic, use_container_width=True)
+                    # 1. Identifica qual campo deve receber a tag
+                    # Prioridade: Adiciona no primeiro que encontrar vazio. 
+                    # Se ambos tiverem algo ou ambos estiverem vazios, foca no Masculino.
+                    
+                    masc_vazio = st.session_state.get("vocal_masculino", "").strip() == ""
+                    fem_vazio = st.session_state.get("vocal_feminino", "").strip() == ""
+                    
+                    # Define o alvo: Se o masculino estiver ocupado e o feminino não, vai para o feminino.
+                    # Caso contrário, vai para o masculino (padrão).
+                    target_key = "vocal_feminino" if (not masc_vazio and fem_vazio) else "vocal_masculino"
+                    
+                    # 2. Aplica a lógica de substituição apenas no campo alvo
+                    atual = st.session_state.get(target_key, "")
+                    tags_atuais = [t.strip() for t in atual.split(",") if t.strip()]
+                    
+                    # Busca itens da mesma categoria no JSON para garantir a restrição
+                    itens_da_cat = [i[0] for i in data[cat]]
+                    
+                    # Filtra: remove tags antigas da mesma categoria e adiciona a nova
+                    nova_lista = [t for t in tags_atuais if t not in itens_da_cat]
+                    nova_lista.append(nome)
+                    
+                    st.session_state[target_key] = ", ".join(nova_lista)
 
             # Legenda de ajuda
             st.markdown(
@@ -230,6 +240,7 @@ def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None)
                 f"Utilize apenas uma por categoria!</div>", 
                 unsafe_allow_html=True
             )
+
 
 
 
