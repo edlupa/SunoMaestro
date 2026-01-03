@@ -15,7 +15,9 @@ STATE_DEFAULTS = {
     "tom": "", 
     "influencia_estetica": "",
     "tom_manual_input": "",
-    "influencia_estetica_manual_input": ""
+    "influencia_estetica_manual_input": "",
+    "vocal_masculino": "",
+    "vocal_feminino": ""
 }
 
 def init_session_state():
@@ -143,6 +145,12 @@ def random_all(core):
         
     # 5. Vibes
     random_vibe_generator(core)
+
+    # 6. Vocais (Sorteia Masculino e Feminino separadamente)
+    dados_vocal = core.dados.get("tipo_vocal", {})
+    if dados_vocal:
+        randomize_tags_callback("vocal_masculino", dados_vocal)
+        randomize_tags_callback("vocal_feminino", dados_vocal)
 
 def randomize_struct_callback(core):
     structs = get_all_unique_structures(core)
@@ -320,6 +328,7 @@ def clear_categorized_callback(main_key: str, prefix: str):
             
     # Zera a lista principal
     st.session_state[main_key] = []
+
 
 
 
