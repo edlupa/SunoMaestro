@@ -195,7 +195,7 @@ def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None)
         with c2:
             # Aleatório individual para este campo
             st.button("🎲", key=f"rnd_{k}", use_container_width=True, 
-                      on_click=state.randomize_tags_callback, args=(k, dados_vocal))
+                      on_click=state.randomize_tags_callback, args=(k, data))
         with c3:
             # Limpar individual para este campo
             st.button("🧹", key=f"clr_{k}", use_container_width=True, 
@@ -204,12 +204,12 @@ def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None)
     # 3. Catálogo Único
     if dados_vocal:
         with st.expander(f"🏷️ Catálogo (Enviando para: {vocal_alvo})", expanded=False):
-            categorias = list(dados_vocal.keys())
+            categorias = list(data.keys())
             cat_sel = st.selectbox("Categoria Vocal", categorias, key="sel_cat_vocal", label_visibility="collapsed")
             
             st.divider()
             
-            itens = dados_vocal[cat_sel]
+            itens = data[cat_sel]
             cols = st.columns(3)
             
             for idx, item_pair in enumerate(itens):
@@ -219,7 +219,7 @@ def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None)
                 def handle_vocal_click(nome=v_nome, categoria=cat_sel, key=target_key):
                     atual = st.session_state.get(key, "")
                     tags_atuais = [t.strip() for t in atual.split(",") if t.strip()]
-                    itens_da_cat = [i[0] for i in dados_vocal[categoria]]
+                    itens_da_cat = [i[0] for i in data[categoria]]
                     
                     # Remove tags da mesma categoria e adiciona a nova
                     nova_lista = [t for t in tags_atuais if t not in itens_da_cat]
@@ -237,4 +237,5 @@ def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None)
                 f"Utilize apenas uma por categoria!</div>", 
                 unsafe_allow_html=True
             )
+
 
