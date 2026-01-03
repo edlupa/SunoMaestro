@@ -101,7 +101,7 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
             st.rerun()
 
     # 1. Catálogo de Tags (Onde o usuário clica)
-    with st.expander(f"📚 Selecionar {title}", expanded=True):
+    with st.expander("📚 Selecionar", expanded=False):
         for category, items in data.items():
             st.markdown(f"*{category}*")
             
@@ -128,3 +128,4 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
         label_visibility="collapsed"
     )
     st.markdown("<div style='margin-bottom: 15px;'></div>", unsafe_allow_html=True)
+
