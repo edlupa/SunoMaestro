@@ -331,7 +331,7 @@ def main():
 
     with col_right:
         # 1. Elemento Principal de Destaque na Direita
-        ui.render_vocal_section("🎤 Vocais", "tipo_vocal", core.dados["tipo_vocal"], help_text.get("tipo_vocal"))
+        ui.render_vocal_section("🎤 Vocais", "tipo_vocal", core.dados["tipo_vocal"], core.dados["descritivos"], help_text.get("tipo_vocal"))
         st.divider()
     
         # 2. Expander para Outras Características
@@ -345,11 +345,11 @@ def main():
             st.divider()
             
             # Tom Lírico (Atitude Interpretativa)
-            ui.render_tag_system("📜 Tom Lírico", "tom", core.dados["tom"], help_msg=help_text.get("tom"))
+            ui.render_tag_system("📜 Tom Lírico", "tom", core.dados["tom"], core.dados["descritivos"], help_msg=help_text.get("tom"))
             st.divider()
             
             # Influência Estética
-            ui.render_tag_system("🎨 Influência Estética", "influencia_estetica", core.dados["influencia_estetica"], help_msg=help_text.get("influencia_estetica"))
+            ui.render_tag_system("🎨 Influência Estética", "influencia_estetica", core.dados["influencia_estetica"], core.dados["descritivos"], help_msg=help_text.get("influencia_estetica"))
             st.divider()
             
             # Tipo de Gravação
@@ -363,6 +363,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
