@@ -13,7 +13,9 @@ STATE_DEFAULTS = {
     "history": [],
     "new_vibe_input": "",
     "tom": "", 
-    "influencia_estetica": ""
+    "influencia_estetica": "",
+    "tom_manual_input": "",
+    "influencia_estetica_manual_input": "
 }
 
 def init_session_state():
@@ -298,5 +300,6 @@ def clear_categorized_callback(main_key: str, prefix: str):
             
     # Zera a lista principal
     st.session_state[main_key] = []
+
 
 
