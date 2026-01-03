@@ -17,7 +17,8 @@ class SunoMaestroCore:
             "narrador": "07_narrador.json",
             "metatags": "08_metatags_musicais.json",
             "help": "09_ajuda.json",
-            "tipo_vocal": "10_tipo_vocal.json"
+            "tipo_vocal": "10_tipo_vocal.json",
+            "descritivos": "11_descritivos.json"
         }
         self.dados = self._load_data()
 
@@ -202,5 +203,6 @@ def load_dataset_cached(dataset_dir, arquivos_map):
             # Opcional: st.error(f"Erro ao ler JSON: {filename}")
 
     return dados
+
 
 
