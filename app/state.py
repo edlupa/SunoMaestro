@@ -3,7 +3,7 @@ import random
 import re
 
 # --- CONSTANTES ---
-HIER_KEYS = ["publico", "tom", "tipo_de_gravacao", "influencia_estetica", "narrador"]
+HIER_KEYS = ["publico", "tipo_de_gravacao", "narrador"]
 STATE_DEFAULTS = {
     "genero": "", "ritmo": "", "idioma": "", "tema": "",
     "mensagem": "", "palavras_chave": "", "referencia": "",
@@ -319,6 +319,7 @@ def clear_categorized_callback(main_key: str, prefix: str):
             
     # Zera a lista principal
     st.session_state[main_key] = []
+
 
 
 
