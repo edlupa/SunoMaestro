@@ -330,17 +330,30 @@ def main():
         render_vibe_section(core, help_text)
 
     with col_right:
+        # 1. Elemento Principal de Destaque na Direita
         ui.render_vocal_section("🎤 Vocais", "tipo_vocal", core.dados["tipo_vocal"], help_text.get("tipo_vocal"))
         st.divider()
-        ui.hierarchical_field("🎧 Público Alvo", "publico", core.dados["publico"], help_msg=help_text.get("publico"))
-        st.divider()
-        ui.hierarchical_field("🎤 Narrador", "narrador", core.dados["narrador"], help_msg=help_text.get("narrador"))
-        st.divider()
-        ui.render_tag_system("📜 Tom Lírico", "tom", core.dados["tom"], help_msg=help_text.get("tom"))
-        st.divider()
-        ui.render_tag_system("🎨 Influência Estética", "influencia_estetica", core.dados["influencia_estetica"], help_msg=help_text.get("influencia_estetica"))
-        st.divider()        
-        ui.hierarchical_field("🎚️ Tipo de Gravação", "tipo_de_gravacao", core.dados["tipo_de_gravacao"], help_msg=help_text.get("tipo_de_gravacao"))
+    
+        # 2. Expander para Outras Características
+        with st.expander("⚙️ Outras Características Teatrais e Técnicas", expanded=True):
+            # Público Alvo
+            ui.hierarchical_field("🎧 Público Alvo", "publico", core.dados["publico"], help_msg=help_text.get("publico"))
+            st.divider()
+            
+            # Narrador
+            ui.hierarchical_field("🎤 Narrador", "narrador", core.dados["narrador"], help_msg=help_text.get("narrador"))
+            st.divider()
+            
+            # Tom Lírico (Atitude Interpretativa)
+            ui.render_tag_system("📜 Tom Lírico", "tom", core.dados["tom"], help_msg=help_text.get("tom"))
+            st.divider()
+            
+            # Influência Estética
+            ui.render_tag_system("🎨 Influência Estética", "influencia_estetica", core.dados["influencia_estetica"], help_msg=help_text.get("influencia_estetica"))
+            st.divider()
+            
+            # Tipo de Gravação
+            ui.hierarchical_field("🎚️ Tipo de Gravação", "tipo_de_gravacao", core.dados["tipo_de_gravacao"], help_msg=help_text.get("tipo_de_gravacao"))
 
     st.markdown("---")
     st.markdown("<div style='text-align: center; color: #666; font-size: 0.8rem;'>Suno Maestro • Powered by Eduardo Palombo</div>", unsafe_allow_html=True)
@@ -350,6 +363,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
