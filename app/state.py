@@ -125,21 +125,15 @@ def random_all(core):
             st.session_state.estrutura = escolhido[1]
             st.session_state.estrutura_sel = escolhido[1]
 
-    # 2. Sorteio de Tom Lírico (Sistema novo de Tags/String)
+    # 2. Tom Lírico (Agora usando a nova lógica inteligente)
     dados_tom = core.dados.get("tom", {})
     if dados_tom:
-        # Achata todos os itens de todas as categorias do JSON
-        todos_tons = [item[0] for lista in dados_tom.values() for item in lista]
-        # Sorteia de 1 a 3 itens
-        sorteados = random.sample(todos_tons, k=min(random.randint(1,3), len(todos_tons)))
-        st.session_state["tom"] = ", ".join(sorteados)
+        randomize_tags_callback("tom", dados_tom)
 
-    # 3. Sorteio de Influência Estética (Sistema novo de Tags/String)
+    # 3. Influência Estética (Agora usando a nova lógica inteligente)
     dados_inf = core.dados.get("influencia_estetica", {})
     if dados_inf:
-        todos_inf = [item[0] for lista in dados_inf.values() for item in lista]
-        sorteados = random.sample(todos_inf, k=min(random.randint(1,3), len(todos_inf)))
-        st.session_state["influencia_estetica"] = ", ".join(sorteados)
+        randomize_tags_callback("influencia_estetica", dados_inf)
 
     # 4. Campos Hierárquicos Restantes (Público, Narrador, Tipo de Gravação)
     for k in HIER_KEYS:
@@ -326,6 +320,7 @@ def clear_categorized_callback(main_key: str, prefix: str):
             
     # Zera a lista principal
     st.session_state[main_key] = []
+
 
 
 
