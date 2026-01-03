@@ -87,86 +87,44 @@ def hierarchical_field(title: str, key: str, data: Dict[str, List[str]], help_ms
 
 def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
     """
-    Renderiza um sistema de tags limpo (Multiselect) com catálogo expansível.
-    Sem restrições de categoria.
+    Sistema idêntico ao de Estrutura:
+    Cliques nas tags preenchem o text_input e hover mostra descrição.
     """
-    # 1. Cabeçalho e Botões de Ação
-    c_head, c_btn = st.columns([0.80, 0.20], vertical_alignment="bottom")
-    with c_head:
-        if help_msg:
-            st.markdown(f"**{title}**", help=help_msg)
-        else:
-            st.markdown(f"**{title}**")
+    # Cabeçalho
+    c1, c2 = st.columns([0.9, 0.1], vertical_alignment="bottom")
+    with c1:
+        st.markdown(f"**{title}**", help=help_msg)
+    with c2:
+        # Botão limpar específico para este campo de texto
+        if st.button("🧹", key=f"clr_{key}", use_container_width=True):
+            st.session_state[key] = ""
+            st.rerun()
+
+    # 1. Catálogo de Tags (Onde o usuário clica)
+    with st.expander(f"📚 Selecionar {title}", expanded=True):
+        for category, items in data.items():
+            st.markdown(f"*{category}*")
             
-    with c_btn:
-        b1, b2 = st.columns(2, gap="small")
-        with b1:
-             st.button("🎲", key=f"rnd_{key}", help="Sugerir combinação", 
-                      on_click=state.randomize_tags_callback, args=(key, data), use_container_width=True)
-        with b2:
-             st.button("🧹", key=f"clr_{key}", help="Limpar tudo",
-                      on_click=state.clear_tags_callback, args=(key,), use_container_width=True)
-
-    # 2. Preparar dados para o Multiselect (Achatar o JSON)
-    # Criamos um dicionário reverso para buscar descrição e categoria pelo nome
-    item_details = {}
-    all_options = []
-    
-    for category, items_list in data.items():
-        for item_pair in items_list:
-            name = item_pair[0]
-            desc = item_pair[1]
-            all_options.append(name)
-            item_details[name] = {"cat": category, "desc": desc}
-    
-    all_options = sorted(all_options)
-
-    # Função de formatação para deixar o dropdown bonito
-    def format_func(option):
-        details = item_details.get(option)
-        if details:
-            # Ex: [Modo Emocional] Melancólico | Estado de tristeza...
-            return f"[{details['cat']}] {option} | {details['desc']}"
-        return option
-
-    # 3. Multiselect Principal
-    if key not in st.session_state:
-        st.session_state[key] = []
-
-    st.multiselect(
-        label=f"Selecione {title}",
-        options=all_options,
-        default=st.session_state[key],
-        key=key,
-        format_func=format_func,
-        label_visibility="collapsed",
-        placeholder="Selecione ou digite..."
-    )
-
-    # 4. Input Manual para "Outros"
-    manual_key = f"{key}_manual_input"
-    def add_manual():
-        val = st.session_state.get(manual_key, "").strip()
-        if val and val not in st.session_state[key]:
-            st.session_state[key].append(val)
-            st.session_state[manual_key] = "" # Limpa input
-
-    st.text_input(
-        "Adicionar manual",
-        key=manual_key,
-        placeholder="Adicionar tag personalizada...",
-        label_visibility="collapsed",
-        on_change=add_manual
-    )
-
-    # 5. Catálogo Expansível (Igual Estrutura/Vibe)
-    with st.expander(f"📚 Ver Catálogo de {title}", expanded=False):
-        for category, items_list in data.items():
-            st.markdown(f"**{category}**")
-            # Cria chips ou texto pequeno para visualização rápida
-            tags_display = [f"`{item[0]}`" for item in items_list]
-            st.markdown(" ".join(tags_display))
+            # Criar linha de botões (tags)
+            cols = st.columns(len(items) if len(items) < 5 else 5)
+            for idx, item_pair in enumerate(items):
+                name, desc = item_pair[0], item_pair[1]
+                
+                # O segredo do 'Hover' no Streamlit puro para botões é o help do st.button
+                if st.button(name, key=f"btn_{key}_{name}", help=desc):
+                    current_text = st.session_state.get(key, "")
+                    if name not in current_text:
+                        # Adiciona com vírgula se já houver texto
+                        new_text = f"{current_text}, {name}" if current_text else name
+                        st.session_state[key] = new_text
+                        st.rerun()
             st.divider()
 
+    # 2. O Campo de Texto que recebe as escolhas (e permite edição manual)
+    st.text_input(
+        f"Texto final {title}",
+        key=key,
+        placeholder="Selecione acima ou digite aqui...",
+        label_visibility="collapsed"
+    )
     st.markdown("<div style='margin-bottom: 15px;'></div>", unsafe_allow_html=True)
-
