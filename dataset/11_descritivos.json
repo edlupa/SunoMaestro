@@ -1,0 +1,30 @@
+{
+    "Estetica_Musical": [
+        ["Movimentos Artísticos", "Conjuntos históricos ou estéticos que definem princípios formais, filosóficos e expressivos compartilhados, influenciando a linguagem musical."],
+        ["Épocas", "Recortes temporais que contextualizam a música dentro de períodos históricos, tecnológicos e sociais, moldando práticas e estilos."],
+        ["Regiões", "Localizações geográficas e culturais que determinam sistemas musicais, instrumentos, escalas, ritmos e modos de transmissão."],
+        ["Culturas", "Contextos sociais e simbólicos nos quais a música é criada, transmitida e vivenciada, influenciando função, forma e significado."],
+        ["Filosofias", "Sistemas de pensamento que orientam concepções sobre som, arte, ordem, expressão e experiência musical."],
+        ["Religiões", "Tradições espirituais que utilizam a música como meio ritual, litúrgico, meditativo ou simbólico, influenciando forma e intenção sonora."]
+    ],
+
+    "Tom_Lirico": [
+        ["Perspectiva Lírico-Narrativa", "Define o ponto de vista e a forma como a voz lírica se posiciona em relação ao conteúdo narrado ou expresso."],
+        ["Modo Emocional", "Indica o estado afetivo predominante que atravessa a letra, orientando o clima emocional da composição."],
+        ["Relação com o Eu", "Descreve o grau de identificação, distanciamento ou construção do sujeito que fala na letra."],
+        ["Função Comunicativa", "Refere-se à intenção principal da letra: expressar, narrar, questionar, criticar, ensinar ou provocar emoção."],
+        ["Registro Linguístico", "Caracteriza o nível e o estilo da linguagem utilizada, do coloquial ao literário, do direto ao experimental."],
+        ["Temporalidade", "Define como o tempo é tratado na letra: presente, memória, projeção futura ou suspensão temporal."],
+        ["Grau de Mediação Poética", "Indica o nível de elaboração simbólica entre a mensagem e o ouvinte, do literal ao abstrato."]
+    ],
+
+    "Tipos_de_Vocais": [
+        ["Extensão Vocal", "Classificação baseada na tessitura e alcance fisiológico da voz."],
+        ["Timbre Vocal", "Qualidade sonora da voz, determinada por ressonância, textura e cor tonal."],
+        ["Técnica Vocal", "Modo de emissão e controle da voz, incluindo recursos fisiológicos e estilísticos."],
+        ["Estilo Vocal", "Tradições e convenções estéticas que moldam o uso da voz em diferentes gêneros musicais."],
+        ["Atitude Interpretativa", "Postura expressiva adotada pelo intérprete ao cantar, relacionada à intenção emocional e dramática."],
+        ["Clareza e Articulação", "Forma como as palavras são pronunciadas e compreendidas na performance vocal."],
+        ["Intensidade Performática", "Nível de energia, projeção e variação dinâmica da interpretação vocal."]
+    ]
+}
