@@ -85,4 +85,71 @@ def hierarchical_field(title: str, key: str, data: Dict[str, List[str]], help_ms
 
     st.markdown("<div style='margin-bottom: 10px;'></div>", unsafe_allow_html=True)
 
+def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
+    """
+    Renderiza um sistema de tags com Multiselect + Input Manual.
+    Aplica a regra de 'Um por Categoria' via callback.
+    """
+    # Cabeçalho com Help
+    if help_msg:
+        st.markdown(f"**{title}**", help=help_msg)
+    else:
+        st.markdown(f"**{title}**")
+
+    # 1. Preparar lista plana de opções para o Multiselect
+    # O formato do JSON é { "Categoria": [ ["Nome", "Desc"], ... ] }
+    all_options = []
+    for items_list in data.values():
+        for item_pair in items_list:
+            all_options.append(item_pair[0]) # Pega apenas o nome
+    
+    all_options = sorted(all_options)
+
+    # 2. Área de Controle (Botões)
+    c_btn1, c_btn2 = st.columns([0.8, 0.2], gap="small")
+    with c_btn2:
+        # Mini botões de ação
+        b1, b2 = st.columns(2, gap="small")
+        with b1:
+             st.button("🎲", key=f"rnd_{key}", help="Sugerir combinação aleatória", 
+                      on_click=state.randomize_tags_callback, args=(key, data), use_container_width=True)
+        with b2:
+             st.button("🧹", key=f"clr_{key}", help="Limpar seleção",
+                      on_click=state.clear_tags_callback, args=(key,), use_container_width=True)
+
+    # 3. Multiselect Principal (Selecionar do JSON)
+    # Inicializa se não existir
+    if key not in st.session_state:
+        st.session_state[key] = []
+
+    st.multiselect(
+        "Selecione as características:",
+        options=all_options,
+        key=key,
+        label_visibility="collapsed",
+        placeholder="Selecione as tags...",
+        on_change=state.handle_tag_selection, # O callback mágico
+        args=(key, data)
+    )
+
+    # 4. Campo para Opção Personalizada
+    manual_key = f"{key}_manual_input"
+    
+    def add_custom_tag():
+        val = st.session_state.get(manual_key, "").strip()
+        if val:
+            # Adiciona à lista principal se não estiver lá
+            if val not in st.session_state[key]:
+                st.session_state[key].append(val)
+            st.session_state[manual_key] = "" # Limpa o input
+
+    st.text_input(
+        "Adicionar opção extra:",
+        key=manual_key,
+        placeholder="Digite e dê Enter para incluir sua própria...",
+        label_visibility="collapsed",
+        on_change=add_custom_tag
+    )
+    
+    st.markdown("<div style='margin-bottom: 15px;'></div>", unsafe_allow_html=True)
 
