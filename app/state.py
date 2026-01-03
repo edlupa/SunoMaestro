@@ -328,12 +328,13 @@ def clear_categorized_callback(main_key: str, prefix: str):
     # Zera a lista principal
     st.session_state[main_key] = []
 
-def random_all_vocals(core):
-    dados_vocal = core.dados.get("tipo_vocal", {})
+def random_all_vocals(key: str, data: dict):
+    dados_vocal = data.dados.get("tipo_vocal", {})
     if dados_vocal:
         # Sorteia 1 a 2 categorias para cada gênero e escolhe 1 item de cada
         randomize_tags_callback("vocal_masculino", dados_vocal)
         randomize_tags_callback("vocal_feminino", dados_vocal)
+
 
 
 
