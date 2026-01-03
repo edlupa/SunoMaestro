@@ -229,17 +229,25 @@ def handle_tag_selection(key: str, data: dict):
     st.session_state[key] = final_list
 
 def randomize_tags_callback(key: str, data: dict):
-    """Seleciona de 1 a 3 itens aleatórios e injeta como string no campo."""
+    """
+    Seleciona aleatoriamente entre 1 a 3 itens de categorias variadas.
+    Converte o resultado em STRING para ser compatível com text_input.
+    """
     import random
+    
     all_items = []
+    # Itera sobre o dicionário do JSON para pegar apenas os nomes (índice 0)
     for items_list in data.values():
-        for item in items_list:
-            all_items.append(item[0])
+        for item_pair in items_list:
+            all_items.append(item_pair[0])
             
     if all_items:
-        k = random.randint(1, 3)
-        selected = random.sample(all_items, k=min(k, len(all_items)))
-        st.session_state[key] = ", ".join(selected)
+        # Escolhe de 1 a 3 itens
+        k = random.randint(1, 5)
+        selection = random.sample(all_items, k=min(k, len(all_items)))
+        
+        # O SEGREDO: Salva como String separada por vírgula
+        st.session_state[key] = ", ".join(selection)
 
 def clear_tags_callback(key: str):
     """Limpa a seleção e o input manual."""
@@ -293,6 +301,7 @@ def clear_categorized_callback(main_key: str, prefix: str):
             
     # Zera a lista principal
     st.session_state[main_key] = []
+
 
 
 
