@@ -85,41 +85,60 @@ def hierarchical_field(title: str, key: str, data: Dict[str, List[str]], help_ms
 
     st.markdown("<div style='margin-bottom: 10px;'></div>", unsafe_allow_html=True)
 
+import streamlit as st
+import app.state as state
+
 def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
     """
-    Sistema idêntico ao de Estrutura:
-    1. Cabeçalho com Botões (Aleatório e Limpar)
-    2. Input de texto editável (Vem ANTES do seletor)
-    3. Expander com Abas e Grid de botões
+    Sistema de Tags idêntico ao de Estrutura:
+    - Scroll horizontal nas abas via CSS corrigido.
+    - Input de texto antes do catálogo.
+    - Botões de Aleatório e Limpar.
+    - Lógica de clique individual para cada tag.
     """
-
-    """
-    Sistema de Tags com scroll horizontal nas abas.
-    """
-    # Injeção de CSS para habilitar o scroll horizontal nas abas
+    
+    # 1. Injeção de CSS Robusta para Scroll nas Abas (Identificadores Oficiais)
     st.markdown("""
         <style>
-        /* Estiliza o container das abas para permitir scroll */
-        div[st-indexed-container="true"] > div:first-child {
+        /* Seleciona o container de abas do Streamlit */
+        div[data-testid="stTabs"] {
             overflow-x: auto;
-            white-space: nowrap;
-            flex-wrap: nowrap !important;
         }
-        /* Garante que os botões das abas não encolham */
-        div[st-indexed-container="true"] button {
-            flex-shrink: 0;
+        
+        /* Força a lista de botões das abas a não quebrar linha */
+        div[data-testid="stTabs"] > div:first-child {
+            display: flex;
+            flex-wrap: nowrap !important;
+            overflow-x: auto;
+            gap: 10px;
+        }
+        
+        /* Impede que os botões das abas fiquem espremidos e mantém o texto inteiro */
+        div[data-testid="stTabs"] button {
+            flex-shrink: 0 !important;
+            white-space: nowrap !important;
+            min-width: fit-content;
+        }
+
+        /* Estilização da barra de rolagem para ficar discreta */
+        div[data-testid="stTabs"] > div:first-child::-webkit-scrollbar {
+            height: 4px;
+        }
+        div[data-testid="stTabs"] > div:first-child::-webkit-scrollbar-thumb {
+            background-color: #d1d1d1;
+            border-radius: 10px;
         }
         </style>
     """, unsafe_allow_html=True)
-    
-    # Cabeçalho
+
+    # 2. Cabeçalho
     st.markdown(f"**{title}**", help=help_msg)
     
-    # Linha de controles (Seguindo o layout da estrutura)
+    # 3. Linha de controles (Layout da Estrutura)
     sc1, sc3, sc4 = st.columns([0.70, 0.10, .10], gap="small", vertical_alignment="bottom")
     
     with sc1:
-        # Garantimos que o valor no session_state seja sempre string para evitar o TypeError
+        # Garante que o valor no session_state seja sempre string
         if not isinstance(st.session_state.get(key), str):
             st.session_state[key] = ""
             
@@ -127,20 +146,20 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
             "Editável", 
             key=key, 
             label_visibility="collapsed", 
-            placeholder="Selecione ou digite."
+            placeholder=f"Selecione ou digite seu {title.lower()}..."
         )
         
     with sc3:
-        # Botão Aleatório
+        # Botão Aleatório Individual
         st.button("🎲", key=f"btn_rnd_{key}", use_container_width=True, 
                   on_click=state.randomize_tags_callback, args=(key, data))
         
     with sc4:
-        # Botão Limpar
+        # Botão Limpar Individual
         st.button("🧹", key=f"btn_clr_{key}", use_container_width=True, 
                   on_click=lambda: st.session_state.update({key: ""}))
 
-    # Seletor em Expander com Abas (Igual ao 'Adicionar Seções e Tags')
+    # 4. Seletor em Expander com Abas e Scroll
     if data:
         with st.expander("🏷️ Catálogo", expanded=False):
             categorias = list(data.keys())
@@ -149,19 +168,25 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
             for i, categoria in enumerate(categorias):
                 with abas[i]:
                     itens = data[categoria]
-                    cols = st.columns(4) # Grid de 4 colunas
+                    cols = st.columns(4) # Grid de 4 colunas para as tags
+                    
                     for idx, item_pair in enumerate(itens):
                         tag_nome, tag_desc = item_pair[0], item_pair[1]
+                        
+                        # Função interna com argumento fixo para evitar bug de escopo
+                        def make_add_tag(val=tag_nome):
+                            current = st.session_state.get(key, "")
+                            if val not in current:
+                                novo_texto = f"{current}, {val}" if current else val
+                                st.session_state[key] = novo_texto
+
                         with cols[idx % 4]:
-                            # Ao clicar, adiciona ao texto existente com vírgula
-                            def add_tag(name=tag_nome, k=key):
-                                current = st.session_state.get(k, "")
-                                if name not in current:
-                                    st.session_state[k] = f"{current}, {name}" if current else name
-
-                            st.button(tag_nome, key=f"btn_{key}_{categoria}_{idx}", 
-                                      help=tag_desc, on_click=add_tag, use_container_width=True)
+                            st.button(
+                                tag_nome, 
+                                key=f"btn_{key}_{categoria}_{idx}", 
+                                help=tag_desc, 
+                                on_click=make_add_tag, 
+                                use_container_width=True
+                            )
             
-            st.caption(f"💡 Clique nas tags para compor o {title.lower()}.")
-
-
+            st.caption("💡 Clique nas tags para adicionar. Passe o mouse para ver a descrição. Utilize apenas uma por categoria!")
