@@ -87,15 +87,16 @@ def hierarchical_field(title: str, key: str, data: Dict[str, List[str]], help_ms
 
 def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
     """
-    Sistema de Tags estilo Estrutura com correção de alinhamento:
-    - Abas com scroll horizontal.
-    - Conteúdo (tags) alinhado à esquerda ocupando 100% da largura.
+    Sistema de Tags finalizado:
+    - Scroll horizontal nas abas (CSS corrigido).
+    - Grid de tags alinhado à esquerda (ajustado para ocupar 100% da largura).
+    - Lógica de tags individualizada.
     """
     
-    # 1. Injeção de CSS Corrigida para Alinhamento
+    # 1. Injeção de CSS para Scroll nas Abas e Alinhamento do Conteúdo
     st.markdown("""
         <style>
-        /* 1. Cabeçalho das Abas com Scroll */
+        /* Container das abas com scroll horizontal */
         div[data-testid="stTabs"] > div:first-child {
             display: flex;
             flex-wrap: nowrap !important;
@@ -105,20 +106,19 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
             width: 100%;
         }
         
-        /* 2. Impede que os botões das abas encolham */
+        /* Botões das abas sem encolher */
         div[data-testid="stTabs"] > div:first-child button {
             flex-shrink: 0 !important;
             white-space: nowrap !important;
         }
 
-        /* 3. CORREÇÃO DO CONTEÚDO: Força as tags a voltarem para a esquerda */
+        /* Força o conteúdo da aba a ocupar toda a largura e alinhar à esquerda */
         div[data-testid="stTabs"] > div:nth-child(2) {
             width: 100% !important;
-            margin-left: 0 !important;
             display: block !important;
         }
 
-        /* 4. Estilização da barra de rolagem */
+        /* Estilização da barra de rolagem */
         div[data-testid="stTabs"] > div:first-child::-webkit-scrollbar {
             height: 4px;
         }
@@ -129,11 +129,11 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
         </style>
     """, unsafe_allow_html=True)
 
-    # 2. Cabeçalho do Bloco
+    # 2. Cabeçalho (Título e Ícone)
     st.markdown(f"**{title}**", help=help_msg)
     
-    # 3. Linha de Controles (Igual Estrutura)
-    sc1, sc3, sc4 = st.columns([0.70, 0.10, .10], gap="small", vertical_alignment="bottom")
+    # 3. Linha de Controles (Input, Aleatório e Limpar)
+    sc1, sc3, sc4 = st.columns([0.76, 0.12, 0.12], gap="small", vertical_alignment="bottom")
     
     with sc1:
         if not isinstance(st.session_state.get(key), str):
@@ -148,8 +148,9 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
         st.button("🧹", key=f"btn_clr_{key}", use_container_width=True, 
                   on_click=lambda: st.session_state.update({key: ""}))
 
-    # 4. Catálogo em Expander
+    # 4. Expander do Catálogo
     if data:
+        # Usamos o emoji de tag como na sua imagem
         with st.expander("🏷️ Catálogo", expanded=False):
             categorias = list(data.keys())
             abas = st.tabs(categorias)
@@ -157,27 +158,41 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
             for i, categoria in enumerate(categorias):
                 with abas[i]:
                     itens = data[categoria]
-                    # Usando 3 colunas para garantir que o texto caiba bem
-                    cols = st.columns(3) 
+                    
+                    # Para alinhar como na imagem, criamos um container de colunas
+                    # O Streamlit 1.30+ permite usar o gap="small"
+                    cols = st.columns(4) 
                     
                     for idx, item_pair in enumerate(itens):
                         tag_nome, tag_desc = item_pair[0], item_pair[1]
                         
-                        # Função de callback para a tag
+                        # Função de clique para adicionar a tag ao texto
                         def make_add_tag(val=tag_nome):
-                            current = st.session_state.get(key, "")
+                            current = st.session_state.get(key, "").strip()
                             if val not in current:
-                                st.session_state[key] = f"{current}, {val}" if current else val
+                                if current and not current.endswith(','):
+                                    st.session_state[key] = f"{current}, {val}"
+                                elif current:
+                                    st.session_state[key] = f"{current} {val}"
+                                else:
+                                    st.session_state[key] = val
 
-                        with cols[idx % 3]:
+                        with cols[idx % 4]:
                             st.button(
                                 tag_nome, 
                                 key=f"btn_{key}_{categoria}_{idx}", 
                                 help=tag_desc, 
                                 on_click=make_add_tag, 
                                 use_container_width=True
-                            )            
-           
-            st.caption("💡 Clique nas tags para adicionar. Passe o mouse para ver a descrição. Utilize apenas uma por categoria!")
+                            )
+            
+            # Legenda idêntica à imagem
+            st.markdown(
+                f"<div style='font-size: 0.8rem; color: gray; margin-top: 10px;'>"
+                f"💡 Clique nas tags para adicionar. Passe o mouse para ver a descrição. "
+                f"Utilize apenas uma por categoria!</div>", 
+                unsafe_allow_html=True
+            )
+
 
 
