@@ -85,59 +85,88 @@ def hierarchical_field(title: str, key: str, data: Dict[str, List[str]], help_ms
 
     st.markdown("<div style='margin-bottom: 10px;'></div>", unsafe_allow_html=True)
 
-def render_categorized_system(title: str, main_key: str, data: dict, help_msg: str = None):
+def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
     """
-    Renderiza um sistema de categorias onde cada chave do JSON vira um Selectbox.
-    Exibe: Nome do Item - Descrição.
+    Renderiza um sistema de tags limpo (Multiselect) com catálogo expansível.
+    Sem restrições de categoria.
     """
-    # Título da Seção
-    if help_msg:
-        st.markdown(f"**{title}**", help=help_msg)
-    else:
-        st.markdown(f"**{title}**")
-
-    # Container para os controles (Botão Limpar)
-    c_info, c_btn = st.columns([0.85, 0.15], vertical_alignment="bottom")
+    # 1. Cabeçalho e Botões de Ação
+    c_head, c_btn = st.columns([0.80, 0.20], vertical_alignment="bottom")
+    with c_head:
+        if help_msg:
+            st.markdown(f"**{title}**", help=help_msg)
+        else:
+            st.markdown(f"**{title}**")
+            
     with c_btn:
-        prefix = f"{main_key}_CAT_"
-        st.button("🧹", key=f"clr_{main_key}", help="Limpar todas as seleções desta seção",
-                  on_click=state.clear_categorized_callback, args=(main_key, prefix))
+        b1, b2 = st.columns(2, gap="small")
+        with b1:
+             st.button("🎲", key=f"rnd_{key}", help="Sugerir combinação", 
+                      on_click=state.randomize_tags_callback, args=(key, data), use_container_width=True)
+        with b2:
+             st.button("🧹", key=f"clr_{key}", help="Limpar tudo",
+                      on_click=state.clear_tags_callback, args=(key,), use_container_width=True)
 
-    # --- LOOP PELAS CATEGORIAS DO JSON ---
-    # data ex: {"Modo Emocional": [["Trágico", "Desc..."], ...], "Tempo": ...}
+    # 2. Preparar dados para o Multiselect (Achatar o JSON)
+    # Criamos um dicionário reverso para buscar descrição e categoria pelo nome
+    item_details = {}
+    all_options = []
     
-    for category_name, options_list in data.items():
-        # Chave única para este selectbox
-        sb_key = f"{main_key}_CAT_{category_name}"
-        
-        # Prepara as opções: Adiciona uma opção vazia (None) no início
-        # As opções serão as listas completas [Nome, Descrição] para usarmos no format_func
-        display_options = [None] + options_list
-        
-        def format_option(option):
-            if option is None:
-                return "Selecione..."
-            name, desc = option[0], option[1]
-            # Exibe: "Trágico | Expressão de perda..." (Corta se for muito longo)
-            return f"{name} | {desc[:60]}..." if len(desc) > 60 else f"{name} | {desc}"
+    for category, items_list in data.items():
+        for item_pair in items_list:
+            name = item_pair[0]
+            desc = item_pair[1]
+            all_options.append(name)
+            item_details[name] = {"cat": category, "desc": desc}
+    
+    all_options = sorted(all_options)
 
-        st.selectbox(
-            label=category_name, # O Título da Categoria (ex: "Modo Emocional")
-            options=display_options,
-            format_func=format_option,
-            key=sb_key,
-            on_change=state.update_categorized_selection,
-            args=(main_key, main_key, f"{main_key}_manual_input")
-        )
+    # Função de formatação para deixar o dropdown bonito
+    def format_func(option):
+        details = item_details.get(option)
+        if details:
+            # Ex: [Modo Emocional] Melancólico | Estado de tristeza...
+            return f"[{details['cat']}] {option} | {details['desc']}"
+        return option
 
-    # --- INPUT MANUAL ---
-    manual_key = f"{main_key}_manual_input"
-    st.text_input(
-        f"Outro (Personalizado para {title})",
-        key=manual_key,
-        placeholder="Digite algo exclusivo...",
-        on_change=state.update_categorized_selection,
-        args=(main_key, main_key, manual_key)
+    # 3. Multiselect Principal
+    if key not in st.session_state:
+        st.session_state[key] = []
+
+    st.multiselect(
+        label=f"Selecione {title}",
+        options=all_options,
+        default=st.session_state[key],
+        key=key,
+        format_func=format_func,
+        label_visibility="collapsed",
+        placeholder="Selecione ou digite..."
     )
-    
-    st.markdown("<div style='margin-bottom: 20px;'></div>", unsafe_allow_html=True)
+
+    # 4. Input Manual para "Outros"
+    manual_key = f"{key}_manual_input"
+    def add_manual():
+        val = st.session_state.get(manual_key, "").strip()
+        if val and val not in st.session_state[key]:
+            st.session_state[key].append(val)
+            st.session_state[manual_key] = "" # Limpa input
+
+    st.text_input(
+        "Adicionar manual",
+        key=manual_key,
+        placeholder="Adicionar tag personalizada...",
+        label_visibility="collapsed",
+        on_change=add_manual
+    )
+
+    # 5. Catálogo Expansível (Igual Estrutura/Vibe)
+    with st.expander(f"📚 Ver Catálogo de {title}", expanded=False):
+        for category, items_list in data.items():
+            st.markdown(f"**{category}**")
+            # Cria chips ou texto pequeno para visualização rápida
+            tags_display = [f"`{item[0]}`" for item in items_list]
+            st.markdown(" ".join(tags_display))
+            st.divider()
+
+    st.markdown("<div style='margin-bottom: 15px;'></div>", unsafe_allow_html=True)
+
