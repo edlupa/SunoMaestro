@@ -175,8 +175,7 @@ def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None)
     Renderiza a seção de Vocais com dois campos (Masc/Fem) 
     e um catálogo compartilhado com trava por categoria.
     """
-    st.subheader("🎤 Configuração Vocal")
-    dados_vocal = core.dados.get("tipo_vocal", {})
+    st.subheader(f"**{title}**", help=help_msg)
     
     # 1. Linha de Controles (Inputs Masculino e Feminino)
     col_m, col_f, col_btn = st.columns([0.40, 0.40, 0.20], gap="small", vertical_alignment="bottom")
@@ -195,13 +194,13 @@ def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None)
                       on_click=lambda: st.session_state.update({"vocal_masculino": "", "vocal_feminino": ""}))
 
     # 2. Catálogo compartilhado
-    if dados_vocal:
+    if data:
         with st.expander("🏷️ Catálogo Vocal (Clique para aplicar aos dois ou digite acima)", expanded=False):
-            categorias = list(dados_vocal.keys())
+            categorias = list(data.keys())
             cat_sel = st.selectbox("Categoria Vocal", categorias, key="sel_cat_vocal", label_visibility="collapsed")
             
             st.divider()
-            itens = dados_vocal[cat_sel]
+            itens = data[cat_sel]
             cols = st.columns(3)
             
             for idx, item_pair in enumerate(itens):
@@ -214,7 +213,7 @@ def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None)
                     for k in ["vocal_masculino", "vocal_feminino"]:
                         atual = st.session_state.get(k, "")
                         tags = [t.strip() for t in atual.split(",") if t.strip()]
-                        itens_cat = [i[0] for i in dados_vocal[cat]]
+                        itens_cat = [i[0] for i in data[cat]]
                         # Filtra e substitui
                         nova_lista = [t for t in tags if t not in itens_cat]
                         nova_lista.append(nome)
@@ -231,6 +230,7 @@ def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None)
                 f"Utilize apenas uma por categoria!</div>", 
                 unsafe_allow_html=True
             )
+
 
 
 
