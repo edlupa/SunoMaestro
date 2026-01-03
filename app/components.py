@@ -227,3 +227,12 @@ def render_vocal_section(core):
                     st.button(v_nome, key=f"btn_vocal_{idx}", help=v_desc, 
                               on_click=add_vocal_logic, use_container_width=True)
 
+            # Legenda de ajuda
+            st.markdown(
+                f"<div style='font-size: 0.8rem; color: gray; margin-top: 10px;'>"
+                f"💡 Clique nas tags para adicionar. Passe o mouse para ver a descrição. "
+                f"Utilize apenas uma por categoria!</div>", 
+                unsafe_allow_html=True
+            )
+
+
