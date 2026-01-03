@@ -12,15 +12,8 @@ STATE_DEFAULTS = {
     "estrutura": "", "estrutura_sel": "",
     "history": [],
     "new_vibe_input": "",
-    
-    # --- AJUSTE ESTES DOIS PARA LISTAS VAZIAS ---
-    "tom": [], 
-    "influencia_estetica": [],
-    # --------------------------------------------
-    
-    # Os inputs manuais auxiliares
-    "tom_manual_input": "",
-    "influencia_estetica_manual_input": ""
+    "tom": "", 
+    "influencia_estetica": ""
 }
 
 def init_session_state():
@@ -305,4 +298,5 @@ def clear_categorized_callback(main_key: str, prefix: str):
             
     # Zera a lista principal
     st.session_state[main_key] = []
+
 
