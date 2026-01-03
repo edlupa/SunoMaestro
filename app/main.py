@@ -229,6 +229,11 @@ def main():
     # Inicializações
     st.markdown(f"<style>{load_css()}</style>", unsafe_allow_html=True)
     state.init_session_state()
+
+    # Adicione esta verificação extra para garantir
+    if "history" not in st.session_state:
+        st.session_state.history = []
+    
     core = get_core_instance(ROOT)
     placeholder_aviso = st.empty()
 
@@ -363,6 +368,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
