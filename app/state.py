@@ -332,8 +332,6 @@ def random_all_vocals(key: str, data: dict):
     """
     Sorteia aleatoriamente entre Solo Masculino, Solo Feminino ou Dueto.
     """
-    import random
-    
     if data:
         st.session_state["vocal_masculino"] = ""
         st.session_state["vocal_feminino"] = ""
@@ -347,6 +345,7 @@ def random_all_vocals(key: str, data: dict):
         else: # Dueto
             randomize_tags_callback("vocal_masculino", data)
             randomize_tags_callback("vocal_feminino", data)
+
 
 
 
