@@ -88,45 +88,51 @@ def hierarchical_field(title: str, key: str, data: Dict[str, List[str]], help_ms
 def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
     """
     Sistema idêntico ao de Estrutura:
-    Categorias em ABAS, itens em GRID e clique preenche o campo.
+    1. Cabeçalho com Botões (Aleatório e Limpar)
+    2. Input de texto editável (Vem ANTES do seletor)
+    3. Expander com Abas e Grid de botões
     """
     # Cabeçalho
-    c1, c2 = st.columns([0.9, 0.1], vertical_alignment="bottom")
-    with c1:
-        st.markdown(f"**{title}**", help=help_msg)
-    with c2:
-        if st.button("🧹", key=f"clr_{key}", use_container_width=True, help="Limpar campo"):
-            st.session_state[key] = ""
-            st.rerun()
-
-    # 1. Catálogo em Abas (Igual Estrutura)
-    categorias = list(data.keys())
-    if categorias:
-        tabs = st.tabs(categorias)
+    st.markdown(f"**{title}**", help=help_msg)
+    
+    # Linha de controles (Seguindo o layout da estrutura)
+    sc1, sc3, sc4 = st.columns([0.70, 0.10, .10], gap="small", vertical_alignment="bottom")
+    
+    with sc1:
+        # Input de texto (Editável) - Agora vindo antes conforme solicitado
+        st.text_input("Editável", key=key, label_visibility="collapsed", 
+                     placeholder=f"Selecione ou digite seu {title.lower()}...")
         
-        for i, cat in enumerate(categorias):
-            with tabs[i]:
-                items = data[cat]
-                # Criar grid de 4 colunas para os itens ficarem lado a lado
-                cols = st.columns(4)
-                for idx, item_pair in enumerate(items):
-                    name, desc = item_pair[0], item_pair[1]
-                    # Distribui os botões entre as colunas
-                    with cols[idx % 4]:
-                        if st.button(name, key=f"btn_{key}_{name}", help=desc, use_container_width=True):
-                            current_text = st.session_state.get(key, "")
-                            if name not in current_text:
-                                new_text = f"{current_text}, {name}" if current_text else name
-                                st.session_state[key] = new_text
-                                st.rerun()
+    with sc3:
+        # Botão Aleatório
+        st.button("🎲", key=f"btn_rnd_{key}", use_container_width=True, 
+                  on_click=state.randomize_tags_callback, args=(key, data))
+        
+    with sc4:
+        # Botão Limpar
+        st.button("🧹", key=f"btn_clr_{key}", use_container_width=True, 
+                  on_click=lambda: st.session_state.update({key: ""}))
 
-    # 2. O Campo de Texto (Area de edição final)
-    st.text_input(
-        f"Edite ou adicione manualmente:",
-        key=key,
-        placeholder="Selecione acima para preencher...",
-        label_visibility="collapsed"
-    )
-    st.markdown("<div style='margin-bottom: 20px;'></div>", unsafe_allow_html=True)
+    # Seletor em Expander com Abas (Igual ao 'Adicionar Seções e Tags')
+    if data:
+        with st.expander(f"🏷️ Catálogo de {title}", expanded=False):
+            categorias = list(data.keys())
+            abas = st.tabs(categorias)
+            
+            for i, categoria in enumerate(categorias):
+                with abas[i]:
+                    itens = data[categoria]
+                    cols = st.columns(4) # Grid de 4 colunas
+                    for idx, item_pair in enumerate(itens):
+                        tag_nome, tag_desc = item_pair[0], item_pair[1]
+                        with cols[idx % 4]:
+                            # Ao clicar, adiciona ao texto existente com vírgula
+                            def add_tag(name=tag_nome, k=key):
+                                current = st.session_state.get(k, "")
+                                if name not in current:
+                                    st.session_state[k] = f"{current}, {name}" if current else name
 
-
+                            st.button(tag_nome, key=f"btn_{key}_{categoria}_{idx}", 
+                                      help=tag_desc, on_click=add_tag, use_container_width=True)
+            
+            st.caption(f"💡 Clique nas tags para compor o {title.lower()}.")
