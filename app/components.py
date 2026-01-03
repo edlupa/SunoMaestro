@@ -173,5 +173,57 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
                 unsafe_allow_html=True
             )
 
+def render_vocal_section(core):
+    """
+    Renderiza a seção de Vocais com dois campos (Masc/Fem) 
+    e um catálogo compartilhado com trava por categoria.
+    """
+    st.subheader("🎤 Configuração Vocal")
+    dados_vocal = core.dados.get("tipo_vocal", {})
+    
+    # 1. Linha de Controles (Inputs Masculino e Feminino)
+    col_m, col_f, col_btn = st.columns([0.40, 0.40, 0.20], gap="small", vertical_alignment="bottom")
+    
+    with col_m:
+        st.text_input("Vocal Masculino", key="vocal_masculino", placeholder="Vocal Masc...")
+    with col_f:
+        st.text_input("Vocal Feminino", key="vocal_feminino", placeholder="Vocal Fem...")
+    with col_btn:
+        sub_c1, sub_c2 = st.columns(2)
+        with sub_c1:
+            st.button("🎲", key="btn_rnd_vocal", use_container_width=True, 
+                      on_click=state.random_all_vocals, args=(core,))
+        with sub_c2:
+            st.button("🧹", key="btn_clr_vocal", use_container_width=True, 
+                      on_click=lambda: st.session_state.update({"vocal_masculino": "", "vocal_feminino": ""}))
 
+    # 2. Catálogo compartilhado
+    if dados_vocal:
+        with st.expander("🏷️ Catálogo Vocal (Clique para aplicar aos dois ou digite acima)", expanded=False):
+            categorias = list(dados_vocal.keys())
+            cat_sel = st.selectbox("Categoria Vocal", categorias, key="sel_cat_vocal", label_visibility="collapsed")
+            
+            st.divider()
+            itens = dados_vocal[cat_sel]
+            cols = st.columns(3)
+            
+            for idx, item_pair in enumerate(itens):
+                v_nome, v_desc = item_pair[0], item_pair[1]
+                
+                # Lógica: Se o usuário clicar, adicionamos ao Masculino OU Feminino?
+                # Para ser prático, vamos criar um seletor de destino ou aplicar ao que estiver vazio
+                def add_vocal_logic(nome=v_nome, cat=cat_sel):
+                    # Aplicamos a mesma lógica de substituição por categoria para ambos os campos
+                    for k in ["vocal_masculino", "vocal_feminino"]:
+                        atual = st.session_state.get(k, "")
+                        tags = [t.strip() for t in atual.split(",") if t.strip()]
+                        itens_cat = [i[0] for i in dados_vocal[cat]]
+                        # Filtra e substitui
+                        nova_lista = [t for t in tags if t not in itens_cat]
+                        nova_lista.append(nome)
+                        st.session_state[k] = ", ".join(nova_lista)
+
+                with cols[idx % 3]:
+                    st.button(v_nome, key=f"btn_vocal_{idx}", help=v_desc, 
+                              on_click=add_vocal_logic, use_container_width=True)
 
