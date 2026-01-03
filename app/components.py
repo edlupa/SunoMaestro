@@ -85,9 +85,6 @@ def hierarchical_field(title: str, key: str, data: Dict[str, List[str]], help_ms
 
     st.markdown("<div style='margin-bottom: 10px;'></div>", unsafe_allow_html=True)
 
-import streamlit as st
-import app.state as state
-
 def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
     """
     Sistema de Tags com Seletor de Categoria (Solução para muitas abas).
@@ -173,7 +170,7 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
                 unsafe_allow_html=True
             )
 
-def render_vocal_section(core):
+def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None):
     """
     Renderiza a seção de Vocais com dois campos (Masc/Fem) 
     e um catálogo compartilhado com trava por categoria.
@@ -234,5 +231,6 @@ def render_vocal_section(core):
                 f"Utilize apenas uma por categoria!</div>", 
                 unsafe_allow_html=True
             )
+
 
 
