@@ -233,6 +233,10 @@ def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None)
                     
                     st.session_state[target_key] = ", ".join(nova_lista)
 
+            with cols[idx % 3]:
+                    st.button(v_nome, key=f"btn_vocal_{idx}", help=v_desc, 
+                              on_click=add_vocal_logic, use_container_width=True)
+
             # Legenda de ajuda
             st.markdown(
                 f"<div style='font-size: 0.8rem; color: gray; margin-top: 10px;'>"
@@ -240,6 +244,7 @@ def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None)
                 f"Utilize apenas uma por categoria!</div>", 
                 unsafe_allow_html=True
             )
+
 
 
 
