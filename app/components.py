@@ -188,7 +188,7 @@ def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None)
         sub_c1, sub_c2 = st.columns(2)
         with sub_c1:
             st.button("🎲", key="btn_rnd_vocal", use_container_width=True, 
-                      on_click=state.random_all_vocals, args=(core,))
+                      on_click=state.random_all_vocals, args=(data,))
         with sub_c2:
             st.button("🧹", key="btn_clr_vocal", use_container_width=True, 
                       on_click=lambda: st.session_state.update({"vocal_masculino": "", "vocal_feminino": ""}))
@@ -230,6 +230,7 @@ def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None)
                 f"Utilize apenas uma por categoria!</div>", 
                 unsafe_allow_html=True
             )
+
 
 
 
