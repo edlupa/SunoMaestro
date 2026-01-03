@@ -125,6 +125,22 @@ def random_all(core):
             st.session_state.estrutura = escolhido[1]
             st.session_state.estrutura_sel = escolhido[1]
 
+    dados_tom = core.dados.get("tom", {})
+    if dados_tom:
+        import random
+        # Achata todos os itens para uma lista simples
+        todos_tons = [item[0] for lista in dados_tom.values() for item in lista]
+        # Sorteia 2 itens e junta em string
+        sorteados = random.sample(todos_tons, k=min(2, len(todos_tons)))
+        st.session_state["tom"] = ", ".join(sorteados)
+
+    dados_inf = core.dados.get("influencia_estetica", {})
+    if dados_inf:
+        import random
+        todos_inf = [item[0] for lista in dados_inf.values() for item in lista]
+        sorteados = random.sample(todos_inf, k=min(2, len(todos_inf)))
+        st.session_state["influencia_estetica"] = ", ".join(sorteados)
+
     # Campos Hierárquicos
     for k in HIER_KEYS:
         data = core.dados[k]
@@ -301,6 +317,7 @@ def clear_categorized_callback(main_key: str, prefix: str):
             
     # Zera a lista principal
     st.session_state[main_key] = []
+
 
 
 
