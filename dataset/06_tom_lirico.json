@@ -1,64 +1,82 @@
 {
-    "Poético": [
-        "Poético e Sonhador",
-        "Metafórico e Abstrato",
-        "Romântico Incurável",
-        "Elegíaco (Lamento)",
-        "Simbolista e Sensorial",
-        "Surrealista e Onírico",
-        "Haicai (Curto e Imagético)",
-        "Lírico e Suave"
+    "Perspectiva Lírico-Narrativa": [
+        ["Confessional", "Expressão direta de sentimentos e experiências pessoais"],
+        ["Narrativo", "Relato de acontecimentos com encadeamento temporal"],
+        ["Descritivo", "Construção de imagens, ambientes ou estados"],
+        ["Observacional", "Olhar externo sobre situações ou personagens"],
+        ["Testemunhal", "Relato de vivências sociais ou históricas"],
+        ["Dialógico", "Estrutura baseada em vozes ou interlocução"],
+        ["Epistolar", "Forma de carta ou mensagem direcionada"],
+        ["Metanarrativo", "Reflexão sobre o próprio ato de narrar ou cantar"]
     ],
-    "Realista": [
-        "Brutalista e Direto",
-        "Jornalístico Realista",
-        "Documental e Cru",
-        "Coloquial e Informal",
-        "Realismo Sujo (Dirty Realism)",
-        "Confessional Íntimo",
-        "Gíria das Ruas/Periférico"
+
+    "Modo Emocional": [
+        ["Melancólico", "Estado de tristeza suave e contemplativa"],
+        ["Trágico", "Expressão de perda, destino ou fatalidade"],
+        ["Nostálgico", "Saudade idealizada do passado"],
+        ["Contemplativo", "Observação introspectiva e serena"],
+        ["Irônico", "Distanciamento crítico com ambiguidade"],
+        ["Sarcástico", "Ironia agressiva ou mordaz"],
+        ["Romântico", "Exaltação do afeto e do desejo"],
+        ["Eufórico", "Alegria intensa ou celebração"],
+        ["Angustiado", "Tensão emocional e inquietação"],
+        ["Esperançoso", "Expectativa positiva ou fé no futuro"],
+        ["Resignado", "Aceitação serena de uma condição"],
+        ["Colérico", "Expressão de raiva ou indignação"],
+        ["Afetivo", "Ênfase no cuidado, ternura ou vínculo"],
+        ["Lúdico", "Leveza, humor ou jogo poético"]
     ],
-    "Intenso": [
-        "Épico e Lendário",
-        "Melodramático e Teatral",
-        "Tragédia Grega",
-        "Profético e Apocalíptico",
-        "Gritado e Desesperado",
-        "Vingativo e Furioso",
-        "Heróico e Triunfante"
+
+    "Relação com o Eu": [
+        ["Intimista", "Exploração do mundo interior do sujeito"],
+        ["Autobiográfico", "Referência explícita à vida do autor"],
+        ["Ficcional", "Eu lírico construído como personagem"],
+        ["Persona Poética", "Voz assumida conscientemente como máscara"],
+        ["Coletivo", "Expressão de identidade grupal ou social"],
+        ["Anônimo", "Ausência de identidade definida do eu lírico"],
+        ["Despersonalizado", "Supressão do sujeito em favor do conceito"]
     ],
-    "Humor/Sátira": [
-        "Sarcástico e Irônico",
-        "Satírico Ácido",
-        "Sarcástico de Internet (Meme)",
-        "Humorístico e Pateta",
-        "Cínico e Desiludido",
-        "Provocador e Ousado",
-        "Ironia Trágica"
+
+    "Função Comunicativa": [
+        ["Expressiva", "Exteriorização de emoções e estados internos"],
+        ["Narrativa", "Contar uma história ou acontecimento"],
+        ["Reflexiva", "Questionamento existencial ou filosófico"],
+        ["Crítica", "Análise ou contestação social e cultural"],
+        ["Denúncia", "Exposição de injustiças ou violências"],
+        ["Celebratória", "Exaltação de pessoas, momentos ou valores"],
+        ["Didática", "Intenção de ensinar ou transmitir saber"],
+        ["Invocativa", "Chamamento simbólico ou espiritual"],
+        ["Catártica", "Liberação emocional por meio da expressão"]
     ],
-    "Filosófico": [
-        "Filosófico Existencial",
-        "Analítico e Frio",
-        "Científico e Técnico",
-        "Nihilista e Vazio",
-        "Estoico e Resignado",
-        "Psicanalítico e Denso",
-        "Místico e Oculto"
+
+    "Registro Linguístico": [
+        ["Coloquial", "Linguagem cotidiana e espontânea"],
+        ["Popular", "Vocabulário acessível e culturalmente compartilhado"],
+        ["Poético", "Uso intencional de imagens e figuras de linguagem"],
+        ["Literário", "Construção formal elaborada"],
+        ["Simbólico", "Sentidos indiretos e plurais"],
+        ["Minimalista", "Economia extrema de palavras"],
+        ["Oral", "Estrutura próxima da fala"],
+        ["Formal", "Linguagem normativa e controlada"],
+        ["Experimental", "Quebra de convenções linguísticas"]
     ],
-    "Político": [
-        "Subversivo e Rebelde",
-        "Político e Panfletário",
-        "Nacionalista e Ufanista",
-        "Manifesto Urgente",
-        "Agressivo e Hostil",
-        "Provocador Político"
+
+    "Temporalidade": [
+        ["Presente Imediato", "Foco no agora e na experiência atual"],
+        ["Memória", "Evocação subjetiva do passado"],
+        ["Passado Idealizado", "Releitura positiva do que já foi"],
+        ["Passado Traumático", "Recordação de experiências dolorosas"],
+        ["Expectativa", "Projeção de desejos ou temores futuros"],
+        ["Suspensão Temporal", "Indefinição ou diluição do tempo"],
+        ["Cíclica", "Percepção do tempo como repetição"]
     ],
-    "Tradicional": [
-        "Poesia de Cordel",
-        "Caipira e Regionalista",
-        "Bíblico e Arcaico",
-        "Xamânico e Ancestral",
-        "Literário Clássico",
-        "Contemplativo e Lento"
+
+    "Grau de Mediação Poética": [
+        ["Direto", "Mensagem explícita e transparente"],
+        ["Sugestivo", "Sentido construído por insinuação"],
+        ["Metafórico", "Uso intenso de metáforas"],
+        ["Alegórico", "Narrativa simbólica estruturada"],
+        ["Abstrato", "Sentido não literal e conceitual"],
+        ["Fragmentado", "Estrutura descontínua ou não linear"]
     ]
 }
