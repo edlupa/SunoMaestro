@@ -294,26 +294,10 @@ def main():
         st.divider()
         ui.hierarchical_field("🎤 Narrador", "narrador", core.dados["narrador"], help_msg=help_text.get("narrador"))
         st.divider()
-        
-        # --- CHAMADA ATUALIZADA (TOM) ---
-        ui.render_tag_system(
-            "📜 Tom Lírico", 
-            "tom", 
-            core.dados["tom"], 
-            help_msg=help_text.get("tom")
-        )
-        
+        ui.render_tag_system("📜 Tom Lírico", "tom", core.dados["tom"], help_msg=help_text.get("tom"))
         st.divider()
-        
-        # --- CHAMADA ATUALIZADA (INFLUÊNCIA) ---
-        ui.render_tag_system(
-            "🎨 Influência Estética", 
-            "influencia_estetica", 
-            core.dados["influencia_estetica"], 
-            help_msg=help_text.get("influencia_estetica")
-        )
-        st.divider()
-        
+        ui.render_tag_system("🎨 Influência Estética", "influencia_estetica", core.dados["influencia_estetica"], help_msg=help_text.get("influencia_estetica"))
+        st.divider()        
         ui.hierarchical_field("🎚️ Tipo de Gravação", "tipo_de_gravacao", core.dados["tipo_de_gravacao"], help_msg=help_text.get("tipo_de_gravacao"))
 
     st.markdown("---")
@@ -324,6 +308,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
