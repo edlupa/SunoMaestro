@@ -32,6 +32,27 @@ def get_core_instance(root_path: str) -> SunoMaestroCore:
 
 # --- FUNÇÕES UI ESPECÍFICAS DE SEÇÃO ---
 def render_structure_section(core, help_text):
+
+    """
+    Sistema de Tags com scroll horizontal nas abas.
+    """
+    # Injeção de CSS para habilitar o scroll horizontal nas abas
+    st.markdown("""
+        <style>
+        /* Estiliza o container das abas para permitir scroll */
+        div[st-indexed-container="true"] > div:first-child {
+            overflow-x: auto;
+            white-space: nowrap;
+            flex-wrap: nowrap !important;
+        }
+        /* Garante que os botões das abas não encolham */
+        div[st-indexed-container="true"] button {
+            flex-shrink: 0;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
+    
     st.markdown("**🎶 Estrutura**", help=help_text.get("estrutura"))
     sc1, sc3, sc4 = st.columns([0.70, 0.10, .10], gap="small", vertical_alignment="bottom")
     with sc1: 
@@ -308,6 +329,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
