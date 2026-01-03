@@ -21,6 +21,7 @@
         ["estrutura", "Organização das seções da música (ex: Intro, Verso, Refrão). Se vazio, a IA define uma estrutura adequada ao gênero e ritmo."],
         ["publico", "Público-alvo da música (ex: Jovens, Público de academia, Fãs de jazz). Influencia vocabulário e energia."],
         ["narrador", "Quem canta ou fala na música (ex: Um velho sábio, Um robô, Uma criança). Define a persona vocal."],
+        ["tipo_vocal", "Características da voz e da interpretação vocal (ex: Barítono, Rouco, Drive, Popular, Suave). Pode combinar extensão, timbre, técnica e estilo."],
 
         ["influencia_estetica", "Referências estéticas amplas (movimentos, épocas, culturas ou filosofias) que moldam o estilo musical e artístico (ex: Tropicália, Art Nouveau, Minimalismo, Futurista)."],
         ["tipo_de_gravacao", "Característica da produção sonora (ex: Acústico, Ao vivo, Estúdio processado, Lo-fi)."]

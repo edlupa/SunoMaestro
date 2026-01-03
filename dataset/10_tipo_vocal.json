@@ -1,0 +1,77 @@
+{
+    "Extensão Vocal": [
+        ["Soprano", "Voz feminina aguda com grande projeção"],
+        ["Mezzo-soprano", "Voz feminina intermediária e encorpada"],
+        ["Contralto", "Voz feminina grave e profunda"],
+        ["Tenor", "Voz masculina aguda e brilhante"],
+        ["Barítono", "Voz masculina intermediária e versátil"],
+        ["Baixo", "Voz masculina grave e ressonante"],
+        ["Infantil", "Voz aguda e leve, anterior à maturação vocal"]
+    ],
+
+    "Timbre Vocal": [
+        ["Suave", "Som macio e pouco agressivo"],
+        ["Aveludado", "Timbre quente e envolvente"],
+        ["Brilhante", "Ênfase nas frequências agudas"],
+        ["Escuro", "Predominância de frequências graves"],
+        ["Metálico", "Som penetrante e cortante"],
+        ["Nasalisado", "Ressonância acentuada no trato nasal"],
+        ["Aéreo", "Presença perceptível de ar na emissão"],
+        ["Opaco", "Pouca definição harmônica"],
+        ["Áspero", "Textura vocal irregular"]
+    ],
+
+    "Técnica Vocal": [
+        ["Lírico", "Emissão controlada com apoio e projeção"],
+        ["Belting", "Emissão potente em registro médio-agudo"],
+        ["Falsete", "Registro agudo leve e desconectado"],
+        ["Voz de Peito", "Emissão plena e encorpada"],
+        ["Voz de Cabeça", "Ressonância elevada e leve"],
+        ["Drive", "Distorção controlada da voz"],
+        ["Growl", "Emissão gutural e distorcida"],
+        ["Sussurrado", "Emissão com predominância de ar"],
+        ["Recitado", "Entre fala e canto"]
+    ],
+
+    "Estilo Vocal": [
+        ["Erudito", "Tradição clássica e técnica formal"],
+        ["Popular", "Emissão livre e estilística"],
+        ["Folk", "Simplicidade e naturalidade vocal"],
+        ["Jazz", "Flexibilidade rítmica e timbrística"],
+        ["Blues", "Expressividade emocional intensa"],
+        ["Rock", "Energia e ataque vocal"],
+        ["Soul", "Ênfase na emoção e ornamentação"],
+        ["Gospel", "Projeção emocional e espiritual"],
+        ["Rap Falado", "Ritmo e articulação sobre melodia"],
+        ["Experimental", "Exploração não convencional da voz"]
+    ],
+
+    "Atitude Interpretativa": [
+        ["Lírico", "Expressão emocional refinada"],
+        ["Dramático", "Ênfase teatral e intensa"],
+        ["Contido", "Expressão controlada e minimalista"],
+        ["Agressivo", "Ataque vocal forte e incisivo"],
+        ["Sensual", "Ênfase na intimidade e proximidade"],
+        ["Melancólico", "Expressão introspectiva"],
+        ["Irônico", "Distanciamento expressivo"],
+        ["Épico", "Grandiosidade e intensidade emocional"]
+    ],
+
+    "Clareza e Articulação": [
+        ["Articulado", "Pronúncia clara das palavras"],
+        ["Arrastado", "Dicção relaxada ou prolongada"],
+        ["Fragmentado", "Quebras rítmicas na fala"],
+        ["Fluido", "Continuidade suave da linha vocal"],
+        ["Percussivo", "Ênfase rítmica na articulação"],
+        ["Indistinto", "Palavras pouco inteligíveis"]
+    ],
+
+    "Intensidade Performática": [
+        ["Suave", "Baixa intensidade e delicadeza"],
+        ["Moderado", "Equilíbrio entre força e controle"],
+        ["Potente", "Alta projeção e volume"],
+        ["Explosivo", "Variações bruscas de energia"],
+        ["Contínuo", "Manutenção estável de intensidade"],
+        ["Crescente", "Aumento progressivo de energia"]
+    ]
+}
