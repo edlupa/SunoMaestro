@@ -85,60 +85,63 @@ def hierarchical_field(title: str, key: str, data: Dict[str, List[str]], help_ms
 
     st.markdown("<div style='margin-bottom: 10px;'></div>", unsafe_allow_html=True)
 
+import streamlit as st
+import app.state as state
+
 def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
     """
-    Sistema de Tags finalizado:
-    - Scroll horizontal nas abas (CSS corrigido).
-    - Grid de tags alinhado à esquerda (ajustado para ocupar 100% da largura).
-    - Lógica de tags individualizada.
+    Sistema de Tags com correção definitiva de alinhamento à esquerda.
     """
     
-    # 1. Injeção de CSS para Scroll nas Abas e Alinhamento do Conteúdo
+    # 1. Injeção de CSS com 'Reset' de alinhamento
     st.markdown("""
         <style>
-        /* Container das abas com scroll horizontal */
+        /* 1. Scroll nas Abas */
         div[data-testid="stTabs"] > div:first-child {
-            display: flex;
+            display: flex !important;
             flex-wrap: nowrap !important;
-            overflow-x: auto;
-            gap: 10px;
-            padding-bottom: 5px;
-            width: 100%;
+            overflow-x: auto !important;
+            gap: 10px !important;
+            width: 100% !important;
         }
         
-        /* Botões das abas sem encolher */
         div[data-testid="stTabs"] > div:first-child button {
             flex-shrink: 0 !important;
             white-space: nowrap !important;
         }
 
-        /* Força o conteúdo da aba a ocupar toda a largura e alinhar à esquerda */
-        div[data-testid="stTabs"] > div:nth-child(2) {
+        /* 2. CORREÇÃO DE ALINHAMENTO: Força o conteúdo a ignorar o flex do pai */
+        div[data-testid="stTabs"] [data-testid="stVerticalBlock"] {
+            align-items: flex-start !important;
             width: 100% !important;
-            display: block !important;
         }
 
-        /* Estilização da barra de rolagem */
-        div[data-testid="stTabs"] > div:first-child::-webkit-scrollbar {
-            height: 4px;
+        /* Força as colunas (grid de tags) a ocuparem toda a largura desde o início (esquerda) */
+        div[data-testid="stTabs"] div[data-testid="column"] {
+            width: 100% !important;
+            flex: 1 1 0% !important;
+            min-width: 0 !important;
         }
+
+        /* Estilo da barra de scroll */
+        div[data-testid="stTabs"] > div:first-child::-webkit-scrollbar { height: 4px; }
         div[data-testid="stTabs"] > div:first-child::-webkit-scrollbar-thumb {
-            background-color: #d1d1d1;
+            background-color: #ccc;
             border-radius: 10px;
         }
         </style>
     """, unsafe_allow_html=True)
 
-    # 2. Cabeçalho (Título e Ícone)
+    # Cabeçalho
     st.markdown(f"**{title}**", help=help_msg)
     
-    # 3. Linha de Controles (Input, Aleatório e Limpar)
+    # Controles
     sc1, sc3, sc4 = st.columns([0.76, 0.12, 0.12], gap="small", vertical_alignment="bottom")
     
     with sc1:
         if not isinstance(st.session_state.get(key), str):
             st.session_state[key] = ""
-        st.text_input("Editável", key=key, label_visibility="collapsed", placeholder="Selecione abaixo ou digite...")
+        st.text_input("Editável", key=key, label_visibility="collapsed", placeholder="Selecione ou digite...")
         
     with sc3:
         st.button("🎲", key=f"btn_rnd_{key}", use_container_width=True, 
@@ -148,9 +151,8 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
         st.button("🧹", key=f"btn_clr_{key}", use_container_width=True, 
                   on_click=lambda: st.session_state.update({key: ""}))
 
-    # 4. Expander do Catálogo
+    # Expander e Tags
     if data:
-        # Usamos o emoji de tag como na sua imagem
         with st.expander("🏷️ Catálogo", expanded=False):
             categorias = list(data.keys())
             abas = st.tabs(categorias)
@@ -158,15 +160,12 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
             for i, categoria in enumerate(categorias):
                 with abas[i]:
                     itens = data[categoria]
-                    
-                    # Para alinhar como na imagem, criamos um container de colunas
-                    # O Streamlit 1.30+ permite usar o gap="small"
+                    # Criamos as colunas. O CSS acima garantirá que elas comecem da esquerda.
                     cols = st.columns(4) 
                     
                     for idx, item_pair in enumerate(itens):
                         tag_nome, tag_desc = item_pair[0], item_pair[1]
                         
-                        # Função de clique para adicionar a tag ao texto
                         def make_add_tag(val=tag_nome):
                             current = st.session_state.get(key, "").strip()
                             if val not in current:
@@ -186,13 +185,5 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
                                 use_container_width=True
                             )
             
-            # Legenda idêntica à imagem
-            st.markdown(
-                f"<div style='font-size: 0.8rem; color: gray; margin-top: 10px;'>"
-                f"💡 Clique nas tags para adicionar. Passe o mouse para ver a descrição. "
-                f"Utilize apenas uma por categoria!</div>", 
-                unsafe_allow_html=True
-            )
-
-
+            st.markdown("<div style='font-size: 0.8rem; color: gray;'>💡 Clique nas tags para adicionar. Utilize apenas uma por categoria!</div>", unsafe_allow_html=True)
 
