@@ -24,7 +24,7 @@ def init_session_state():
     """Garante que todas as chaves necessárias existam no session_state."""
     for k, v in STATE_DEFAULTS.items():
         if k == "history":
-                st.session_state[k] = []
+            st.session_state[k] = []
         else:
             st.session_state[k] = v
 
@@ -349,6 +349,7 @@ def random_all_vocals(key: str, data: dict):
         else: # Dueto
             randomize_tags_callback("vocal_masculino", data)
             randomize_tags_callback("vocal_feminino", data)
+
 
 
 
