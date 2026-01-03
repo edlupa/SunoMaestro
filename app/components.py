@@ -85,93 +85,69 @@ def hierarchical_field(title: str, key: str, data: Dict[str, List[str]], help_ms
 
     st.markdown("<div style='margin-bottom: 10px;'></div>", unsafe_allow_html=True)
 
-import streamlit as st
-import app.state as state
-
 def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
     """
-    Sistema de Tags com correção definitiva de alinhamento à esquerda.
+    Sistema de Tags funcional:
+    - Sem CSS customizado (evita bugs de alinhamento).
+    - Input de texto antes do catálogo.
+    - Botões de Aleatório e Limpar alinhados ao topo.
+    - Expander com abas padrão do Streamlit.
     """
     
-    # 1. Injeção de CSS com 'Reset' de alinhamento
-    st.markdown("""
-        <style>
-        /* 1. Scroll nas Abas */
-        div[data-testid="stTabs"] > div:first-child {
-            display: flex !important;
-            flex-wrap: nowrap !important;
-            overflow-x: auto !important;
-            gap: 10px !important;
-            width: 100% !important;
-        }
-        
-        div[data-testid="stTabs"] > div:first-child button {
-            flex-shrink: 0 !important;
-            white-space: nowrap !important;
-        }
-
-        /* 2. CORREÇÃO DE ALINHAMENTO: Força o conteúdo a ignorar o flex do pai */
-        div[data-testid="stTabs"] [data-testid="stVerticalBlock"] {
-            align-items: flex-start !important;
-            width: 100% !important;
-        }
-
-        /* Força as colunas (grid de tags) a ocuparem toda a largura desde o início (esquerda) */
-        div[data-testid="stTabs"] div[data-testid="column"] {
-            width: 100% !important;
-            flex: 1 1 0% !important;
-            min-width: 0 !important;
-        }
-
-        /* Estilo da barra de scroll */
-        div[data-testid="stTabs"] > div:first-child::-webkit-scrollbar { height: 4px; }
-        div[data-testid="stTabs"] > div:first-child::-webkit-scrollbar-thumb {
-            background-color: #ccc;
-            border-radius: 10px;
-        }
-        </style>
-    """, unsafe_allow_html=True)
-
-    # Cabeçalho
+    # 1. Cabeçalho do Bloco
     st.markdown(f"**{title}**", help=help_msg)
     
-    # Controles
+    # 2. Linha de Controles (Input, Aleatório e Limpar)
+    # Proporções baseadas na imagem da Estrutura
     sc1, sc3, sc4 = st.columns([0.76, 0.12, 0.12], gap="small", vertical_alignment="bottom")
     
     with sc1:
+        # Garante que o estado comece como string
         if not isinstance(st.session_state.get(key), str):
             st.session_state[key] = ""
-        st.text_input("Editável", key=key, label_visibility="collapsed", placeholder="Selecione ou digite...")
+            
+        st.text_input(
+            "Editável", 
+            key=key, 
+            label_visibility="collapsed", 
+            placeholder="Selecione abaixo ou digite..."
+        )
         
     with sc3:
+        # Botão Aleatório Individual
         st.button("🎲", key=f"btn_rnd_{key}", use_container_width=True, 
                   on_click=state.randomize_tags_callback, args=(key, data))
         
     with sc4:
+        # Botão Limpar Individual
         st.button("🧹", key=f"btn_clr_{key}", use_container_width=True, 
                   on_click=lambda: st.session_state.update({key: ""}))
 
-    # Expander e Tags
+    # 3. Expander do Catálogo
     if data:
         with st.expander("🏷️ Catálogo", expanded=False):
             categorias = list(data.keys())
+            # Abas padrão (o Streamlit vai quebrar em várias linhas se forem muitas)
             abas = st.tabs(categorias)
             
             for i, categoria in enumerate(categorias):
                 with abas[i]:
                     itens = data[categoria]
-                    # Criamos as colunas. O CSS acima garantirá que elas comecem da esquerda.
+                    
+                    # Grid de 4 colunas perfeitamente alinhado
                     cols = st.columns(4) 
                     
                     for idx, item_pair in enumerate(itens):
                         tag_nome, tag_desc = item_pair[0], item_pair[1]
                         
+                        # Função interna para garantir que o 'tag_nome' correto seja passado
                         def make_add_tag(val=tag_nome):
                             current = st.session_state.get(key, "").strip()
                             if val not in current:
                                 if current and not current.endswith(','):
                                     st.session_state[key] = f"{current}, {val}"
                                 elif current:
+                                    # Se terminar com vírgula ou espaço, apenas adiciona
                                     st.session_state[key] = f"{current} {val}"
                                 else:
                                     st.session_state[key] = val
@@ -185,5 +161,11 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
                                 use_container_width=True
                             )
             
-            st.markdown("<div style='font-size: 0.8rem; color: gray;'>💡 Clique nas tags para adicionar. Utilize apenas uma por categoria!</div>", unsafe_allow_html=True)
+            # Legenda de ajuda
+            st.markdown(
+                f"<div style='font-size: 0.8rem; color: gray; margin-top: 10px;'>"
+                f"💡 Clique nas tags para adicionar. Passe o mouse para ver a descrição. "
+                f"Utilize apenas uma por categoria!</div>", 
+                unsafe_allow_html=True
+            )
 
