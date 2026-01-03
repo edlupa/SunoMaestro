@@ -11,7 +11,16 @@ STATE_DEFAULTS = {
     "prompt_final": "", "show_prompt": False,
     "estrutura": "", "estrutura_sel": "",
     "history": [],
-    "new_vibe_input": ""
+    "new_vibe_input": "",
+    
+    # --- AJUSTE ESTES DOIS PARA LISTAS VAZIAS ---
+    "tom": [], 
+    "influencia_estetica": [],
+    # --------------------------------------------
+    
+    # Os inputs manuais auxiliares
+    "tom_manual_input": "",
+    "influencia_estetica_manual_input": ""
 }
 
 def init_session_state():
@@ -250,4 +259,5 @@ def clear_tags_callback(key: str):
         st.session_state[manual_key] = ""
 
         st.session_state.new_vibe_input = ""
+
 
