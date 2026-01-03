@@ -329,11 +329,25 @@ def clear_categorized_callback(main_key: str, prefix: str):
     st.session_state[main_key] = []
 
 def random_all_vocals(key: str, data: dict):
-    dados_vocal = data.dados.get("tipo_vocal", {})
-    if dados_vocal:
-        # Sorteia 1 a 2 categorias para cada gênero e escolhe 1 item de cada
-        randomize_tags_callback("vocal_masculino", dados_vocal)
-        randomize_tags_callback("vocal_feminino", dados_vocal)
+    """
+    Sorteia aleatoriamente entre Solo Masculino, Solo Feminino ou Dueto.
+    """
+    import random
+    
+    if data:
+        st.session_state["vocal_masculino"] = ""
+        st.session_state["vocal_feminino"] = ""
+        
+        modo = random.randint(0, 2)
+        
+        if modo == 0: # Solo Masculino
+            randomize_tags_callback("vocal_masculino", data)
+        elif modo == 1: # Solo Feminino
+            randomize_tags_callback("vocal_feminino", data)
+        else: # Dueto
+            randomize_tags_callback("vocal_masculino", data)
+            randomize_tags_callback("vocal_feminino", data)
+
 
 
 
