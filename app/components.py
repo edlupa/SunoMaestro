@@ -85,81 +85,77 @@ def hierarchical_field(title: str, key: str, data: Dict[str, List[str]], help_ms
 
     st.markdown("<div style='margin-bottom: 10px;'></div>", unsafe_allow_html=True)
 
+import streamlit as st
+import app.state as state
+
 def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
     """
-    Sistema de Tags funcional:
-    - Sem CSS customizado (evita bugs de alinhamento).
-    - Input de texto antes do catálogo.
-    - Botões de Aleatório e Limpar alinhados ao topo.
-    - Expander com abas padrão do Streamlit.
+    Sistema de Tags com Seletor de Categoria (Solução para muitas abas).
+    Mantém o padrão da Estrutura, mas usa um selectbox para navegar nas categorias.
     """
     
-    # 1. Cabeçalho do Bloco
     st.markdown(f"**{title}**", help=help_msg)
     
-    # 2. Linha de Controles (Input, Aleatório e Limpar)
-    # Proporções baseadas na imagem da Estrutura
+    # 1. Linha de Controles
     sc1, sc3, sc4 = st.columns([0.76, 0.12, 0.12], gap="small", vertical_alignment="bottom")
     
     with sc1:
-        # Garante que o estado comece como string
         if not isinstance(st.session_state.get(key), str):
             st.session_state[key] = ""
-            
-        st.text_input(
-            "Editável", 
-            key=key, 
-            label_visibility="collapsed", 
-            placeholder="Selecione abaixo ou digite..."
-        )
+        st.text_input("Editável", key=key, label_visibility="collapsed", placeholder="Selecione abaixo ou digite...")
         
     with sc3:
-        # Botão Aleatório Individual
         st.button("🎲", key=f"btn_rnd_{key}", use_container_width=True, 
                   on_click=state.randomize_tags_callback, args=(key, data))
         
     with sc4:
-        # Botão Limpar Individual
         st.button("🧹", key=f"btn_clr_{key}", use_container_width=True, 
                   on_click=lambda: st.session_state.update({key: ""}))
 
-    # 3. Expander do Catálogo
+    # 2. Catálogo com Seletor de Categoria Interno
     if data:
         with st.expander("🏷️ Catálogo", expanded=False):
             categorias = list(data.keys())
-            # Abas padrão (o Streamlit vai quebrar em várias linhas se forem muitas)
-            abas = st.tabs(categorias)
             
-            for i, categoria in enumerate(categorias):
-                with abas[i]:
-                    itens = data[categoria]
-                    
-                    # Grid de 4 colunas perfeitamente alinhado
-                    cols = st.columns(4) 
-                    
-                    for idx, item_pair in enumerate(itens):
-                        tag_nome, tag_desc = item_pair[0], item_pair[1]
-                        
-                        # Função interna para garantir que o 'tag_nome' correto seja passado
-                        def make_add_tag(val=tag_nome):
-                            current = st.session_state.get(key, "").strip()
-                            if val not in current:
-                                if current and not current.endswith(','):
-                                    st.session_state[key] = f"{current}, {val}"
-                                elif current:
-                                    # Se terminar com vírgula ou espaço, apenas adiciona
-                                    st.session_state[key] = f"{current} {val}"
-                                else:
-                                    st.session_state[key] = val
+            # Em vez de abas, um seletor simples que não quebra o layout
+            col_cat, col_info = st.columns([0.4, 0.6], vertical_alignment="center")
+            with col_cat:
+                cat_selecionada = st.selectbox(
+                    "Filtrar por Categoria:", 
+                    categorias, 
+                    key=f"sel_cat_{key}",
+                    label_visibility="collapsed"
+                )
+            with col_info:
+                st.caption(f"Exibindo itens de: *{cat_selecionada}*")
 
-                        with cols[idx % 4]:
-                            st.button(
-                                tag_nome, 
-                                key=f"btn_{key}_{categoria}_{idx}", 
-                                help=tag_desc, 
-                                on_click=make_add_tag, 
-                                use_container_width=True
-                            )
+            st.divider()
+
+            # Grid de Tags da categoria selecionada
+            itens = data[cat_selecionada]
+            cols = st.columns(3) # 3 colunas para nomes mais longos (como no seu JSON)
+            
+            for idx, item_pair in enumerate(itens):
+                tag_nome, tag_desc = item_pair[0], item_pair[1]
+                
+                def make_add_tag(val=tag_nome):
+                    current = st.session_state.get(key, "").strip()
+                    if val not in current:
+                        if current and not current.endswith(','):
+                            st.session_state[key] = f"{current}, {val}"
+                        elif current:
+                            st.session_state[key] = f"{current} {val}"
+                        else:
+                            st.session_state[key] = val
+
+                with cols[idx % 3]:
+                    st.button(
+                        tag_nome, 
+                        key=f"btn_{key}_{cat_selecionada}_{idx}", 
+                        help=tag_desc, 
+                        on_click=make_add_tag, 
+                        use_container_width=True
+                    )
             
             # Legenda de ajuda
             st.markdown(
@@ -168,4 +164,5 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
                 f"Utilize apenas uma por categoria!</div>", 
                 unsafe_allow_html=True
             )
+
 
