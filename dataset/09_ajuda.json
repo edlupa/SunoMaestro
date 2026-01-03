@@ -1,23 +1,28 @@
 {
     "geral": [
-        ["titulo","Como funciona o Suno Maestro?"],
-        ["descricao","Este aplicativo organiza suas ideias e as transforma em um prompt otimizado para o ChatGPT (ou outro) para criação das suas músicas no Suno.ai."],
-        ["campos_em_branco","Não se preocupe em preencher tudo! Qualquer campo deixado em branco será preenchido como 'AUTOMATIC_INPUT'. Isso significa que a IA decidirá criativamente aquele detalhe baseando-se na coerência dos demais campos que você definiu."]
+        ["titulo", "Como funciona o Suno Maestro?"],
+        ["descricao", "Este aplicativo organiza suas ideias criativas e as transforma em um prompt estruturado e otimizado para o ChatGPT (ou outro modelo), com foco na criação de músicas no Suno.ai."],
+        ["campos_em_branco", "Não é necessário preencher todos os campos. Qualquer campo deixado em branco será preenchido como 'AUTOMATIC_INPUT', permitindo que a IA tome decisões criativas coerentes com os demais parâmetros definidos."]
     ],
+
     "campos": [
-        ["tema","Sobre o que é a música? (ex: Amor perdido, Viagem espacial, Cyberpunk)."],
-        ["mensagem","A ideia central ou 'moral da história' que a letra deve passar."],
-        ["palavras_chave","Palavras que devem conter na composição da letra."],
-        ["idioma","O idioma em que a letra será escrita."],
-        ["genero","Define a base musical principal (ex: Rock, Samba, Eletrônica). É o guia mestre para a IA."],
-        ["ritmo","O subgênero ou estilo específico de bateria/andamento (ex: Bossa Nova, Punk Rock, Samba Enredo)."],
-        ["referencia","Citar artistas ou músicas existentes ajuda a IA a entender a sonoridade (ex: 'Estilo Tim Maia', 'Vibe Linkin Park')."],
-        ["vibe_emocional","Tags que definem o sentimento da música (ex: Melancólico, Eufórico, Sombrio)."],
-        ["estrutura","A ordem das seções (Intro, Verso, Refrão). Se deixar vazio, a IA cria uma estrutura padrão conforme gênero e ritmo."],
-        ["publico","Para quem é essa música? (ex: Jovens, Fãs de Jazz, Público de Academia). Ajuda a definir o vocabulário."],
-        ["narrador","Quem está cantando? (ex: Um velho sábio, Um robô, Uma criança). Define o timbre vocal."],
-        ["tom","A atitude lírica do compositor (ex: Sarcástico, Poético, Agressivo, Romântico)."],
-        ["influencia_estetica","Elementos artísticos culturais, temporais ou abstratos (ex: Tropicalismo, Lo-fi, Futurista, Vintage 80s)."],
-        ["tipo_de_gravacao","Como a música soa em termos de produção (ex: Acústico, Ao Vivo, Estúdio Processado)."]
+        ["tema", "O assunto central da música (ex: Amor perdido, Viagem espacial, Cyberpunk)."],
+        ["mensagem", "A ideia central, reflexão ou sentimento que a letra deve transmitir."],
+        ["palavras_chave", "Palavras ou expressões que devem aparecer explicitamente na letra."],
+        ["idioma", "Idioma em que a letra será escrita."],
+
+        ["genero", "Gênero musical principal que orienta toda a composição (ex: Rock, Samba, Eletrônica)."],
+        ["ritmo", "Subgênero, groove ou estilo rítmico específico (ex: Bossa Nova, Punk Rock, Samba-Enredo)."],
+        ["referencia", "Artistas, músicas ou estilos de referência que ajudam a IA a entender a sonoridade desejada."],
+
+        ["vibe_emocional", "Clima emocional predominante da música (ex: Melancólico, Eufórico, Sombrio)."],
+        ["tom", "Tom lírico da composição: atitude, postura ou voz emocional do eu lírico (ex: Confessional, Irônico, Romântico, Sarcástico)."],
+
+        ["estrutura", "Organização das seções da música (ex: Intro, Verso, Refrão). Se vazio, a IA define uma estrutura adequada ao gênero e ritmo."],
+        ["publico", "Público-alvo da música (ex: Jovens, Público de academia, Fãs de jazz). Influencia vocabulário e energia."],
+        ["narrador", "Quem canta ou fala na música (ex: Um velho sábio, Um robô, Uma criança). Define a persona vocal."],
+
+        ["influencia_estetica", "Referências estéticas amplas (movimentos, épocas, culturas ou filosofias) que moldam o estilo musical e artístico (ex: Tropicália, Art Nouveau, Minimalismo, Futurista)."],
+        ["tipo_de_gravacao", "Característica da produção sonora (ex: Acústico, Ao vivo, Estúdio processado, Lo-fi)."]
     ]
 }
