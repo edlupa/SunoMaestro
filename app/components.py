@@ -177,65 +177,58 @@ def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None)
     """
     st.subheader(f"**{title}**", help=help_msg)
 
-    # 1. Linha de Controles (Inputs Masculino e Feminino)
-    col_m, col_f, col_btn = st.columns([0.40, 0.40, 0.20], gap="small", vertical_alignment="bottom")
-  
-    with col_m:
-        st.text_input("Vocal Masculino", key="vocal_masculino", placeholder="Vocal Masc...")
-    with col_f:
-        st.text_input("Vocal Feminino", key="vocal_feminino", placeholder="Vocal Fem...")
-    with col_btn:
-        sub_c1, sub_c2 = st.columns(2)
-        with sub_c1:
-            st.button("🎲", key="btn_rnd_vocal", use_container_width=True, 
-                      on_click=state.random_all_vocals, args=(key, data))
-        with sub_c2:
-            st.button("🧹", key="btn_clr_vocal", use_container_width=True, 
-                      on_click=lambda: st.session_state.update({"vocal_masculino": "", "vocal_feminino": ""}))
+    # 1. Seletor de Destino
+    vocal_alvo = st.radio(
+        "Aplicar tags ao:",
+        ["Masculino", "Feminino"],
+        horizontal=True,
+        key="vocal_target_radio",
+        label_visibility="collapsed"
+    )
+    target_key = "vocal_masculino" if vocal_alvo == "Masculino" else "vocal_feminino"
 
-    # 2. Catálogo compartilhado
-    if data:
-        with st.expander("🏷️ Catálogo Vocal (Clique para aplicar aos dois ou digite acima)", expanded=False):
-            categorias = list(data.keys())
+    # 2. Campos de Texto Individuais (Padrão de lista com botões)
+    for label, k in [("Vocal Masculino", "vocal_masculino"), ("Vocal Feminino", "vocal_feminino")]:
+        c1, c2, c3 = st.columns([0.76, 0.12, 0.12], gap="small", vertical_alignment="bottom")
+        with c1:
+            st.text_input(label, key=k, placeholder=f"Características do {label}...")
+        with c2:
+            # Aleatório individual para este campo
+            st.button("🎲", key=f"rnd_{k}", use_container_width=True, 
+                      on_click=state.randomize_tags_callback, args=(k, dados_vocal))
+        with c3:
+            # Limpar individual para este campo
+            st.button("🧹", key=f"clr_{k}", use_container_width=True, 
+                      on_click=lambda key_to_clear=k: st.session_state.update({key_to_clear: ""}))
+
+    # 3. Catálogo Único
+    if dados_vocal:
+        with st.expander(f"🏷️ Catálogo (Enviando para: {vocal_alvo})", expanded=False):
+            categorias = list(dados_vocal.keys())
             cat_sel = st.selectbox("Categoria Vocal", categorias, key="sel_cat_vocal", label_visibility="collapsed")
-    
+            
             st.divider()
-            itens = data[cat_sel]
+            
+            itens = dados_vocal[cat_sel]
             cols = st.columns(3)
             
             for idx, item_pair in enumerate(itens):
                 v_nome, v_desc = item_pair[0], item_pair[1]
-
-                # Lógica: Se o usuário clicar, adicionamos ao Masculino OU Feminino?
-                # Para ser prático, vamos criar um seletor de destino ou aplicar ao que estiver vazio
-                def add_vocal_logic(nome=v_nome, cat=cat_sel):
-                    # 1. Identifica qual campo deve receber a tag
-                    # Prioridade: Adiciona no primeiro que encontrar vazio. 
-                    # Se ambos tiverem algo ou ambos estiverem vazios, foca no Masculino.
-                    
-                    masc_vazio = st.session_state.get("vocal_masculino", "").strip() == ""
-                    fem_vazio = st.session_state.get("vocal_feminino", "").strip() == ""
-                    
-                    # Define o alvo: Se o masculino estiver ocupado e o feminino não, vai para o feminino.
-                    # Caso contrário, vai para o masculino (padrão).
-                    target_key = "vocal_feminino" if (not masc_vazio and fem_vazio) else "vocal_masculino"
-                    
-                    # 2. Aplica a lógica de substituição apenas no campo alvo
-                    atual = st.session_state.get(target_key, "")
+                
+                # Função de clique que respeita o RADIO e a substituição por categoria
+                def handle_vocal_click(nome=v_nome, categoria=cat_sel, key=target_key):
+                    atual = st.session_state.get(key, "")
                     tags_atuais = [t.strip() for t in atual.split(",") if t.strip()]
+                    itens_da_cat = [i[0] for i in dados_vocal[categoria]]
                     
-                    # Busca itens da mesma categoria no JSON para garantir a restrição
-                    itens_da_cat = [i[0] for i in data[cat]]
-                    
-                    # Filtra: remove tags antigas da mesma categoria e adiciona a nova
+                    # Remove tags da mesma categoria e adiciona a nova
                     nova_lista = [t for t in tags_atuais if t not in itens_da_cat]
                     nova_lista.append(nome)
-                    
-                    st.session_state[target_key] = ", ".join(nova_lista)
+                    st.session_state[key] = ", ".join(nova_lista)
 
                 with cols[idx % 3]:
-                    st.button(v_nome, key=f"btn_vocal_{idx}", help=v_desc, 
-                              on_click=add_vocal_logic, use_container_width=True)
+                    st.button(v_nome, key=f"vbtn_{vocal_alvo}_{idx}", help=v_desc, 
+                              on_click=handle_vocal_click, use_container_width=True)
 
             # Legenda de ajuda
             st.markdown(
@@ -244,3 +237,4 @@ def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None)
                 f"Utilize apenas uma por categoria!</div>", 
                 unsafe_allow_html=True
             )
+
