@@ -202,7 +202,7 @@ def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None)
                       on_click=lambda key_to_clear=k: st.session_state.update({key_to_clear: ""}))
 
     # 3. Catálogo Único
-    if dados_vocal:
+    if data:
         with st.expander(f"🏷️ Catálogo (Enviando para: {vocal_alvo})", expanded=False):
             categorias = list(data.keys())
             cat_sel = st.selectbox("Categoria Vocal", categorias, key="sel_cat_vocal", label_visibility="collapsed")
@@ -237,5 +237,6 @@ def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None)
                 f"Utilize apenas uma por categoria!</div>", 
                 unsafe_allow_html=True
             )
+
 
 
