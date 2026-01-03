@@ -295,17 +295,18 @@ def main():
         ui.hierarchical_field("🎤 Narrador", "narrador", core.dados["narrador"], help_msg=help_text.get("narrador"))
         st.divider()
         
-       # --- NOVO SISTEMA CATEGORIZADO (TOM) ---
-        ui.render_categorized_system(
+        # --- CHAMADA ATUALIZADA (TOM) ---
+        ui.render_tag_system(
             "📜 Tom Lírico", 
             "tom", 
             core.dados["tom"], 
             help_msg=help_text.get("tom")
         )
+        
         st.divider()
         
-        # --- NOVO SISTEMA CATEGORIZADO (INFLUÊNCIA) ---
-        ui.render_categorized_system(
+        # --- CHAMADA ATUALIZADA (INFLUÊNCIA) ---
+        ui.render_tag_system(
             "🎨 Influência Estética", 
             "influencia_estetica", 
             core.dados["influencia_estetica"], 
@@ -323,6 +324,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
