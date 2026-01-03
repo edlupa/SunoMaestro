@@ -330,7 +330,7 @@ def main():
         render_vibe_section(core, help_text)
 
     with col_right:
-        ui.render_vocal_section("🎤 Vocais", core, help_text.get("tipo_vocal"))
+        ui.render_vocal_section("🎤 Vocais", "tipo_vocal", core.dados["tipo_vocal"], help_text.get("tipo_vocal"))
         st.divider()
         ui.hierarchical_field("🎧 Público Alvo", "publico", core.dados["publico"], help_msg=help_text.get("publico"))
         st.divider()
@@ -350,6 +350,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
