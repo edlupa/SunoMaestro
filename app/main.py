@@ -69,46 +69,85 @@ def render_structure_section(core, help_text):
             st.caption("💡 Clique nas tags para adicionar ao final da estrutura.")
 
 def render_vibe_section(core, help_text):
+    """
+    Renderiza a seção de Vibes Emocionais com seletor de categorias.
+    Substitui abas por Selectbox para maior funcionalidade e estética.
+    """
     st.subheader("✨ Vibe Emocional", help=help_text.get("vibe_emocional"))
     dados_vibes = core.dados.get("vibe_emocional", {})
     
+    # 1. Catálogo com Seletor (Substituindo Abas)
     if dados_vibes:
         with st.expander("🎭 Catálogo de Emoções e Vibes", expanded=False):
             if isinstance(dados_vibes, dict):
+                # Organização por Seletor
                 categorias_ordenadas = sorted(dados_vibes.keys())
-                abas_v = st.tabs(categorias_ordenadas)
-                for i, categoria in enumerate(categorias_ordenadas):
-                    with abas_v[i]:
-                        itens_ordenados = sorted(dados_vibes[categoria], key=lambda x: x[0] if isinstance(x, list) else x)
-                        cols_v = st.columns(4)
-                        for idx, item in enumerate(itens_ordenados):
-                            v_nome = item[0] if isinstance(item, list) else item
-                            v_desc = item[1] if isinstance(item, list) and len(item) > 1 else ""
-                            with cols_v[idx % 4]:
-                                st.button(v_nome, key=f"tag_v_cat_{categoria}_{idx}", help=v_desc, 
-                                          on_click=state.add_vibe_click, args=(v_nome,), use_container_width=True)
+                
+                col_sel, col_info = st.columns([0.45, 0.55], vertical_alignment="center")
+                with col_sel:
+                    cat_vibe = st.selectbox(
+                        "Categoria de Vibe",
+                        categorias_ordenadas,
+                        key="vibe_cat_selector",
+                        label_visibility="collapsed"
+                    )
+                with col_info:
+                    st.caption(f"Explorando: **{cat_vibe}**")
+                
+                st.divider()
+
+                # Renderização das Tags da Categoria Selecionada
+                itens = dados_vibes[cat_vibe]
+                itens_ordenados = sorted(itens, key=lambda x: x[0] if isinstance(x, list) else x)
+                
+                cols_v = st.columns(4)
+                for idx, item in enumerate(itens_ordenados):
+                    v_nome = item[0] if isinstance(item, list) else item
+                    v_desc = item[1] if isinstance(item, list) and len(item) > 1 else ""
+                    
+                    with cols_v[idx % 4]:
+                        st.button(
+                            v_nome, 
+                            key=f"tag_v_cat_{cat_vibe}_{idx}", 
+                            help=v_desc, 
+                            on_click=state.add_vibe_click, 
+                            args=(v_nome,), 
+                            use_container_width=True
+                        )
             else:
+                # Caso o JSON seja apenas uma lista simples
                 itens_ordenados = sorted(dados_vibes, key=lambda x: x[0] if isinstance(x, list) else x)
                 cols_v = st.columns(4)
                 for idx, item in enumerate(itens_ordenados):
                     v_nome = item[0] if isinstance(item, list) else item
                     with cols_v[idx % 4]:
                         st.button(v_nome, key=f"tag_v_list_{idx}", on_click=state.add_vibe_click, args=(v_nome,), use_container_width=True)
+            
             st.caption("💡 Clique para adicionar à lista de vibes.")
 
-    cv1, cv2, cv3 = st.columns([0.70, 0.10, 0.10], gap="small", vertical_alignment="bottom")
+    # 2. Controles de Input Manual, Aleatório e Limpeza
+    cv1, cv2, cv3 = st.columns([0.76, 0.12, 0.12], gap="small", vertical_alignment="bottom")
     with cv1:
-        st.text_input("Adicionar manualmente", key="new_vibe_input", placeholder="Ex: Melancólico, Eufórico...", 
-                      on_change=state.submit_manual_vibe, label_visibility="collapsed")
+        st.text_input(
+            "Adicionar manualmente", 
+            key="new_vibe_input", 
+            placeholder="Ex: Melancólico, Eufórico...", 
+            on_change=state.submit_manual_vibe, 
+            label_visibility="collapsed"
+        )
     with cv2:
         st.button("🎲", key="btn_rnd_vibe_local", use_container_width=True, on_click=state.random_vibe_generator, args=(core,))
     with cv3:
         st.button("🧹", key="btn_clr_vibe_local", use_container_width=True, on_click=lambda: st.session_state.update({"vibe_emocional": []}))
     
+    # 3. Exibição das Vibes Selecionadas (Tags Ativas)
     if st.session_state.vibe_emocional:
+        st.markdown("---")
+        # Layout de "chips" ou lista para as vibes selecionadas
         for i, v in enumerate(st.session_state.vibe_emocional):
-            c1, c2 = st.columns([0.85, 0.10], gap="small")
-            with c1: st.markdown(f"**{v}**") 
+            c1, c2 = st.columns([0.90, 0.10], gap="small")
+            with c1: 
+                st.info(f"✨ {v}") # Usei st.info para dar um destaque visual de tag
             with c2:
                 if st.button("❌", use_container_width=True, key=f"del_vibe_{i}"):
                     state.delete_vibe(i)
@@ -309,6 +348,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
