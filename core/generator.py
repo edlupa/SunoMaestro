@@ -37,15 +37,22 @@ class SunoMaestroCore:
                 d[k] = val if val else "AUTOMATIC_INPUT"
 
         # --- LÓGICA DE EXPOSIÇÃO PARA O PROMPT ---
-        # Mantemos as variáveis originais para que o sistema de restauração 
-        # as encontre individualmente no USER_INPUTS
         v_masc = d.get('vocal_masculino', "AUTOMATIC_INPUT")
         v_fem = d.get('vocal_feminino', "AUTOMATIC_INPUT")
         
-        # Criamos um rótulo apenas para facilitar a leitura da IA, 
-        # mas mantendo os dados nos campos originais
-        duet_mode = "Yes" if (v_masc != "AUTOMATIC_INPUT" and v_fem != "AUTOMATIC_INPUT") else "No"
-
+        # Verificamos se tem conteúdo real (diferente do padrão AUTOMATIC)
+        has_masc = v_masc != "AUTOMATIC_INPUT"
+        has_fem = v_fem != "AUTOMATIC_INPUT"
+        
+        if has_masc and has_fem:
+            vocal_gender = "Duet"
+        elif has_masc:
+            vocal_gender = "Male Solo"
+        elif has_fem:
+            vocal_gender = "Female Solo"
+        else:
+            vocal_gender = "AUTOMATIC_INPUT"
+            
         # Template do Prompt
         return f"""ROLE: Composer, arranger, lyricist, and music producer who creates commercially viable songs with realistic instrumentation and writes Suno 5.0–compatible prompts; prioritizes musical identity and functional audio description over poetic abstraction, infers missing details consistently, and structures outputs for real-world mixability and singability.
 
@@ -54,7 +61,7 @@ class SunoMaestroCore:
       primary_genre: "{d.get('genero')}"
       specific_style: "{d.get('ritmo')}"
       vocal_config:
-        is_duet: "{duet_mode}"
+        vocal_gender: "{vocal_gender}"
         male_vocal_specs: "{v_masc}"
         female_vocal_specs: "{v_fem}"
       recording_aesthetic: "{d.get('tipo_de_gravacao')}"
@@ -195,4 +202,5 @@ def load_dataset_cached(dataset_dir, arquivos_map):
             # Opcional: st.error(f"Erro ao ler JSON: {filename}")
 
     return dados
+
 
