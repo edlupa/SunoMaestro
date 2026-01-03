@@ -117,43 +117,51 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
         with st.expander("🏷️ Catálogo", expanded=False):
             categorias = list(data.keys())
             
-            # Em vez de abas, um seletor simples que não quebra o layout
-            col_cat, col_info = st.columns([0.4, 0.6], vertical_alignment="center")
-            with col_cat:
+            # Seletor de Categoria
+            col_sel, col_info = st.columns([0.45, 0.55], vertical_alignment="center")
+            with col_sel:
                 cat_selecionada = st.selectbox(
-                    "Filtrar por Categoria:", 
-                    categorias, 
-                    key=f"sel_cat_{key}",
-                    label_visibility="collapsed"
+                    f"Categoria {title}", categorias, key=f"sel_cat_{key}", label_visibility="collapsed"
                 )
             with col_info:
-                st.caption(f"Exibindo itens de: *{cat_selecionada}*")
+                st.caption(f"Categoria atual: **{cat_selecionada}**")
 
             st.divider()
 
-            # Grid de Tags da categoria selecionada
+            # Grid de Tags
             itens = data[cat_selecionada]
-            cols = st.columns(3) # 3 colunas para nomes mais longos (como no seu JSON)
+            cols = st.columns(3)
             
             for idx, item_pair in enumerate(itens):
-                tag_nome, tag_desc = item_pair[0], item_pair[1]
+                tag_nome = item_pair[0]
+                tag_desc = item_pair[1]
                 
-                def make_add_tag(val=tag_nome):
-                    current = st.session_state.get(key, "").strip()
-                    if val not in current:
-                        if current and not current.endswith(','):
-                            st.session_state[key] = f"{current}, {val}"
-                        elif current:
-                            st.session_state[key] = f"{current} {val}"
-                        else:
-                            st.session_state[key] = val
+                # NOVA LÓGICA: Substituição por Categoria
+                def handle_tag_click(nome_novo=tag_nome, categoria=cat_selecionada):
+                    # 1. Pegamos o texto atual do input
+                    texto_atual = st.session_state.get(key, "")
+                    
+                    # 2. Criamos uma lista com os termos atuais (removendo espaços)
+                    tags_atuais = [t.strip() for t in texto_atual.split(",") if t.strip()]
+                    
+                    # 3. Lista de todos os itens desta categoria específica no JSON
+                    itens_da_categoria = [i[0] for i in data[categoria]]
+                    
+                    # 4. Removemos qualquer tag que pertença a esta categoria (o "filtro")
+                    nova_lista_tags = [t for t in tags_atuais if t not in itens_da_categoria]
+                    
+                    # 5. Adicionamos a nova tag escolhida
+                    nova_lista_tags.append(nome_novo)
+                    
+                    # 6. Atualizamos o session_state com a string formatada
+                    st.session_state[key] = ", ".join(nova_lista_tags)
 
                 with cols[idx % 3]:
                     st.button(
                         tag_nome, 
                         key=f"btn_{key}_{cat_selecionada}_{idx}", 
                         help=tag_desc, 
-                        on_click=make_add_tag, 
+                        on_click=handle_tag_click, 
                         use_container_width=True
                     )
             
@@ -164,5 +172,6 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
                 f"Utilize apenas uma por categoria!</div>", 
                 unsafe_allow_html=True
             )
+
 
 
