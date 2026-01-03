@@ -248,24 +248,31 @@ def handle_tag_selection(key: str, data: dict):
 
 def randomize_tags_callback(key: str, data: dict):
     """
-    Seleciona aleatoriamente entre 1 a 3 itens de categorias variadas.
-    Converte o resultado em STRING para ser compatível com text_input.
+    Seleciona aleatoriamente 1 item de categorias variadas (entre 1 a 4 categorias).
+    Garante que nunca haja duplicidade de itens da mesma categoria.
     """
     import random
     
-    all_items = []
-    # Itera sobre o dicionário do JSON para pegar apenas os nomes (índice 0)
-    for items_list in data.values():
-        for item_pair in items_list:
-            all_items.append(item_pair[0])
-            
-    if all_items:
-        # Escolhe de 1 a 3 itens
-        k = random.randint(1, 5)
-        selection = random.sample(all_items, k=min(k, len(all_items)))
+    # 1. Pegamos a lista de todas as categorias disponíveis no JSON
+    categorias_disponiveis = list(data.keys())
+    
+    if categorias_disponiveis:
+        # 2. Sorteamos QUANTAS categorias queremos (ex: de 1 a 4)
+        n_categorias = random.randint(1, min(4, len(categorias_disponiveis)))
+        categorias_sorteadas = random.sample(categorias_disponiveis, k=n_categorias)
         
-        # O SEGREDO: Salva como String separada por vírgula
-        st.session_state[key] = ", ".join(selection)
+        selecao_final = []
+        
+        # 3. Para cada categoria sorteada, pegamos exatamente UM item
+        for cat in categorias_sorteadas:
+            itens_da_cat = data[cat]
+            if itens_da_cat:
+                escolhido = random.choice(itens_da_cat)
+                # Adicionamos apenas o nome (índice 0)
+                selecao_final.append(escolhido[0])
+        
+        # 4. Atualizamos o estado como String separada por vírgula
+        st.session_state[key] = ", ".join(selecao_final)
 
 def clear_tags_callback(key: str):
     """Limpa a seleção e o input manual."""
@@ -319,6 +326,7 @@ def clear_categorized_callback(main_key: str, prefix: str):
             
     # Zera a lista principal
     st.session_state[main_key] = []
+
 
 
 
