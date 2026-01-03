@@ -260,4 +260,49 @@ def clear_tags_callback(key: str):
 
         st.session_state.new_vibe_input = ""
 
+# --- Adicione ao final de app/state.py ---
 
+def update_categorized_selection(main_key: str, sub_key: str, manual_key: str):
+    """
+    Callback executado toda vez que uma categoria específica muda.
+    Ele reconstrói a lista principal (ex: st.session_state.tom) juntando:
+    1. Todas as escolhas dos selectboxes de categorias.
+    2. O input manual (se houver).
+    """
+    # Recarrega o estado atual para garantir
+    # Formato das chaves de categoria: "tom_Modo Emocional", "tom_Tempo", etc.
+    
+    final_list = []
+    
+    # 1. Varre o session_state procurando chaves que começam com o prefixo principal
+    prefix = f"{main_key}_CAT_"
+    for key, value in st.session_state.items():
+        if key.startswith(prefix) and value:
+            # O value aqui é uma tupla ou lista ["Nome", "Descrição"] ou apenas string
+            # Queremos apenas o Nome (índice 0) se for lista, ou a string inteira
+            if isinstance(value, (list, tuple)):
+                final_list.append(value[0])
+            else:
+                final_list.append(value)
+    
+    # 2. Adiciona o input manual se houver
+    manual_val = st.session_state.get(manual_key, "").strip()
+    if manual_val:
+        final_list.append(manual_val)
+        
+    # Atualiza a lista principal que o gerador usa
+    st.session_state[main_key] = final_list
+
+def clear_categorized_callback(main_key: str, prefix: str):
+    """Limpa todos os selectboxes daquela seção."""
+    # Limpa input manual
+    if f"{main_key}_manual_input" in st.session_state:
+        st.session_state[f"{main_key}_manual_input"] = ""
+    
+    # Limpa selectboxes de categoria
+    for key in list(st.session_state.keys()):
+        if key.startswith(prefix):
+            st.session_state[key] = None # Reset para o placeholder
+            
+    # Zera a lista principal
+    st.session_state[main_key] = []
