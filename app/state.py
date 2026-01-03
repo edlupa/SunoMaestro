@@ -190,4 +190,64 @@ def submit_manual_vibe():
         if val not in st.session_state.vibe_emocional:
             st.session_state.vibe_emocional.append(val)
 
+def handle_tag_selection(key: str, data: dict):
+    """
+    Garante que apenas 1 item por categoria seja selecionado.
+    Se o usuário selecionar um novo item da mesma categoria, o antigo é removido.
+    """
+    selected_items = st.session_state[key]
+    
+    # 1. Mapeia cada item para sua categoria {"Item": "Categoria"}
+    item_to_cat = {}
+    for cat, items_list in data.items():
+        for item_pair in items_list:
+            item_name = item_pair[0] # O nome está no índice 0
+            item_to_cat[item_name] = cat
+            
+    # 2. Verifica duplicidade de categorias (de trás para frente para manter o último selecionado)
+    seen_cats = set()
+    final_list = []
+    
+    # Invertemos para dar prioridade à seleção mais recente (última da lista)
+    for item in reversed(selected_items):
+        cat = item_to_cat.get(item)
+        
+        # Se o item pertence a uma categoria conhecida do JSON
+        if cat:
+            if cat not in seen_cats:
+                seen_cats.add(cat)
+                final_list.insert(0, item) # Adiciona no início para manter ordem original
+            # Se a categoria já foi vista, ignoramos este item (foi substituído pelo novo)
+        else:
+            # Se for um item que não está no JSON (segurança), mantém
+            final_list.insert(0, item)
+            
+    st.session_state[key] = final_list
+
+def randomize_tags_callback(key: str, data: dict):
+    """Seleciona aleatoriamente até 3 itens de categorias diferentes."""
+    import random
+    all_cats = list(data.keys())
+    # Escolhe até 3 categorias aleatórias (sem repetir)
+    chosen_cats = random.sample(all_cats, k=min(3, len(all_cats)))
+    
+    selection = []
+    for cat in chosen_cats:
+        items = data[cat]
+        if items:
+            # Pega um item aleatório dessa categoria
+            item_name = random.choice(items)[0]
+            selection.append(item_name)
+            
+    st.session_state[key] = selection
+
+def clear_tags_callback(key: str):
+    """Limpa as tags e o campo manual."""
+    st.session_state[key] = []
+    # Limpa também o input manual associado
+    manual_key = f"{key}_manual_input"
+    if manual_key in st.session_state:
+        st.session_state[manual_key] = ""
+
         st.session_state.new_vibe_input = ""
+
