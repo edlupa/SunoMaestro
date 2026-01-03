@@ -99,9 +99,16 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
     sc1, sc3, sc4 = st.columns([0.70, 0.10, .10], gap="small", vertical_alignment="bottom")
     
     with sc1:
-        # Input de texto (Editável) - Agora vindo antes conforme solicitado
-        st.text_input("Editável", key=key, label_visibility="collapsed", 
-                     placeholder=f"Selecione ou digite seu {title.lower()}...")
+        # Garantimos que o valor no session_state seja sempre string para evitar o TypeError
+        if not isinstance(st.session_state.get(key), str):
+            st.session_state[key] = ""
+            
+        st.text_input(
+            "Editável", 
+            key=key, 
+            label_visibility="collapsed", 
+            placeholder="Selecione ou digite."
+        )
         
     with sc3:
         # Botão Aleatório
@@ -115,7 +122,7 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
 
     # Seletor em Expander com Abas (Igual ao 'Adicionar Seções e Tags')
     if data:
-        with st.expander(f"🏷️ Catálogo de {title}", expanded=False):
+        with st.expander("🏷️ Catálogo", expanded=False):
             categorias = list(data.keys())
             abas = st.tabs(categorias)
             
@@ -136,3 +143,4 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
                                       help=tag_desc, on_click=add_tag, use_container_width=True)
             
             st.caption(f"💡 Clique nas tags para compor o {title.lower()}.")
+
