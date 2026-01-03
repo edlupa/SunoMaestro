@@ -113,7 +113,7 @@ def random_vibe_generator(core):
                     st.session_state.vibe_emocional.append(v)
 
 def random_all(core):
-    # Gênero e Ritmo
+    # 1. Gênero e Ritmo
     generos = list(core.dados["hierarquia"].keys())
     if generos:
         g = random.choice(generos)
@@ -125,23 +125,29 @@ def random_all(core):
             st.session_state.estrutura = escolhido[1]
             st.session_state.estrutura_sel = escolhido[1]
 
+    # 2. Sorteio de Tom Lírico (Sistema novo de Tags/String)
     dados_tom = core.dados.get("tom", {})
     if dados_tom:
+        # Achata todos os itens de todas as categorias do JSON
         todos_tons = [item[0] for lista in dados_tom.values() for item in lista]
-        sorteados = random.sample(todos_tons, k=min(2, len(todos_tons)))
+        # Sorteia de 1 a 3 itens
+        sorteados = random.sample(todos_tons, k=min(random.randint(1,3), len(todos_tons)))
         st.session_state["tom"] = ", ".join(sorteados)
 
+    # 3. Sorteio de Influência Estética (Sistema novo de Tags/String)
     dados_inf = core.dados.get("influencia_estetica", {})
     if dados_inf:
         todos_inf = [item[0] for lista in dados_inf.values() for item in lista]
-        sorteados = random.sample(todos_inf, k=min(2, len(todos_inf)))
+        sorteados = random.sample(todos_inf, k=min(random.randint(1,3), len(todos_inf)))
         st.session_state["influencia_estetica"] = ", ".join(sorteados)
 
-    # Campos Hierárquicos
+    # 4. Campos Hierárquicos Restantes (Público, Narrador, Tipo de Gravação)
     for k in HIER_KEYS:
-        data = core.dados[k]
-        randomize_hier_callback(k, data)
+        if k in core.dados:
+            data = core.dados[k]
+            randomize_hier_callback(k, data)
         
+    # 5. Vibes
     random_vibe_generator(core)
 
 def randomize_struct_callback(core):
@@ -313,6 +319,7 @@ def clear_categorized_callback(main_key: str, prefix: str):
             
     # Zera a lista principal
     st.session_state[main_key] = []
+
 
 
 
