@@ -205,7 +205,6 @@ def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None)
     if data:
         with st.expander(f"🏷️ Catálogo (Enviando para: {vocal_alvo})", expanded=False):
             categorias = list(data.keys())
-            cat_sel = st.selectbox("Categoria Vocal", categorias, key="sel_cat_vocal", label_visibility="collapsed")
 
             # Seletor de Categoria
             col_sel, col_info = st.columns([0.45, 0.55], vertical_alignment="center")
@@ -244,6 +243,7 @@ def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None)
                 f"Utilize apenas uma por categoria!</div>", 
                 unsafe_allow_html=True
             )
+
 
 
 
