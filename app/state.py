@@ -170,7 +170,9 @@ def callback_restaurar(texto_prompt):
         "language": "idioma", "topic": "tema", "core_message": "mensagem",
         "keywords": "palavras_chave", "target_audience": "publico",
         "narrator_perspective": "narrador", "structure_format": "estrutura",
-        "lyrical_tone": "tom"
+        "lyrical_tone": "tom",
+        "male_vocal_specs": "vocal_masculino",
+        "female_vocal_specs": "vocal_feminino"
     }
 
     for chave_prompt, chave_state in mapeamento.items():
@@ -345,6 +347,7 @@ def random_all_vocals(key: str, data: dict):
         else: # Dueto
             randomize_tags_callback("vocal_masculino", data)
             randomize_tags_callback("vocal_feminino", data)
+
 
 
 
