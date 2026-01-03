@@ -37,7 +37,7 @@ def render_structure_section(core, help_text):
     Sistema de Tags com scroll horizontal nas abas.
     """
     # Injeção de CSS para habilitar o scroll horizontal nas abas
-    st.markdown("""
+    st.tabs("""
         <style>
         /* Estiliza o container das abas para permitir scroll */
         div[st-indexed-container="true"] > div:first-child {
@@ -52,7 +52,6 @@ def render_structure_section(core, help_text):
         </style>
     """, unsafe_allow_html=True)
 
-    
     st.markdown("**🎶 Estrutura**", help=help_text.get("estrutura"))
     sc1, sc3, sc4 = st.columns([0.70, 0.10, .10], gap="small", vertical_alignment="bottom")
     with sc1: 
@@ -329,6 +328,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
