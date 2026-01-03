@@ -176,10 +176,10 @@ def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None)
     e um catálogo compartilhado com trava por categoria.
     """
     st.subheader(f"**{title}**", help=help_msg)
-    
+
     # 1. Linha de Controles (Inputs Masculino e Feminino)
     col_m, col_f, col_btn = st.columns([0.40, 0.40, 0.20], gap="small", vertical_alignment="bottom")
-    
+  
     with col_m:
         st.text_input("Vocal Masculino", key="vocal_masculino", placeholder="Vocal Masc...")
     with col_f:
@@ -198,14 +198,14 @@ def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None)
         with st.expander("🏷️ Catálogo Vocal (Clique para aplicar aos dois ou digite acima)", expanded=False):
             categorias = list(data.keys())
             cat_sel = st.selectbox("Categoria Vocal", categorias, key="sel_cat_vocal", label_visibility="collapsed")
-            
+    
             st.divider()
             itens = data[cat_sel]
             cols = st.columns(3)
             
             for idx, item_pair in enumerate(itens):
                 v_nome, v_desc = item_pair[0], item_pair[1]
-                
+
                 # Lógica: Se o usuário clicar, adicionamos ao Masculino OU Feminino?
                 # Para ser prático, vamos criar um seletor de destino ou aplicar ao que estiver vazio
                 def add_vocal_logic(nome=v_nome, cat=cat_sel):
@@ -233,7 +233,7 @@ def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None)
                     
                     st.session_state[target_key] = ", ".join(nova_lista)
 
-            with cols[idx % 3]:
+                with cols[idx % 3]:
                     st.button(v_nome, key=f"btn_vocal_{idx}", help=v_desc, 
                               on_click=add_vocal_logic, use_container_width=True)
 
@@ -244,11 +244,3 @@ def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None)
                 f"Utilize apenas uma por categoria!</div>", 
                 unsafe_allow_html=True
             )
-
-
-
-
-
-
-
-
