@@ -85,26 +85,21 @@ def hierarchical_field(title: str, key: str, data: Dict[str, List[str]], help_ms
 
     st.markdown("<div style='margin-bottom: 10px;'></div>", unsafe_allow_html=True)
 
-def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
+def render_tag_system(title: str, key: str, data: dict, descritivos: dict, help_msg: str = None):
     """
-    Sistema de Tags com Seletor de Categoria (Solução para muitas abas).
-    Mantém o padrão da Estrutura, mas usa um selectbox para navegar nas categorias.
+    Sistema de Tags com Seletor de Categoria e Descritivos Dinâmicos.
     """
-    
     st.markdown(f"**{title}**", help=help_msg)
     
-    # 1. Linha de Controles
+    # 1. Linha de Controles (Mantida)
     sc1, sc3, sc4 = st.columns([0.76, 0.12, 0.12], gap="small", vertical_alignment="bottom")
-    
     with sc1:
         if not isinstance(st.session_state.get(key), str):
             st.session_state[key] = ""
         st.text_input("Editável", key=key, label_visibility="collapsed", placeholder="Selecione abaixo ou digite...")
-        
     with sc3:
         st.button("🎲", key=f"btn_rnd_{key}", use_container_width=True, 
                   on_click=state.randomize_tags_callback, args=(key, data))
-        
     with sc4:
         st.button("🧹", key=f"btn_clr_{key}", use_container_width=True, 
                   on_click=lambda: st.session_state.update({key: ""}))
@@ -114,53 +109,41 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
         with st.expander("🏷️ Catálogo", expanded=False):
             categorias = list(data.keys())
             
-            # Seletor de Categoria
             col_sel, col_info = st.columns([0.45, 0.55], vertical_alignment="center")
             with col_sel:
                 cat_selecionada = st.selectbox(
                     f"Categoria {title}", categorias, key=f"sel_cat_{key}", label_visibility="collapsed"
                 )
+            
             with col_info:
-                st.caption(f"Categoria atual: **{cat_selecionada}**")
+                # BUSCA DINÂMICA NO JSON DE DESCRITIVOS
+                # Identifica se é Estética ou Tom Lírico para buscar a explicação correta
+                contexto = "Estetica_Musical" if "influencia" in key else "Tom_Lirico"
+                info_dict = dict(descritivos.get(contexto, []))
+                descricao_cat = info_dict.get(cat_selecionada, "Selecione uma categoria para ver detalhes.")
+                
+                st.caption(f"ℹ️ {descricao_cat}")
 
             st.divider()
 
-            # Grid de Tags
+            # Grid de Tags (Mantido)
             itens = data[cat_selecionada]
             cols = st.columns(3)
-            
             for idx, item_pair in enumerate(itens):
                 tag_nome = item_pair[0]
                 tag_desc = item_pair[1]
                 
-                # NOVA LÓGICA: Substituição por Categoria
                 def handle_tag_click(nome_novo=tag_nome, categoria=cat_selecionada):
-                    # 1. Pegamos o texto atual do input
                     texto_atual = st.session_state.get(key, "")
-                    
-                    # 2. Criamos uma lista com os termos atuais (removendo espaços)
                     tags_atuais = [t.strip() for t in texto_atual.split(",") if t.strip()]
-                    
-                    # 3. Lista de todos os itens desta categoria específica no JSON
                     itens_da_categoria = [i[0] for i in data[categoria]]
-                    
-                    # 4. Removemos qualquer tag que pertença a esta categoria (o "filtro")
                     nova_lista_tags = [t for t in tags_atuais if t not in itens_da_categoria]
-                    
-                    # 5. Adicionamos a nova tag escolhida
                     nova_lista_tags.append(nome_novo)
-                    
-                    # 6. Atualizamos o session_state com a string formatada
                     st.session_state[key] = ", ".join(nova_lista_tags)
 
                 with cols[idx % 3]:
-                    st.button(
-                        tag_nome, 
-                        key=f"btn_{key}_{cat_selecionada}_{idx}", 
-                        help=tag_desc, 
-                        on_click=handle_tag_click, 
-                        use_container_width=True
-                    )
+                    st.button(tag_nome, key=f"btn_{key}_{cat_selecionada}_{idx}", help=tag_desc, 
+                              on_click=handle_tag_click, use_container_width=True)
             
             # Legenda de ajuda
             st.markdown(
@@ -170,48 +153,36 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
                 unsafe_allow_html=True
             )
 
-def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None):
+def render_vocal_section(title: str, key: str, data: dict, descritivos: dict, help_msg: str = None):
     """
-    Renderiza a seção de Vocais com dois campos (Masc/Fem) 
-    e um catálogo compartilhado com trava por categoria.
+    Renderiza a seção de Vocais com descritivos do catálogo de tipos de vocais.
     """
     st.subheader(f"**{title}**", help=help_msg)
 
-    # 1. Seletor de Destino
-    vocal_alvo = st.radio(
-        "Aplicar tags ao:",
-        ["Masculino", "Feminino"],
-        horizontal=True,
-        key="vocal_target_radio",
-        label_visibility="collapsed"
-    )
+    # 1. Seletor de Destino e 2. Campos de Texto (Mantidos)
+    vocal_alvo = st.radio("Aplicar tags ao:", ["Masculino", "Feminino"], horizontal=True, key="vocal_target_radio", label_visibility="collapsed")
     target_key = "vocal_masculino" if vocal_alvo == "Masculino" else "vocal_feminino"
 
-    # 2. Campos de Texto Individuais (Padrão de lista com botões)
     for label, k in [("Vocal Masculino", "vocal_masculino"), ("Vocal Feminino", "vocal_feminino")]:
         c1, c2, c3 = st.columns([0.76, 0.12, 0.12], gap="small", vertical_alignment="bottom")
-        with c1:
-            st.text_input(label, key=k, placeholder=f"Características do {label}...")
-        with c2:
-            # Aleatório individual para este campo
-            st.button("🎲", key=f"rnd_{k}", use_container_width=True, 
-                      on_click=state.randomize_tags_callback, args=(k, data))
-        with c3:
-            # Limpar individual para este campo
-            st.button("🧹", key=f"clr_{k}", use_container_width=True, 
-                      on_click=lambda key_to_clear=k: st.session_state.update({key_to_clear: ""}))
+        with c1: st.text_input(label, key=k, placeholder=f"Características do {label}...")
+        with c2: st.button("🎲", key=f"rnd_{k}", use_container_width=True, on_click=state.randomize_tags_callback, args=(k, data))
+        with c3: st.button("🧹", key=f"clr_{k}", use_container_width=True, on_click=lambda k_to_clear=k: st.session_state.update({k_to_clear: ""}))
 
-    # 3. Catálogo Único
+    # 3. Catálogo Único com Descritivo
     if data:
         with st.expander(f"🏷️ Catálogo (Enviando para: {vocal_alvo})", expanded=False):
             categorias = list(data.keys())
 
-            # Seletor de Categoria
             col_sel, col_info = st.columns([0.45, 0.55], vertical_alignment="center")
             with col_sel:
                 cat_sel = st.selectbox("Categoria Vocal", categorias, key="sel_cat_vocal", label_visibility="collapsed")
+            
             with col_info:
-                st.caption(f"Categoria atual: **{cat_sel}**")
+                # Busca a explicação técnica da categoria vocal
+                info_dict = dict(descritivos.get("Tipos_de_Vocais", []))
+                descricao_cat = info_dict.get(cat_sel, "Informação técnica indisponível.")
+                st.caption(f"🎙️ **{cat_sel}**: {descricao_cat}")
         
             st.divider()
             
@@ -243,6 +214,7 @@ def render_vocal_section(title: str, key: str, data: dict, help_msg: str = None)
                 f"Utilize apenas uma por categoria!</div>", 
                 unsafe_allow_html=True
             )
+
 
 
 
