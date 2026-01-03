@@ -88,44 +88,45 @@ def hierarchical_field(title: str, key: str, data: Dict[str, List[str]], help_ms
 def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
     """
     Sistema idêntico ao de Estrutura:
-    Cliques nas tags preenchem o text_input e hover mostra descrição.
+    Categorias em ABAS, itens em GRID e clique preenche o campo.
     """
     # Cabeçalho
     c1, c2 = st.columns([0.9, 0.1], vertical_alignment="bottom")
     with c1:
         st.markdown(f"**{title}**", help=help_msg)
     with c2:
-        # Botão limpar específico para este campo de texto
-        if st.button("🧹", key=f"clr_{key}", use_container_width=True):
+        if st.button("🧹", key=f"clr_{key}", use_container_width=True, help="Limpar campo"):
             st.session_state[key] = ""
             st.rerun()
 
-    # 1. Catálogo de Tags (Onde o usuário clica)
-    with st.expander("📚 Selecionar", expanded=False):
-        for category, items in data.items():
-            st.markdown(f"*{category}*")
-            
-            # Criar linha de botões (tags)
-            cols = st.columns(len(items) if len(items) < 5 else 5)
-            for idx, item_pair in enumerate(items):
-                name, desc = item_pair[0], item_pair[1]
-                
-                # O segredo do 'Hover' no Streamlit puro para botões é o help do st.button
-                if st.button(name, key=f"btn_{key}_{name}", help=desc):
-                    current_text = st.session_state.get(key, "")
-                    if name not in current_text:
-                        # Adiciona com vírgula se já houver texto
-                        new_text = f"{current_text}, {name}" if current_text else name
-                        st.session_state[key] = new_text
-                        st.rerun()
-            st.divider()
+    # 1. Catálogo em Abas (Igual Estrutura)
+    categorias = list(data.keys())
+    if categorias:
+        tabs = st.tabs(categorias)
+        
+        for i, cat in enumerate(categorias):
+            with tabs[i]:
+                items = data[cat]
+                # Criar grid de 4 colunas para os itens ficarem lado a lado
+                cols = st.columns(4)
+                for idx, item_pair in enumerate(items):
+                    name, desc = item_pair[0], item_pair[1]
+                    # Distribui os botões entre as colunas
+                    with cols[idx % 4]:
+                        if st.button(name, key=f"btn_{key}_{name}", help=desc, use_container_width=True):
+                            current_text = st.session_state.get(key, "")
+                            if name not in current_text:
+                                new_text = f"{current_text}, {name}" if current_text else name
+                                st.session_state[key] = new_text
+                                st.rerun()
 
-    # 2. O Campo de Texto que recebe as escolhas (e permite edição manual)
+    # 2. O Campo de Texto (Area de edição final)
     st.text_input(
-        f"Texto final {title}",
+        f"Edite ou adicione manualmente:",
         key=key,
-        placeholder="Selecione acima ou digite aqui...",
+        placeholder="Selecione acima para preencher...",
         label_visibility="collapsed"
     )
-    st.markdown("<div style='margin-bottom: 15px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='margin-bottom: 20px;'></div>", unsafe_allow_html=True)
+
 
