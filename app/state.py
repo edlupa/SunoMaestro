@@ -253,8 +253,7 @@ def randomize_tags_callback(key: str, data: dict):
     Seleciona aleatoriamente 1 item de categorias variadas (entre 1 a 4 categorias).
     Garante que nunca haja duplicidade de itens da mesma categoria.
     """
-    import random
-    
+ 
     # 1. Pegamos a lista de todas as categorias disponíveis no JSON
     categorias_disponiveis = list(data.keys())
     
@@ -329,7 +328,12 @@ def clear_categorized_callback(main_key: str, prefix: str):
     # Zera a lista principal
     st.session_state[main_key] = []
 
-
+def random_all_vocals(core):
+    dados_vocal = core.dados.get("tipo_vocal", {})
+    if dados_vocal:
+        # Sorteia 1 a 2 categorias para cada gênero e escolhe 1 item de cada
+        randomize_tags_callback("vocal_masculino", dados_vocal)
+        randomize_tags_callback("vocal_feminino", dados_vocal)
 
 
 
