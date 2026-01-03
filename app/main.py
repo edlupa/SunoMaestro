@@ -261,7 +261,7 @@ def main():
                     campos = {k: st.session_state[k] for k in ["genero","ritmo","estrutura","tipo_de_gravacao",
                                                                "influencia_estetica","vibe_emocional","referencia",
                                                                "idioma","tema","mensagem","palavras_chave",
-                                                               "publico","narrador","tom"]}
+                                                               "publico","narrador","tom", "vocal_masculino", "vocal_feminino"]}
                     texto_gerado = core.gerar_prompt(campos)
                     st.session_state.prompt_final = texto_gerado
                     st.session_state.show_prompt = True
@@ -363,6 +363,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
