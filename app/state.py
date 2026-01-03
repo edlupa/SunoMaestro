@@ -234,33 +234,32 @@ def handle_tag_selection(key: str, data: dict):
     st.session_state[key] = final_list
 
 def randomize_tags_callback(key: str, data: dict):
-    """Seleciona aleatoriamente até 3 itens de categorias diferentes."""
+    """
+    Seleciona aleatoriamente entre 1 a 3 itens de categorias variadas.
+    """
     import random
-    all_cats = list(data.keys())
-    # Escolhe até 3 categorias aleatórias (sem repetir)
-    chosen_cats = random.sample(all_cats, k=min(3, len(all_cats)))
     
-    selection = []
-    for cat in chosen_cats:
-        items = data[cat]
-        if items:
-            # Pega um item aleatório dessa categoria
-            item_name = random.choice(items)[0]
-            selection.append(item_name)
+    # 1. Achatar todas as opções disponíveis em uma lista única
+    all_items = []
+    for cat, items_list in data.items():
+        for item_pair in items_list:
+            # item_pair[0] é o nome do item
+            all_items.append(item_pair[0])
             
-    st.session_state[key] = selection
+    # 2. Escolher aleatoriamente
+    if all_items:
+        # Define quantos itens pegar (1 a 3)
+        k = random.randint(1, 3)
+        selection = random.sample(all_items, k=min(k, len(all_items)))
+        st.session_state[key] = selection
 
 def clear_tags_callback(key: str):
-    """Limpa as tags e o campo manual."""
+    """Limpa a seleção e o input manual."""
     st.session_state[key] = []
-    # Limpa também o input manual associado
+    
     manual_key = f"{key}_manual_input"
     if manual_key in st.session_state:
         st.session_state[manual_key] = ""
-
-        st.session_state.new_vibe_input = ""
-
-# --- Adicione ao final de app/state.py ---
 
 def update_categorized_selection(main_key: str, sub_key: str, manual_key: str):
     """
@@ -306,3 +305,4 @@ def clear_categorized_callback(main_key: str, prefix: str):
             
     # Zera a lista principal
     st.session_state[main_key] = []
+
