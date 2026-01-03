@@ -92,6 +92,26 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
     2. Input de texto editável (Vem ANTES do seletor)
     3. Expander com Abas e Grid de botões
     """
+
+    """
+    Sistema de Tags com scroll horizontal nas abas.
+    """
+    # Injeção de CSS para habilitar o scroll horizontal nas abas
+    st.markdown("""
+        <style>
+        /* Estiliza o container das abas para permitir scroll */
+        div[st-indexed-container="true"] > div:first-child {
+            overflow-x: auto;
+            white-space: nowrap;
+            flex-wrap: nowrap !important;
+        }
+        /* Garante que os botões das abas não encolham */
+        div[st-indexed-container="true"] button {
+            flex-shrink: 0;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+    
     # Cabeçalho
     st.markdown(f"**{title}**", help=help_msg)
     
@@ -143,4 +163,5 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
                                       help=tag_desc, on_click=add_tag, use_container_width=True)
             
             st.caption(f"💡 Clique nas tags para compor o {title.lower()}.")
+
 
