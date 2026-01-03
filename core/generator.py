@@ -16,7 +16,8 @@ class SunoMaestroCore:
             "tom": "06_tom_lirico.json",
             "narrador": "07_narrador.json",
             "metatags": "08_metatags_musicais.json",
-            "help": "09_ajuda.json"
+            "help": "09_ajuda.json",
+            "tipo_vocal": "10_tipo_vocal.json"
         }
         self.dados = self._load_data()
 
@@ -35,6 +36,20 @@ class SunoMaestroCore:
                 val = str(v).strip() if v else ""
                 d[k] = val if val else "AUTOMATIC_INPUT"
 
+        # --- LÓGICA DE DUETO ---
+        v_masc = d.get('vocal_masculino', "AUTOMATIC_INPUT")
+        v_fem = d.get('vocal_feminino', "AUTOMATIC_INPUT")
+        
+        if v_masc != "AUTOMATIC_INPUT" and v_fem != "AUTOMATIC_INPUT":
+            vocal_final = f"Duet (Male: {v_masc} | Female: {v_fem})"
+        elif v_masc != "AUTOMATIC_INPUT":
+            vocal_final = f"Male Solo: {v_masc}"
+        elif v_fem != "AUTOMATIC_INPUT":
+            vocal_final = f"Female Solo: {v_fem}"
+        else:
+            vocal_final = "AUTOMATIC_INPUT"
+        # -----------------------
+
         # Template do Prompt
         return f"""ROLE: Composer, arranger, lyricist, and music producer who creates commercially viable songs with realistic instrumentation and writes Suno 5.0–compatible prompts; prioritizes musical identity and functional audio description over poetic abstraction, infers missing details consistently, and structures outputs for real-world mixability and singability.
 
@@ -42,6 +57,7 @@ class SunoMaestroCore:
     musical_identity:
       primary_genre: "{d.get('genero')}"
       specific_style: "{d.get('ritmo')}"
+      vocal_style: "{vocal_final}"
       recording_aesthetic: "{d.get('tipo_de_gravacao')}"
       artistic_influence: "{d.get('influencia_estetica')}"
       emotional_vibe: "{d.get('vibe_emocional')}"
@@ -178,4 +194,5 @@ def load_dataset_cached(dataset_dir, arquivos_map):
         except json.JSONDecodeError:
             dados[key] = {}
             # Opcional: st.error(f"Erro ao ler JSON: {filename}")
+
     return dados
