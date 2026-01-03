@@ -23,10 +23,12 @@ STATE_DEFAULTS = {
 def init_session_state():
     """Garante que todas as chaves necessárias existam no session_state."""
     for k, v in STATE_DEFAULTS.items():
-        if k == "history":
-            st.session_state[k] = []
-        else:
-            st.session_state[k] = v
+        if k not in st.session_state:
+            # Se for o histórico, garantimos uma lista nova [ ]
+            if k == "history":
+                st.session_state[k] = []
+            else:
+                st.session_state[k] = v
 
     for k in HIER_KEYS:
         if f"{k}_cat" not in st.session_state: st.session_state[f"{k}_cat"] = ""
@@ -349,6 +351,7 @@ def random_all_vocals(key: str, data: dict):
         else: # Dueto
             randomize_tags_callback("vocal_masculino", data)
             randomize_tags_callback("vocal_feminino", data)
+
 
 
 
