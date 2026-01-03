@@ -90,37 +90,33 @@ import app.state as state
 
 def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
     """
-    Sistema de Tags idêntico ao de Estrutura:
-    - Scroll horizontal nas abas via CSS corrigido.
-    - Input de texto antes do catálogo.
-    - Botões de Aleatório e Limpar.
-    - Lógica de clique individual para cada tag.
+    Sistema de Tags com scroll horizontal nas abas e grid de tags preservado.
     """
     
-    # 1. Injeção de CSS Robusta para Scroll nas Abas (Identificadores Oficiais)
+    # 1. Injeção de CSS Corrigida
     st.markdown("""
         <style>
-        /* Seleciona o container de abas do Streamlit */
-        div[data-testid="stTabs"] {
-            overflow-x: auto;
-        }
-        
-        /* Força a lista de botões das abas a não quebrar linha */
+        /* Alvo: Apenas a lista de botões das abas (o cabeçalho das tabs) */
         div[data-testid="stTabs"] > div:first-child {
             display: flex;
             flex-wrap: nowrap !important;
             overflow-x: auto;
             gap: 10px;
+            padding-bottom: 5px;
         }
         
-        /* Impede que os botões das abas fiquem espremidos e mantém o texto inteiro */
-        div[data-testid="stTabs"] button {
+        /* Garante que os botões das abas tenham tamanho fixo e não esmaguem o texto */
+        div[data-testid="stTabs"] > div:first-child button {
             flex-shrink: 0 !important;
             white-space: nowrap !important;
-            min-width: fit-content;
         }
 
-        /* Estilização da barra de rolagem para ficar discreta */
+        /* IMPORTANTE: Garante que o conteúdo DENTRO da aba (as tags) use a largura total */
+        div[data-testid="stTabs"] > div:nth-child(2) {
+            width: 100%;
+        }
+
+        /* Estilização da barra de rolagem */
         div[data-testid="stTabs"] > div:first-child::-webkit-scrollbar {
             height: 4px;
         }
@@ -134,32 +130,23 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
     # 2. Cabeçalho
     st.markdown(f"**{title}**", help=help_msg)
     
-    # 3. Linha de controles (Layout da Estrutura)
+    # 3. Linha de controles
     sc1, sc3, sc4 = st.columns([0.70, 0.10, .10], gap="small", vertical_alignment="bottom")
     
     with sc1:
-        # Garante que o valor no session_state seja sempre string
         if not isinstance(st.session_state.get(key), str):
             st.session_state[key] = ""
-            
-        st.text_input(
-            "Editável", 
-            key=key, 
-            label_visibility="collapsed", 
-            placeholder=f"Selecione ou digite seu {title.lower()}..."
-        )
+        st.text_input("Editável", key=key, label_visibility="collapsed", placeholder="Selecione ou digite...")
         
     with sc3:
-        # Botão Aleatório Individual
         st.button("🎲", key=f"btn_rnd_{key}", use_container_width=True, 
                   on_click=state.randomize_tags_callback, args=(key, data))
         
     with sc4:
-        # Botão Limpar Individual
         st.button("🧹", key=f"btn_clr_{key}", use_container_width=True, 
                   on_click=lambda: st.session_state.update({key: ""}))
 
-    # 4. Seletor em Expander com Abas e Scroll
+    # 4. Catálogo
     if data:
         with st.expander("🏷️ Catálogo", expanded=False):
             categorias = list(data.keys())
@@ -168,19 +155,18 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
             for i, categoria in enumerate(categorias):
                 with abas[i]:
                     itens = data[categoria]
-                    cols = st.columns(4) # Grid de 4 colunas para as tags
+                    # Ajustado para 3 colunas para dar mais respiro se os nomes forem longos
+                    cols = st.columns(3) 
                     
                     for idx, item_pair in enumerate(itens):
                         tag_nome, tag_desc = item_pair[0], item_pair[1]
                         
-                        # Função interna com argumento fixo para evitar bug de escopo
                         def make_add_tag(val=tag_nome):
                             current = st.session_state.get(key, "")
                             if val not in current:
-                                novo_texto = f"{current}, {val}" if current else val
-                                st.session_state[key] = novo_texto
+                                st.session_state[key] = f"{current}, {val}" if current else val
 
-                        with cols[idx % 4]:
+                        with cols[idx % 3]:
                             st.button(
                                 tag_nome, 
                                 key=f"btn_{key}_{categoria}_{idx}", 
@@ -190,3 +176,4 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
                             )
             
             st.caption("💡 Clique nas tags para adicionar. Passe o mouse para ver a descrição. Utilize apenas uma por categoria!")
+
