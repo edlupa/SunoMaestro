@@ -85,38 +85,40 @@ def hierarchical_field(title: str, key: str, data: Dict[str, List[str]], help_ms
 
     st.markdown("<div style='margin-bottom: 10px;'></div>", unsafe_allow_html=True)
 
-import streamlit as st
-import app.state as state
-
 def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
     """
-    Sistema de Tags com scroll horizontal nas abas e grid de tags preservado.
+    Sistema de Tags estilo Estrutura com correção de alinhamento:
+    - Abas com scroll horizontal.
+    - Conteúdo (tags) alinhado à esquerda ocupando 100% da largura.
     """
     
-    # 1. Injeção de CSS Corrigida
+    # 1. Injeção de CSS Corrigida para Alinhamento
     st.markdown("""
         <style>
-        /* Alvo: Apenas a lista de botões das abas (o cabeçalho das tabs) */
+        /* 1. Cabeçalho das Abas com Scroll */
         div[data-testid="stTabs"] > div:first-child {
             display: flex;
             flex-wrap: nowrap !important;
             overflow-x: auto;
             gap: 10px;
             padding-bottom: 5px;
+            width: 100%;
         }
         
-        /* Garante que os botões das abas tenham tamanho fixo e não esmaguem o texto */
+        /* 2. Impede que os botões das abas encolham */
         div[data-testid="stTabs"] > div:first-child button {
             flex-shrink: 0 !important;
             white-space: nowrap !important;
         }
 
-        /* IMPORTANTE: Garante que o conteúdo DENTRO da aba (as tags) use a largura total */
+        /* 3. CORREÇÃO DO CONTEÚDO: Força as tags a voltarem para a esquerda */
         div[data-testid="stTabs"] > div:nth-child(2) {
-            width: 100%;
+            width: 100% !important;
+            margin-left: 0 !important;
+            display: block !important;
         }
 
-        /* Estilização da barra de rolagem */
+        /* 4. Estilização da barra de rolagem */
         div[data-testid="stTabs"] > div:first-child::-webkit-scrollbar {
             height: 4px;
         }
@@ -127,16 +129,16 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
         </style>
     """, unsafe_allow_html=True)
 
-    # 2. Cabeçalho
+    # 2. Cabeçalho do Bloco
     st.markdown(f"**{title}**", help=help_msg)
     
-    # 3. Linha de controles
+    # 3. Linha de Controles (Igual Estrutura)
     sc1, sc3, sc4 = st.columns([0.70, 0.10, .10], gap="small", vertical_alignment="bottom")
     
     with sc1:
         if not isinstance(st.session_state.get(key), str):
             st.session_state[key] = ""
-        st.text_input("Editável", key=key, label_visibility="collapsed", placeholder="Selecione ou digite...")
+        st.text_input("Editável", key=key, label_visibility="collapsed", placeholder="Selecione abaixo ou digite...")
         
     with sc3:
         st.button("🎲", key=f"btn_rnd_{key}", use_container_width=True, 
@@ -146,7 +148,7 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
         st.button("🧹", key=f"btn_clr_{key}", use_container_width=True, 
                   on_click=lambda: st.session_state.update({key: ""}))
 
-    # 4. Catálogo
+    # 4. Catálogo em Expander
     if data:
         with st.expander("🏷️ Catálogo", expanded=False):
             categorias = list(data.keys())
@@ -155,12 +157,13 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
             for i, categoria in enumerate(categorias):
                 with abas[i]:
                     itens = data[categoria]
-                    # Ajustado para 3 colunas para dar mais respiro se os nomes forem longos
+                    # Usando 3 colunas para garantir que o texto caiba bem
                     cols = st.columns(3) 
                     
                     for idx, item_pair in enumerate(itens):
                         tag_nome, tag_desc = item_pair[0], item_pair[1]
                         
+                        # Função de callback para a tag
                         def make_add_tag(val=tag_nome):
                             current = st.session_state.get(key, "")
                             if val not in current:
@@ -173,7 +176,8 @@ def render_tag_system(title: str, key: str, data: dict, help_msg: str = None):
                                 help=tag_desc, 
                                 on_click=make_add_tag, 
                                 use_container_width=True
-                            )
-            
+                            )            
+           
             st.caption("💡 Clique nas tags para adicionar. Passe o mouse para ver a descrição. Utilize apenas uma por categoria!")
+
 
