@@ -1,850 +1,279 @@
 {
-    "Samba": [
-        [
-            "De Raiz",
-            "[Intro] [Verse] [Chorus] [Verse] [Chorus]"
-        ],
-        [
-            "Enredo",
-            "[Intro] [Verse] [Verse] [Pre-Chorus] [Chorus]"
-        ],
-        [
-            "Pagode 90s",
-            "[Intro] [Verse] [Chorus] [Verse] [Chorus]"
-        ],
-        [
-            "Samba-Rock",
-            "[Intro] [Verse] [Chorus] [Bridge] [Solo] [Chorus]"
-        ],
-        [
-            "Samba-Reggae",
-            "[Intro] [Verse] [Chorus] [Bridge] [Solo] [Chorus]"
-        ],
-        [
-            "Partido Alto",
-            "[Chorus] [Verse (Improviso)] [Chorus]"
-        ],
-        [
-            "Pagode de Mesa",
-            "[Intro] [Verse] [Chorus] [Verse] [Chorus]"
-        ],
-        [
-            "Pagode Romântico 2000s",
-            "[Intro] [Verse] [Chorus] [Verse] [Chorus]"
-        ],
-        [
-            "Samba-Reggae Olodum",
-            "[Intro] [Verse] [Chorus] [Bridge] [Solo] [Chorus]"
-        ]
-    ],
-    "Sertanejo": [
-        [
-            "Universitário",
-            "[Intro] [Verse] [Chorus] [Verse] [Bridge/Solo] [Chorus Final]"
-        ],
-        [
-            "Raiz/Caipira",
-            "[Intro] [Verse] [Chorus] [Viola Solo] [Verse] [Chorus Final]"
-        ],
-        [
-            "Modão de Viola",
-            "[Intro] [Verse] [Chorus] [Viola Solo] [Verse] [Chorus Final]"
-        ],
-        [
-            "Agronejo",
-            "[Intro] [Chorus] [Verse] [Chorus] [Drop] [Verse] [Chorus]"
-        ],
-        [
-            "Romântico 90s",
-            "[Intro] [Verse] [Chorus] [Verse] [Bridge/Solo] [Chorus Final]"
-        ],
-        [
-            "Arrocha",
-            "[Intro] [Verse] [Chorus] [Verse] [Bridge/Solo] [Chorus Final]"
-        ]
-    ],
-    "Funk BR": [
-        [
-            "Carioca 80s",
-            "[Intro] [Verse] [Chorus] [Verse] [Chorus] [Outro]"
-        ],
-        [
-            "Ostentação",
-            "[Intro] [Verse] [Chorus] [Verse] [Chorus] [Outro]"
-        ],
-        [
-            "Consciente",
-            "[Intro] [Verse] [Chorus] [Verse] [Chorus] [Outro]"
-        ],
-        [
-            "Mandelão",
-            "[Intro] [Build] [Drop/Beat Solo] [Vocal Chop] [Drop]"
-        ],
-        [
-            "MTG (Montagem)",
-            "[Intro] [Build] [Drop/Beat Solo] [Vocal Chop] [Drop]"
-        ],
-        [
-            "Phonk BR",
-            "[Intro] [Build] [Drop/Beat Solo] [Vocal Chop] [Drop]"
-        ],
-        [
-            "Proibidão",
-            "[Intro] [Narrative Verse] [Chorus] [Verse] [Chorus]"
-        ]
-    ],
-    "MPB": [
-        [
-            "Clássica",
-            "[Intro] [Verse] [Chorus] [Verse] [Bridge] [Chorus]"
-        ],
-        [
-            "Tropicalista",
-            "[Intro] [Verse] [Chorus] [Verse] [Bridge] [Chorus]"
-        ],
-        [
-            "Nova MPB",
-            "[Intro] [Verse] [Chorus] [Verse] [Bridge] [Chorus]"
-        ],
-        [
-            "Sambalanço",
-            "[Verse] [Verse] [Bridge] [Verse]"
-        ],
-        [
-            "Bossa Nova",
-            "[Verse] [Verse] [Bridge] [Verse]"
-        ],
-        [
-            "Choro Erudito",
-            "[Chorus] [Verse] [Chorus] [Verse] [Chorus]"
-        ]
-    ],
-    "Regional BR": [
-        [
-            "Forró Pé-de-Serra",
-            "[Verse] [Verse] [Chorus] [Sanfona Solo] [Chorus Final]"
-        ],
-        [
-            "Piseiro",
-            "[Intro] [Verse] [Chorus] [Instrumental] [Chorus]"
-        ],
-        [
-            "Baião",
-            "[Verse] [Verse] [Chorus] [Sanfona Solo] [Chorus Final]"
-        ],
-        [
-            "Maracatu",
-            "[Section A] [Section B] [Section A]"
-        ],
-        [
-            "Axé Music 90s",
-            "[Intro] [Verse] [Chorus] [Verse] [Chorus]"
-        ],
-        [
-            "Carimbó",
-            "[Intro] [Theme A] [Solo] [Theme B] [Solo] [Outro]"
-        ],
-        [
-            "Frevo",
-            "[Section A] [Section B] [Section A]"
-        ],
-        [
-            "Ciranda",
-            "[Section A] [Section B] [Section A]"
-        ],
-        [
-            "Pagodão Baiano",
-            "[Intro] [Verse] [Chorus] [Instrumental] [Chorus]"
-        ],
-        [
-            "Lambada Modern",
-            "[Intro] [Theme A] [Solo] [Theme B] [Solo] [Outro]"
-        ],
-        [
-            "Guitarrada Paraense",
-            "[Intro] [Theme A] [Solo] [Theme B] [Solo] [Outro]"
-        ],
-        [
-            "Xaxado",
-            "[Verse] [Verse] [Chorus] [Sanfona Solo] [Chorus Final]"
-        ],
-        [
-            "Arrasta-pé",
-            "[Verse] [Verse] [Chorus] [Sanfona Solo] [Chorus Final]"
-        ],
-        [
-            "Toada",
-            "[Mode Verse] [Dance Break] [Outro]"
-        ],
-        [
-            "Catira",
-            "[Mode Verse] [Dance Break] [Outro]"
-        ]
-    ],
-    "Rock": [
-        [
-            "Alternativo",
-            "[Intro] [Verse] [Chorus] [Verse] [Chorus] [Solo] [Outro]"
-        ],
-        [
-            "Clássico 70s",
-            "[Intro] [Verse] [Chorus] [Verse] [Chorus] [Solo] [Chorus]"
-        ],
-        [
-            "Hard Rock",
-            "[Intro] [Verse] [Chorus] [Verse] [Chorus] [Solo] [Outro]"
-        ],
-        [
-            "Psicodélico",
-            "[Intro] [Crescendo] [Jam] [Textural Outro]"
-        ],
-        [
-            "Grunge",
-            "[Intro] [Verse] [Chorus] [Verse] [Chorus] [Outro]"
-        ],
-        [
-            "Indie",
-            "[Intro] [Verse] [Chorus] [Bridge] [Chorus]"
-        ],
-        [
-            "Punk",
-            "[Verse] [Chorus] [Verse] [Chorus]"
-        ],
-        [
-            "Rockabilly",
-            "[Verse] [Chorus] [Verse] [Chorus]"
-        ],
-        [
-            "Surf Rock",
-            "[Intro] [Theme] [Solo] [Theme]"
-        ],
-        [
-            "Post-Rock",
-            "[Intro] [Crescendo] [Explosive Section] [Outro]"
-        ],
-        [
-            "Math Rock",
-            "[Odd Riff] [Break] [Riff Variation] [Outro]"
-        ],
-        [
-            "Garage Rock",
-            "[Verse] [Chorus] [Verse] [Chorus]"
-        ],
-        [
-            "Glam Rock",
-            "[Intro] [Verse] [Chorus] [Bridge] [Chorus]"
-        ],
-        [
-            "Gothic Rock",
-            "[Intro] [Verse] [Chorus] [Atmospheric Outro]"
-        ]
-    ],
-    "Metal": [
-        [
-            "Heavy Classic",
-            "[Intro] [Verse] [Chorus] [Verse] [Chorus] [Solo]"
-        ],
-        [
-            "Thrash",
-            "[Intro] [Verse] [Chorus] [Verse] [Breakdown] [Chorus]"
-        ],
-        [
-            "Death Metal",
-            "[Intro] [Blast Verse] [Break] [Outro]"
-        ],
-        [
-            "Sinfônico",
-            "[Intro] [Verse] [Chorus] [Orchestral Break] [Chorus]"
-        ],
-        [
-            "Nu-Metal",
-            "[Intro] [Verse] [Chorus] [Breakdown] [Chorus]"
-        ],
-        [
-            "Black Metal",
-            "[Atmospheric Intro] [Tremolo Section] [Outro]"
-        ],
-        [
-            "Doom Metal",
-            "[Slow Intro] [Heavy Riff] [Outro]"
-        ],
-        [
-            "Power Metal",
-            "[Intro] [Verse] [Chorus] [Solo] [Chorus]"
-        ],
-        [
-            "Metalcore",
-            "[Intro] [Verse] [Chorus] [Breakdown] [Chorus]"
-        ],
-        [
-            "Djent",
-            "[Polyrhythm Riff] [Break] [Riff Return]"
-        ],
-        [
-            "Sludge Metal",
-            "[Dirty Riff] [Break] [Outro]"
-        ],
-        [
-            "Progressive",
-            "[Multi-Section Intro] [Theme] [Variation] [Finale]"
-        ],
-        [
-            "Industrial",
-            "[Machine Intro] [Verse] [Chorus] [Outro]"
-        ]
-    ],
-    "Indie": [
-        [
-            "Dream Pop",
-            "[Intro] [Verse] [Texture Layer] [Outro]"
-        ],
-        [
-            "Shoegaze",
-            "[Wall of Sound] [Verse] [Outro]"
-        ],
-        [
-            "Post-Punk",
-            "[Verse] [Chorus] [Verse] [Chorus]"
-        ],
-        [
-            "Midwest Emo",
-            "[Main Riff] [Verse] [Explosive Outro]"
-        ],
-        [
-            "Slowcore",
-            "[Minimal Verse] [Crescendo] [Outro]"
-        ],
-        [
-            "Folktronica",
-            "[Intro] [Verse] [Electronic Break] [Outro]"
-        ]
-    ],
-    "Hip Hop": [
-        [
-            "Boom Bap",
-            "[Intro] [16 Bar Verse] [Chorus] [Verse] [Outro]"
-        ],
-        [
-            "Trap",
-            "[Intro] [Chorus] [Verse] [Chorus] [Outro]"
-        ],
-        [
-            "Drill",
-            "[Intro] [Chorus] [Verse] [Chorus]"
-        ],
-        [
-            "Lo-fi",
-            "[Intro] [Verse] [Atmospheric Outro]"
-        ],
-        [
-            "Grime",
-            "[Intro] [Verse] [Chorus] [Outro]"
-        ],
-        [
-            "Cloud Rap",
-            "[Intro] [Verse] [Chorus] [Outro]"
-        ],
-        [
-            "Gangsta Rap",
-            "[Intro] [Verse] [Chorus] [Verse]"
-        ],
-        [
-            "Jazz-Rap",
-            "[Intro] [Verse] [Chorus] [Solo Outro]"
-        ],
-        [
-            "Old School 80s",
-            "[Intro] [Verse] [Chorus] [Outro]"
-        ],
-        [
-            "Horrorcore",
-            "[Dark Intro] [Verse] [Chorus] [Outro]"
-        ]
-    ],
-    "R&B/Soul": [
-        [
-            "Neo-Soul",
-            "[Intro] [Verse] [Pre-Chorus] [Chorus] [Bridge] [Chorus]"
-        ],
-        [
-            "Motown",
-            "[Verse] [Chorus] [Verse] [Chorus]"
-        ],
-        [
-            "Funk 70s",
-            "[Intro] [Groove] [Break] [Groove]"
-        ],
-        [
-            "Contemporary R&B",
-            "[Intro] [Verse] [Chorus] [Bridge] [Chorus]"
-        ],
-        [
-            "New Jack Swing",
-            "[Intro] [Verse] [Chorus] [Bridge]"
-        ],
-        [
-            "Quiet Storm",
-            "[Intro] [Verse] [Chorus] [Outro]"
-        ],
-        [
-            "Philly Soul",
-            "[Verse] [Chorus] [Bridge] [Chorus]"
-        ],
-        [
-            "Northern Soul",
-            "[Verse] [Chorus] [Verse]"
-        ],
-        [
-            "Southern Soul",
-            "[Intro] [Verse] [Chorus]"
-        ],
-        [
-            "Acid Jazz",
-            "[Intro] [Groove] [Solo] [Outro]"
-        ],
-        [
-            "Gospel-Soul",
-            "[Intro] [Verse] [Chorus] [Modulation] [Final Chorus]"
-        ]
-    ],
-    "Reggae": [
-        [
-            "Roots",
-            "[Intro] [Verse] [Chorus] [Verse] [Outro]"
-        ],
-        [
-            "Dub",
-            "[Intro] [Version] [FX Drops] [Outro]"
-        ],
-        [
-            "Dancehall",
-            "[Intro] [Verse] [Chorus] [Verse]"
-        ],
-        [
-            "Ska",
-            "[Intro] [Verse] [Chorus] [Brass Solo]"
-        ],
-        [
-            "Rocksteady",
-            "[Verse] [Chorus] [Verse]"
-        ],
-        [
-            "Lovers Rock",
-            "[Intro] [Verse] [Chorus] [Outro]"
-        ]
-    ],
-    "Pop": [
-        [
-            "Synthpop 80s",
-            "[Intro] [Verse] [Pre-Chorus] [Chorus] [Bridge] [Chorus]"
-        ],
-        [
-            "Dance-Pop",
-            "[Intro] [Verse] [Chorus] [Drop] [Chorus]"
-        ],
-        [
-            "K-Pop",
-            "[Intro] [Verse] [Pre-Chorus] [Chorus] [Bridge] [Final Chorus]"
-        ],
-        [
-            "Disco 70s",
-            "[Intro] [Verse] [Chorus] [Solo] [Chorus]"
-        ],
-        [
-            "Baroque Pop",
-            "[Verse] [Bridge] [Verse]"
-        ],
-        [
-            "Art Pop",
-            "[Intro] [Verse] [Bridge] [Chorus]"
-        ],
-        [
-            "Bubblegum Pop",
-            "[Verse] [Chorus] [Verse] [Chorus]"
-        ],
-        [
-            "J-Pop",
-            "[Intro] [Verse] [Chorus] [Bridge]"
-        ],
-        [
-            "Europop",
-            "[Intro] [Verse] [Chorus]"
-        ],
-        [
-            "Hyperpop",
-            "[Intro] [Drop] [Verse] [Drop]"
-        ],
-        [
-            "Sophisti-pop",
-            "[Verse] [Verse] [Bridge] [Verse]"
-        ]
-    ],
-    "Eletrônica": [
-        [
-            "House",
-            "[Intro] [Build] [Drop] [Break] [Drop]"
-        ],
-        [
-            "Techno",
-            "[Intro] [Loop] [Modulation] [Outro]"
-        ],
-        [
-            "Trance",
-            "[Intro] [Build] [Drop] [Break] [Final Drop]"
-        ],
-        [
-            "Drum and Bass",
-            "[Intro] [Drop] [Break] [Drop]"
-        ],
-        [
-            "Synthwave",
-            "[Intro] [Theme] [Solo] [Outro]"
-        ],
-        [
-            "Deep House",
-            "[Intro] [Groove] [Break] [Groove]"
-        ],
-        [
-            "Industrial Techno",
-            "[Intro] [Loop] [Noise Break] [Outro]"
-        ],
-        [
-            "Eurodance",
-            "[Intro] [Verse] [Chorus] [Drop]"
-        ],
-        [
-            "Hardstyle",
-            "[Intro] [Build] [Drop] [Climax]"
-        ],
-        [
-            "Ambient Drone",
-            "[Texture Evolution]"
-        ],
-        [
-            "IDM",
-            "[Intro] [Pattern Shift] [Outro]"
-        ],
-        [
-            "EBM",
-            "[Intro] [Verse] [Chorus]"
-        ],
-        [
-            "Acid House",
-            "[Intro] [303 Groove] [Break] [Return]"
-        ],
-        [
-            "Dubstep",
-            "[Intro] [Build] [Drop] [Break] [Drop]"
-        ],
-        [
-            "Future Bass",
-            "[Intro] [Build] [Drop] [Chorus]"
-        ],
-        [
-            "Tropical House",
-            "[Intro] [Groove] [Chorus]"
-        ]
-    ],
-    "Jazz": [
-        [
-            "Bebop",
-            "[Head] [Solo] [Solo] [Head]"
-        ],
-        [
-            "Fusion",
-            "[Theme] [Solo] [Bridge] [Theme]"
-        ],
-        [
-            "Smooth",
-            "[Intro] [Theme] [Solo] [Outro]"
-        ],
-        [
-            "Cool Jazz",
-            "[Theme] [Solo] [Theme]"
-        ],
-        [
-            "Gypsy/Manouche",
-            "[Theme] [Solo] [Theme]"
-        ],
-        [
-            "Hard Bop",
-            "[Theme] [Solo] [Theme]"
-        ],
-        [
-            "Free Jazz",
-            "[Collective Improvisation]"
-        ],
-        [
-            "Swing Big Band",
-            "[Intro] [Theme] [Solos] [Shout Chorus]"
-        ],
-        [
-            "Soul Jazz",
-            "[Groove] [Solo] [Groove]"
-        ],
-        [
-            "Latin Jazz",
-            "[Intro] [Theme] [Solo] [Outro]"
-        ]
-    ],
-    "Blues": [
-        [
-            "Delta Blues",
-            "[Verse A] [Verse A] [Verse B]"
-        ],
-        [
-            "Chicago",
-            "[Verse A] [Verse A] [Verse B]"
-        ],
-        [
-            "Texas Blues",
-            "[Verse A] [Verse A] [Verse B]"
-        ],
-        [
-            "Boogie Woogie",
-            "[Intro] [Repeated Chorus] [Outro]"
-        ],
-        [
-            "Country Blues",
-            "[Verse A] [Verse A] [Verse B]"
-        ],
-        [
-            "Rhythm and Blues",
-            "[Verse] [Chorus] [Verse]"
-        ]
-    ],
-    "Latino": [
-        [
-            "Reggaeton",
-            "[Intro] [Verse] [Chorus] [Verse] [Outro]"
-        ],
-        [
-            "Bachata",
-            "[Verse] [Chorus] [Guitar Solo] [Chorus]"
-        ],
-        [
-            "Cumbia",
-            "[Intro] [Verse] [Chorus]"
-        ],
-        [
-            "Tango",
-            "[Section A] [Section B] [Outro]"
-        ],
-        [
-            "Bolero Moderno",
-            "[Verse] [Chorus] [Bridge] [Chorus]"
-        ],
-        [
-            "Salsa",
-            "[Verse] [Chorus] [Solo] [Chorus]"
-        ],
-        [
-            "Merengue",
-            "[Intro] [Verse] [Chorus]"
-        ]
-    ],
-    "World": [
-        [
-            "Afrobeats",
-            "[Groove] [Verse] [Chorus]"
-        ],
-        [
-            "Flamenco",
-            "[Intro] [Verse] [Zapateado]"
-        ],
-        [
-            "Kizomba",
-            "[Intro] [Groove] [Chorus]"
-        ],
-        [
-            "Amapiano",
-            "[Intro] [Groove] [Drop]"
-        ],
-        [
-            "Highlife",
-            "[Intro] [Verse] [Chorus]"
-        ],
-        [
-            "Celtic Folk",
-            "[Theme] [Variation] [Outro]"
-        ],
-        [
-            "Klezmer",
-            "[Theme] [Solo] [Theme]"
-        ],
-        [
-            "Fado",
-            "[Intro] [Verse] [Chorus] [Outro]"
-        ],
-        [
-            "Kuduro",
-            "[Intro] [Drop] [Verse]"
-        ],
-        [
-            "Raï",
-            "[Verse] [Chorus]"
-        ],
-        [
-            "Enka",
-            "[Intro] [Verse] [Chorus]"
-        ],
-        [
-            "Gamelan Modern",
-            "[Cycle A] [Cycle B]"
-        ]
-    ],
-    "Country/Folk": [
-        [
-            "Classic",
-            "[Intro] [Verse] [Chorus] [Outro]"
-        ],
-        [
-            "Bluegrass",
-            "[Intro] [Verse] [Chorus] [Solo]"
-        ],
-        [
-            "Honky Tonk",
-            "[Verse] [Chorus] [Verse]"
-        ],
-        [
-            "Outlaw",
-            "[Intro] [Verse] [Chorus]"
-        ],
-        [
-            "Americana",
-            "[Verse] [Chorus] [Bridge]"
-        ],
-        [
-            "Western Swing",
-            "[Intro] [Verse] [Chorus]"
-        ],
-        [
-            "Alt-Country",
-            "[Verse] [Chorus]"
-        ],
-        [
-            "Rockabilly",
-            "[Verse] [Chorus]"
-        ],
-        [
-            "Indie Folk",
-            "[Intro] [Verse] [Chorus]"
-        ],
-        [
-            "Chamber Folk",
-            "[Theme] [Variation]"
-        ]
-    ],
-    "Erudito": [
-        [
-            "Minimalismo",
-            "[Pattern Repetition] [Layer Addition]"
-        ],
-        [
-            "Orquestral Épico",
-            "[Theme] [Crescendo] [Climax]"
-        ],
-        [
-            "Barroco",
-            "[Exposition] [Development] [Recapitulation]"
-        ],
-        [
-            "Contemporâneo",
-            "[Sound Events]"
-        ],
-        [
-            "Romantismo",
-            "[Exposition] [Development] [Recapitulation]"
-        ]
-    ],
-    "Europeu": [
-        [
-            "Fado",
-            "[Intro] [Verse] [Chorus] [Outro]"
-        ],
-        [
-            "Tarantela",
-            "[Fast Section] [Coda]"
-        ],
-        [
-            "Csardas",
-            "[Slow Section] [Fast Section]"
-        ],
-        [
-            "Flamenco",
-            "[Intro] [Verse] [Dance Break]"
-        ],
-        [
-            "Sirtaki",
-            "[Slow Build] [Fast Finale]"
-        ],
-        [
-            "Polca",
-            "[Section A] [Section B]"
-        ],
-        [
-            "Bal-Musette",
-            "[Verse] [Chorus]"
-        ],
-        [
-            "Valsa Vienense",
-            "[Section A] [Section B] [Section A]"
-        ],
-        [
-            "Mazurka",
-            "[Section A] [Section B]"
-        ],
-        [
-            "Polonaise",
-            "[Intro] [March Theme]"
-        ]
-    ],
-    "Oriental": [
-        [
-            "Gagaku",
-            "[Slow Intro] [Sustained Section]"
-        ],
-        [
-            "Hindustani",
-            "[Alap] [Jor] [Jhala]"
-        ],
-        [
-            "Carnatic",
-            "[Pallavi] [Anupallavi] [Charanam]"
-        ],
-        [
-            "Samulnori",
-            "[Rhythmic Cycles]"
-        ],
-        [
-            "Minyo",
-            "[Verse] [Chorus]"
-        ],
-        [
-            "Enka",
-            "[Intro] [Verse] [Chorus] [Outro]"
-        ]
-    ],
-    "Outros": [
-        [
-            "Cabaret",
-            "[Verse] [Chorus] [Verse]"
-        ],
-        [
-            "Broadway/Musical",
-            "[Verse] [Verse] [Bridge] [Finale]"
-        ],
-        [
-            "Chanson Française",
-            "[Verse] [Chorus] [Bridge]"
-        ],
-        [
-            "New Age",
-            "[Texture Evolution]"
-        ],
-        [
-            "Dark Ambient",
-            "[Continuous Drone]"
-        ]
-    ]
+  "Samba": [
+    ["De Raiz", "[Intro] [Verse] [Chorus] [Verse] [Chorus]"],
+    ["Enredo", "[Intro] [Verse] [Verse] [Pre-Chorus] [Chorus]"],
+    ["Pagode 90s", "[Intro] [Verse] [Chorus] [Verse] [Chorus]"],
+    ["Samba-Rock", "[Intro] [Verse] [Chorus] [Bridge] [Solo] [Chorus]"],
+    ["Samba-Reggae", "[Intro] [Verse] [Chorus] [Bridge] [Solo] [Chorus]"],
+    ["Partido Alto", "[Chorus] [Verse (Improviso)] [Chorus]"],
+    ["Pagode de Mesa", "[Intro] [Verse] [Chorus] [Verse] [Chorus]"],
+    ["Pagode Romântico 2000s", "[Intro] [Verse] [Chorus] [Verse] [Chorus]"],
+    ["Samba-Reggae Olodum", "[Intro] [Verse] [Chorus] [Bridge] [Solo] [Chorus]"]
+  ],
+
+  "Sertanejo": [
+    ["Universitário", "[Intro] [Verse] [Chorus] [Verse] [Bridge/Solo] [Chorus Final]"],
+    ["Raiz/Caipira", "[Intro] [Verse] [Chorus] [Viola Solo] [Verse] [Chorus Final]"],
+    ["Modão de Viola", "[Intro] [Verse] [Chorus] [Viola Solo] [Verse] [Chorus Final]"],
+    ["Agronejo", "[Intro] [Chorus] [Verse] [Chorus] [Drop] [Verse] [Chorus]"],
+    ["Romântico 90s", "[Intro] [Verse] [Chorus] [Verse] [Bridge/Solo] [Chorus Final]"],
+    ["Arrocha", "[Intro] [Verse] [Chorus] [Verse] [Bridge/Solo] [Chorus Final]"]
+  ],
+
+  "Funk BR": [
+    ["Carioca 80s", "[Intro] [Verse] [Chorus] [Verse] [Chorus] [Outro]"],
+    ["Ostentação", "[Intro] [Verse] [Chorus] [Verse] [Chorus] [Outro]"],
+    ["Consciente", "[Intro] [Verse] [Chorus] [Verse] [Chorus] [Outro]"],
+    ["Mandelão", "[Intro] [Build] [Drop/Beat Solo] [Vocal Chop] [Drop]"],
+    ["MTG (Montagem)", "[Intro] [Build] [Drop/Beat Solo] [Vocal Chop] [Drop]"],
+    ["Phonk BR", "[Intro] [Build] [Drop/Beat Solo] [Vocal Chop] [Drop]"],
+    ["Proibidão", "[Intro] [Narrative Verse] [Chorus] [Verse] [Chorus]"]
+  ],
+
+  "MPB": [
+    ["Clássica", "[Intro] [Verse] [Chorus] [Verse] [Bridge] [Chorus]"],
+    ["Tropicalista", "[Intro] [Verse] [Chorus] [Verse] [Bridge] [Chorus]"],
+    ["Nova MPB", "[Intro] [Verse] [Chorus] [Verse] [Bridge] [Chorus]"],
+    ["Sambalanço", "[Verse] [Verse] [Bridge] [Verse]"],
+    ["Bossa Nova", "[Verse] [Verse] [Bridge] [Verse]"],
+    ["Choro Erudito", "[Chorus] [Verse] [Chorus] [Verse] [Chorus]"]
+  ],
+
+  "Forró": [
+    ["Pé-de-Serra", "[Verse] [Verse] [Chorus] [Sanfona Solo] [Chorus Final]"],
+    ["Baião", "[Verse] [Verse] [Chorus] [Sanfona Solo] [Chorus Final]"],
+    ["Xaxado", "[Verse] [Verse] [Chorus] [Sanfona Solo] [Chorus Final]"],
+    ["Arrasta-pé", "[Verse] [Verse] [Chorus] [Sanfona Solo] [Chorus Final]"],
+    ["Piseiro", "[Intro] [Verse] [Chorus] [Instrumental] [Chorus]"]
+  ],
+
+  "Afro-Brasileiros": [
+    ["Maracatu", "[Section A] [Section B] [Section A]"],
+    ["Afoxé", "[Intro] [Verse] [Chorus] [Percussion Break] [Chorus]"],
+    ["Samba-Reggae", "[Intro] [Verse] [Chorus] [Bridge] [Solo] [Chorus]"],
+    ["Pagodão Baiano", "[Intro] [Verse] [Chorus] [Instrumental] [Chorus]"]
+  ],
+
+  "Carnaval": [
+    ["Frevo", "[Section A] [Section B] [Section A]"],
+    ["Axé Music 90s", "[Intro] [Verse] [Chorus] [Verse] [Chorus]"],
+    ["Marchinha", "[Verse] [Verse] [Chorus]"]
+  ],
+
+  "Norte do Brasil": [
+    ["Carimbó", "[Intro] [Theme A] [Solo] [Theme B] [Solo] [Outro]"],
+    ["Guitarrada Paraense", "[Intro] [Theme A] [Solo] [Theme B] [Solo] [Outro]"],
+    ["Lambada Moderna", "[Intro] [Theme A] [Solo] [Theme B] [Solo] [Outro]"],
+    ["Toada", "[Mode Verse] [Dance Break] [Outro]"]
+  ],
+
+  "Rural Brasileiro": [
+    ["Catira", "[Mode Verse] [Dance Break] [Outro]"],
+    ["Moda de Viola", "[Verse] [Verse] [Chorus] [Viola Solo] [Outro]"]
+  ],
+
+  "Rock": [
+    ["Alternativo", "[Intro] [Verse] [Chorus] [Verse] [Chorus] [Solo] [Outro]"],
+    ["Clássico 70s", "[Intro] [Verse] [Chorus] [Verse] [Chorus] [Solo] [Chorus]"],
+    ["Hard Rock", "[Intro] [Verse] [Chorus] [Verse] [Chorus] [Solo] [Outro]"],
+    ["Psicodélico", "[Intro] [Crescendo] [Jam] [Textural Outro]"],
+    ["Grunge", "[Intro] [Verse] [Chorus] [Verse] [Chorus] [Outro]"],
+    ["Indie", "[Intro] [Verse] [Chorus] [Bridge] [Chorus]"],
+    ["Punk", "[Verse] [Chorus] [Verse] [Chorus]"],
+    ["Rockabilly", "[Verse] [Chorus] [Verse] [Chorus]"],
+    ["Surf Rock", "[Intro] [Theme] [Solo] [Theme]"],
+    ["Post-Rock", "[Intro] [Crescendo] [Explosive Section] [Outro]"],
+    ["Math Rock", "[Odd Riff] [Break] [Riff Variation] [Outro]"],
+    ["Garage Rock", "[Verse] [Chorus] [Verse] [Chorus]"],
+    ["Glam Rock", "[Intro] [Verse] [Chorus] [Bridge] [Chorus]"],
+    ["Gothic Rock", "[Intro] [Verse] [Chorus] [Atmospheric Outro]"]
+  ],
+
+  "Metal": [
+    ["Heavy Classic", "[Intro] [Verse] [Chorus] [Verse] [Chorus] [Solo]"],
+    ["Thrash", "[Intro] [Verse] [Chorus] [Verse] [Breakdown] [Chorus]"],
+    ["Death Metal", "[Intro] [Blast Verse] [Break] [Outro]"],
+    ["Sinfônico", "[Intro] [Verse] [Chorus] [Orchestral Break] [Chorus]"],
+    ["Nu-Metal", "[Intro] [Verse] [Chorus] [Breakdown] [Chorus]"],
+    ["Black Metal", "[Atmospheric Intro] [Tremolo Section] [Outro]"],
+    ["Doom Metal", "[Slow Intro] [Heavy Riff] [Outro]"],
+    ["Power Metal", "[Intro] [Verse] [Chorus] [Solo] [Chorus]"],
+    ["Metalcore", "[Intro] [Verse] [Chorus] [Breakdown] [Chorus]"],
+    ["Djent", "[Polyrhythm Riff] [Break] [Riff Return]"],
+    ["Sludge Metal", "[Dirty Riff] [Break] [Outro]"],
+    ["Progressive", "[Multi-Section Intro] [Theme] [Variation] [Finale]"],
+    ["Industrial", "[Machine Intro] [Verse] [Chorus] [Outro]"]
+  ],
+
+  "Indie": [
+    ["Dream Pop", "[Intro] [Verse] [Texture Layer] [Outro]"],
+    ["Shoegaze", "[Wall of Sound] [Verse] [Outro]"],
+    ["Post-Punk", "[Verse] [Chorus] [Verse] [Chorus]"],
+    ["Midwest Emo", "[Main Riff] [Verse] [Explosive Outro]"],
+    ["Slowcore", "[Minimal Verse] [Crescendo] [Outro]"],
+    ["Folktronica", "[Intro] [Verse] [Electronic Break] [Outro]"]
+  ],
+
+  "Hip Hop": [
+    ["Boom Bap", "[Intro] [16 Bar Verse] [Chorus] [Verse] [Outro]"],
+    ["Trap", "[Intro] [Chorus] [Verse] [Chorus] [Outro]"],
+    ["Drill", "[Intro] [Chorus] [Verse] [Chorus]"],
+    ["Lo-fi", "[Intro] [Verse] [Atmospheric Outro]"],
+    ["Grime", "[Intro] [Verse] [Chorus] [Outro]"],
+    ["Cloud Rap", "[Intro] [Verse] [Chorus] [Outro]"],
+    ["Gangsta Rap", "[Intro] [Verse] [Chorus] [Verse]"],
+    ["Jazz-Rap", "[Intro] [Verse] [Chorus] [Solo Outro]"],
+    ["Old School 80s", "[Intro] [Verse] [Chorus] [Outro]"],
+    ["Horrorcore", "[Dark Intro] [Verse] [Chorus] [Outro]"]
+  ],
+
+  "R&B/Soul": [
+    ["Neo-Soul", "[Intro] [Verse] [Pre-Chorus] [Chorus] [Bridge] [Chorus]"],
+    ["Motown", "[Verse] [Chorus] [Verse] [Chorus]"],
+    ["Funk 70s", "[Intro] [Groove] [Break] [Groove]"],
+    ["Contemporary R&B", "[Intro] [Verse] [Chorus] [Bridge] [Chorus]"],
+    ["New Jack Swing", "[Intro] [Verse] [Chorus] [Bridge]"],
+    ["Quiet Storm", "[Intro] [Verse] [Chorus] [Outro]"],
+    ["Philly Soul", "[Verse] [Chorus] [Bridge] [Chorus]"],
+    ["Northern Soul", "[Verse] [Chorus] [Verse]"],
+    ["Southern Soul", "[Intro] [Verse] [Chorus]"],
+    ["Acid Jazz", "[Intro] [Groove] [Solo] [Outro]"],
+    ["Gospel-Soul", "[Intro] [Verse] [Chorus] [Modulation] [Final Chorus]"]
+  ],
+
+  "Reggae": [
+    ["Roots", "[Intro] [Verse] [Chorus] [Verse] [Outro]"],
+    ["Dub", "[Intro] [Version] [FX Drops] [Outro]"],
+    ["Dancehall", "[Intro] [Verse] [Chorus] [Verse]"],
+    ["Ska", "[Intro] [Verse] [Chorus] [Brass Solo]"],
+    ["Rocksteady", "[Verse] [Chorus] [Verse]"],
+    ["Lovers Rock", "[Intro] [Verse] [Chorus] [Outro]"]
+  ],
+
+  "Pop": [
+    ["Synthpop 80s", "[Intro] [Verse] [Pre-Chorus] [Chorus] [Bridge] [Chorus]"],
+    ["Dance-Pop", "[Intro] [Verse] [Chorus] [Drop] [Chorus]"],
+    ["K-Pop", "[Intro] [Verse] [Pre-Chorus] [Chorus] [Bridge] [Final Chorus]"],
+    ["Disco 70s", "[Intro] [Verse] [Chorus] [Solo] [Chorus]"],
+    ["Baroque Pop", "[Verse] [Bridge] [Verse]"],
+    ["Art Pop", "[Intro] [Verse] [Bridge] [Chorus]"],
+    ["Bubblegum Pop", "[Verse] [Chorus] [Verse] [Chorus]"],
+    ["J-Pop", "[Intro] [Verse] [Chorus] [Bridge]"],
+    ["Europop", "[Intro] [Verse] [Chorus]"],
+    ["Hyperpop", "[Intro] [Drop] [Verse] [Drop]"],
+    ["Sophisti-pop", "[Verse] [Verse] [Bridge] [Verse]"]
+  ],
+
+  "Eletrônica": [
+    ["House", "[Intro] [Build] [Drop] [Break] [Drop]"],
+    ["Techno", "[Intro] [Loop] [Modulation] [Outro]"],
+    ["Trance", "[Intro] [Build] [Drop] [Break] [Final Drop]"],
+    ["Drum and Bass", "[Intro] [Drop] [Break] [Drop]"],
+    ["Synthwave", "[Intro] [Theme] [Solo] [Outro]"],
+    ["Deep House", "[Intro] [Groove] [Break] [Groove]"],
+    ["Industrial Techno", "[Intro] [Loop] [Noise Break] [Outro]"],
+    ["Eurodance", "[Intro] [Verse] [Chorus] [Drop]"],
+    ["Hardstyle", "[Intro] [Build] [Drop] [Climax]"],
+    ["Ambient Drone", "[Texture Evolution]"],
+    ["IDM", "[Intro] [Pattern Shift] [Outro]"],
+    ["EBM", "[Intro] [Verse] [Chorus]"],
+    ["Acid House", "[Intro] [303 Groove] [Break] [Return]"],
+    ["Dubstep", "[Intro] [Build] [Drop] [Break] [Drop]"],
+    ["Future Bass", "[Intro] [Build] [Drop] [Chorus]"],
+    ["Tropical House", "[Intro] [Groove] [Chorus]"]
+  ],
+
+  "Jazz": [
+    ["Bebop", "[Head] [Solo] [Solo] [Head]"],
+    ["Fusion", "[Theme] [Solo] [Bridge] [Theme]"],
+    ["Smooth", "[Intro] [Theme] [Solo] [Outro]"],
+    ["Cool Jazz", "[Theme] [Solo] [Theme]"],
+    ["Gypsy/Manouche", "[Theme] [Solo] [Theme]"],
+    ["Hard Bop", "[Theme] [Solo] [Theme]"],
+    ["Free Jazz", "[Collective Improvisation]"],
+    ["Swing Big Band", "[Intro] [Theme] [Solos] [Shout Chorus]"],
+    ["Soul Jazz", "[Groove] [Solo] [Groove]"],
+    ["Latin Jazz", "[Intro] [Theme] [Solo] [Outro]"]
+  ],
+
+  "Blues": [
+    ["Delta Blues", "[Verse A] [Verse A] [Verse B]"],
+    ["Chicago", "[Verse A] [Verse A] [Verse B]"],
+    ["Texas Blues", "[Verse A] [Verse A] [Verse B]"],
+    ["Boogie Woogie", "[Intro] [Repeated Chorus] [Outro]"],
+    ["Country Blues", "[Verse A] [Verse A] [Verse B]"],
+    ["Rhythm and Blues", "[Verse] [Chorus] [Verse]"]
+  ],
+
+  "Latino": [
+    ["Reggaeton", "[Intro] [Verse] [Chorus] [Verse] [Outro]"],
+    ["Bachata", "[Verse] [Chorus] [Guitar Solo] [Chorus]"],
+    ["Cumbia", "[Intro] [Verse] [Chorus]"],
+    ["Tango", "[Section A] [Section B] [Outro]"],
+    ["Bolero Moderno", "[Verse] [Chorus] [Bridge] [Chorus]"],
+    ["Salsa", "[Verse] [Chorus] [Solo] [Chorus]"],
+    ["Merengue", "[Intro] [Verse] [Chorus]"]
+  ],
+
+  "World": [
+    ["Afrobeats", "[Groove] [Verse] [Chorus]"],
+    ["Kizomba", "[Intro] [Groove] [Chorus]"],
+    ["Amapiano", "[Intro] [Groove] [Drop]"],
+    ["Highlife", "[Intro] [Verse] [Chorus]"],
+    ["Kuduro", "[Intro] [Drop] [Verse]"],
+    ["Raï", "[Verse] [Chorus]"],
+    ["Gamelan Modern", "[Cycle A] [Cycle B]"]
+  ],
+
+  "Country/Folk": [
+    ["Classic", "[Intro] [Verse] [Chorus] [Outro]"],
+    ["Bluegrass", "[Intro] [Verse] [Chorus] [Solo]"],
+    ["Honky Tonk", "[Verse] [Chorus] [Verse]"],
+    ["Outlaw", "[Intro] [Verse] [Chorus]"],
+    ["Americana", "[Verse] [Chorus] [Bridge]"],
+    ["Western Swing", "[Intro] [Verse] [Chorus]"],
+    ["Alt-Country", "[Verse] [Chorus]"],
+    ["Indie Folk", "[Intro] [Verse] [Chorus]"],
+    ["Chamber Folk", "[Theme] [Variation]"]
+  ],
+
+  "Erudito": [
+    ["Minimalismo", "[Pattern Repetition] [Layer Addition]"],
+    ["Orquestral Épico", "[Theme] [Crescendo] [Climax]"],
+    ["Barroco", "[Exposition] [Development] [Recapitulation]"],
+    ["Contemporâneo", "[Sound Events]"],
+    ["Romantismo", "[Exposition] [Development] [Recapitulation]"]
+  ],
+
+  "Europeu": [
+    ["Fado", "[Intro] [Verse] [Chorus] [Outro]"],
+    ["Flamenco", "[Intro] [Verse] [Dance Break]"],
+    ["Tarantela", "[Fast Section] [Coda]"],
+    ["Csardas", "[Slow Section] [Fast Section]"],
+    ["Sirtaki", "[Slow Build] [Fast Finale]"],
+    ["Polca", "[Section A] [Section B]"],
+    ["Bal-Musette", "[Verse] [Chorus]"],
+    ["Valsa Vienense", "[Section A] [Section B] [Section A]"],
+    ["Mazurka", "[Section A] [Section B]"],
+    ["Polonaise", "[Intro] [March Theme]"],
+    ["Celtic Folk", "[Theme] [Variation] [Outro]"],
+    ["Klezmer", "[Theme] [Solo] [Theme]"]
+  ],
+
+  "Oriental": [
+    ["Gagaku", "[Slow Intro] [Sustained Section]"],
+    ["Hindustani", "[Alap] [Jor] [Jhala]"],
+    ["Carnatic", "[Pallavi] [Anupallavi] [Charanam]"],
+    ["Samulnori", "[Rhythmic Cycles]"],
+    ["Minyo", "[Verse] [Chorus]"],
+    ["Enka", "[Intro] [Verse] [Chorus] [Outro]"]
+  ],
+
+  "Outros": [
+    ["Cabaret", "[Verse] [Chorus] [Verse]"],
+    ["Broadway/Musical", "[Verse] [Verse] [Bridge] [Finale]"],
+    ["Chanson Française", "[Verse] [Chorus] [Bridge]"],
+    ["New Age", "[Texture Evolution]"],
+    ["Dark Ambient", "[Continuous Drone]"]
+  ]
 }
