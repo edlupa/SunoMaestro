@@ -61,14 +61,15 @@ class SunoMaestroCore:
     musical_identity:
       primary_genre: "{d.get('genero')}"
       specific_style: "{d.get('ritmo')}"
-      vocal_config:
-        vocal_gender: "{vocal_gender}"
-        male_vocal_specs: "{v_masc}"
-        female_vocal_specs: "{v_fem}"
       recording_aesthetic: "{d.get('tipo_de_gravacao')}"
       artistic_influence: "{d.get('influencia_estetica')}"
       emotional_vibe: "{d.get('vibe_emocional')}"
       external_refs: "{d.get('referencia')}"
+
+    vocal_config:
+      vocal_gender: "{vocal_gender}"
+      male_vocal_specs: "{v_masc}"
+      female_vocal_specs: "{v_fem}"
 
     lyrics_specs:
       language: "{d.get('idioma')}"
@@ -133,7 +134,7 @@ class SunoMaestroCore:
           
         - Memorable and singable chorus with possible repetition
         - Alternating rhyme patterns (ABAB or AABB); exceptions allowed only if rhyme weakens semantic clarity
-        - Similar syllable count between corresponding lines (variation ideally ≤ 20%)
+        - Similar syllable count between corresponding lines (variation ideally ±20%)
         - Progressive narrative coherence across verses
 
       tips:
@@ -203,6 +204,7 @@ def load_dataset_cached(dataset_dir, arquivos_map):
             # Opcional: st.error(f"Erro ao ler JSON: {filename}")
 
     return dados
+
 
 
 
