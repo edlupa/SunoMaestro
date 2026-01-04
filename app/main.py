@@ -319,11 +319,11 @@ def main():
         st.subheader("🎵 Identidade Musical")
         mc1, mc2 = st.columns(2)
         with mc1: 
-            opts_gen = [""] + list(core.dados["hierarquia"].keys())
+            opts_gen = [""] + sorted(list(core.dados["hierarquia"].keys()))
             idx_gen = opts_gen.index(st.session_state.genero) if st.session_state.genero in opts_gen else 0
             st.selectbox("Gênero*", opts_gen, index=idx_gen, key="genero", help=help_text.get("genero"), on_change=state.on_genero_change)
         with mc2: 
-            opts_rit = [""] + state.get_ritmos_list(st.session_state.genero, core)
+            opts_rit = [""] + sorted(state.get_ritmos_list(st.session_state.genero, core))
             curr_rit = st.session_state.ritmo
             idx_rit = opts_rit.index(curr_rit) if curr_rit in opts_rit else 0
             st.selectbox("Ritmo", opts_rit, index=idx_rit, key="ritmo", help=help_text.get("ritmo"), on_change=state.on_ritmo_change, args=(core,))
@@ -368,6 +368,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
